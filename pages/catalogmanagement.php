@@ -67,7 +67,7 @@ $array2 = json_decode($json2, TRUE);
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Catalog Management</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
+                        <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -103,9 +103,11 @@ $array2 = json_decode($json2, TRUE);
                                        </div>
                                      </div>
                                   <!-- -------------------table----------------------    -->
-                                   <div id="div_table">   
-                                   </div>    
+                                      <div id="div_table">   
+                                      </div>  
+                                  
                                   <!-- -------------------------------------------- -->
+                                  </div>  
                                 </div>
                             </div> <!-- tag column 1 -->
                         </div>
@@ -114,34 +116,31 @@ $array2 = json_decode($json2, TRUE);
 <!-- ====================END Tap 1=========================================================================== -->
 
                     <!-- search document -->
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="card-body" style="padding:0px; margin-top:12px;margin-left:2px;">
-                            <!-- <div class="row">
-                                <div class="col-md-11">
-                                    <div class="row">
-                                        <select class="form-control" style="margin-left:20px; font-size:22px;width:250px;" id="hptsel2"></select>
-                                        <div class="search_custom col-md-2">
-                                            <div class="search_1 d-flex justify-content-start">
-                                              <button class="btn"  onclick="ShowDoc()" id="bSavex" >
-                                                <i class="fas fa-search mr-2"></i>
-                                                <?php echo $array['search'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-
-                                        <div class="search_custom col-md-2" style="margin-left:-8%;">
-                                            <div class="circle6 d-flex justify-content-start">
-                                              <button class="btn"  onclick="OpenDialog(1)" id="show_btn" disabled='true'>
-                                                <i class="fas fa-paste mr-2 pt-1"></i>
-                                                <?php echo $array['show'][$language]; ?>
-                                              </button>
-                                            </div>
-                                          </div>
-                                    </div>
-                                </div>
+                    <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+                   
+                        <div class="card-body">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col">
+                              1 of 2
                             </div>
-
-                            <div  style="margin-top:20px; margin-bottom:20px;"></div>
+                            <div class="col">
+                              2 of 2
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              1 of 3
+                            </div>
+                            <div class="col">
+                              2 of 3
+                            </div>
+                            <div class="col">
+                              3 of 3
+                            </div>
+                          </div>
+                        </div>
+                            <!-- <div  style="margin-top:20px; margin-bottom:20px;"></div>
 
                             <div class="row">
                                 <div class="card-body" style="padding:0px;">
@@ -445,29 +444,27 @@ $array2 = json_decode($json2, TRUE);
 
     }
 
-    // function edit_Detail(id){
-    //   $.ajax({
-    //         url: "../process/catalogmanagement.php",
-    //         type: 'POST',
-    //         data: {
-    //           'FUNC_NAME': 'edit_Detail',
-    //           'id':id
-    //         },
-    //         success: function(result) {
+    function edit_Detail(id){
+      $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'edit_Detail',
+              'id':id
+            },
+            success: function(result) {
 
-    //           var ObjData = JSON.parse(result);
-    //           var myDATA = "";
-    //           if (!$.isEmptyObject(ObjData)) {
-    //               $.each(ObjData, function(kay, value) {
-    //                 var supplierName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name}</span>`;
-    //                 // var chksupplier = `<input type='checkbox' onclick='switchSupplier()' id='checkSupplier_${value.id}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
-    //                 myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden; margin-left: 35px;'  nowrap>" + supplierName + "</div>";
-    //               });
-    //           }
+              var ObjData = JSON.parse(result);
+              var myDATA = "";
+              if (!$.isEmptyObject(ObjData)) {
+                  $.each(ObjData, function(kay, value) {
+                    $('#detail-tab').tab('show');
+                  });
+              }
 
-    //         }
-    //   });
-    // }
+            }
+      });
+    }
 
   </script>
   <style>
