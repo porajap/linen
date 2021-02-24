@@ -1314,7 +1314,7 @@ function SaveBill($conn, $DATA)
 
   // $limit          = sizeof($ItemCode, 0);
 
-//   #-------------------------------------------------------------------------------
+  //   #-------------------------------------------------------------------------------
         $Stock = "SELECT
                         site.stock
                         FROM
@@ -1323,7 +1323,7 @@ function SaveBill($conn, $DATA)
        $StockQ =   mysqli_query($conn, $Stock);
        $StockRes = mysqli_fetch_assoc($StockQ);
        $stock = $StockRes['stock'];
-//  #-------------------------------------------------------------------------------
+  //  #-------------------------------------------------------------------------------
 
  if($stock == 1)
  {
@@ -1933,7 +1933,7 @@ function SaveDraw($conn, $DATA)
         $return[$count]['ParQty']    = $Result3['ParQty'];
         $return[$count]['CcQty']     = $Result3['CcQty'];
         $return[$count]['TotalQty']  = $Result3['TotalQty'] == null ? 0 : $Result3['TotalQty'];
-        $return[$count]['QtyCenter']   = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
+        $return[$count]['QtyCenter'] = $Result4['TotalQty'] == null ? 0 : $Result4['TotalQty'];
         $chk = 1;
         $count++;
       }
