@@ -139,14 +139,7 @@ $array2 = json_decode($json2, TRUE);
               </ul>
 
               <div class="row mt-3">
-                <div class="col-md-4">
-                  <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายการไทย</label>
-                    <input id="txtItemName" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
-                    <input hidden id="txtItemId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
-                    <label id="alert_txtItemName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
-                  </div>
-                </div>
+
                 <div class="col-md-4">
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">ประเภท</label>
@@ -162,6 +155,30 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                </div>
+              </div>
+
+              <div class="row mt-1">
+                <div class="col-md-4">
+                  <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label ">รายการไทย</label>
+                    <input id="txtItemName" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
+                    <input hidden id="txtItemId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
+                    <label id="alert_txtItemName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label ">รายการอังกฤษ</label>
+                    <input id="txtItemNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
+                    <label id="alert_txtItemNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">รายละเอียด</label>
                     <input id="txtDiscription" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
@@ -170,19 +187,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
               </div>
 
-              <div class="row mt-1">
-                <div class="col-md-4">
-                  <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายการอังกฤษ</label>
-                    <input id="txtItemNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
-                    <label id="alert_txtItemNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-4">
-                </div>
-              </div>
+
 
               <div class="row mt-3">
                 <div class="col-4">
@@ -354,7 +359,7 @@ $array2 = json_decode($json2, TRUE);
       $("#alert_selectcategory").hide();
       $("#alert_txtDiscription").hide();
       $("#alert_txtItemNameEn").hide();
-      
+
       $('#modaltxt_colorDetail').spectrum({
         type: "component"
       });
@@ -615,7 +620,7 @@ $array2 = json_decode($json2, TRUE);
                 $("#txtDiscription").val(value.discription);
                 $("#txtItemName").val(value.itemCategoryName);
                 $("#txtItemNameEn").val(value.itemCategoryNameEn);
-                
+
                 $("#txtItemId").val(value.id);
 
                 var imageOne = `${"../profile/catalog/"+value.imageOne}`;
@@ -709,7 +714,7 @@ $array2 = json_decode($json2, TRUE);
         $("#alert_txtItemNameEn").show();
         return;
       }
-      
+
       if (txtItemName == "") {
         swal({
           title: '',
@@ -751,7 +756,7 @@ $array2 = json_decode($json2, TRUE);
       form_data.append('txtItemId', txtItemId);
       form_data.append('txtItemNameEn', txtItemNameEn);
 
-      
+
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
