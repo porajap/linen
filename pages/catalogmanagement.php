@@ -732,7 +732,7 @@ $array2 = json_decode($json2, TRUE);
 
                     $('#detail-tab').tab('show');
                     $('#div_btSave').show();
-                    
+
                     $("#txt_Description").val(value.discription);
                     $("#txt_ID").val(value.id);
                     $("#txt_Name").val(value.name);
@@ -1429,6 +1429,68 @@ $array2 = json_decode($json2, TRUE);
       });
     }
 
+
+    function saveData_detail() {
+
+      var form_data = new FormData();
+      var imageOne = $('#imageOne').prop('files')[0];
+      var imageTwo = $('#imageTwo').prop('files')[0];
+      var imageThree = $('#imageThree').prop('files')[0];
+      var data_imageOne = $('#imageOne').data('value');
+      var data_imageTwo = $('#imageTwo').data('value');
+      var data_imageThree = $('#imageThree').data('value');
+      var selectcategory = $("#selectcategory").val();
+      var txtDiscription = $("#txtDiscription").val();
+      var txtItemName = $("#txtItemName").val();
+      var txtItemId = $("#txtItemId").val();
+      var txtItemNameEn = $("#txtItemNameEn").val();
+
+
+
+      form_data.append('FUNC_NAME', 'saveData_detail');
+      form_data.append('imageOne', imageOne);
+      form_data.append('imageTwo', imageTwo);
+      form_data.append('imageThree', imageThree);
+      form_data.append('data_imageOne', data_imageOne);
+      form_data.append('data_imageTwo', data_imageTwo);
+      form_data.append('data_imageThree', data_imageThree);
+      form_data.append('selectcategory', selectcategory);
+      form_data.append('txtDiscription', txtDiscription);
+      form_data.append('txtItemName', txtItemName);
+      form_data.append('txtItemId', txtItemId);
+      form_data.append('txtItemNameEn', txtItemNameEn);
+
+
+      $.ajax({
+        url: "../process/catalogmanagement.php",
+        type: 'POST',
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          $("#txtItemId").val(ObjData);
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+        
+            showData();
+          }, 700);
+
+        }
+      });
+
+      }
+
 //------------------------------------------------------------------------------------------------
     function currentDiv(n) {
       showDivs(slideIndex = n);
@@ -1449,6 +1511,9 @@ $array2 = json_decode($json2, TRUE);
       x[slideIndex-1].style.display = "block";
       dots[slideIndex-1].className += " w3-opacity-off";
     }
+
+
+    
     
 
 
