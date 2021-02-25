@@ -187,85 +187,94 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                             <div class="row" style="margin-left: 15px">
                               <div class="col-3">
-                              <lable style="font-size:26px;">Product Name :</lable>
-                              </div>
-                              <div class="col" style="margin-left: -60px;">
-                              <input id="txt_Name" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ" >
-                              </div>
-                            </div>
-
-                            <div class="row" style="margin-left: 15px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">Type Linen :</lable>
-                              </div>
-                              <div class="col" style="margin-left: -60px;">
-                              <select id="typelinen_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"><option value="0" selected="">กรุณาเลือกประเภท</option><option value="12">หมี</option><option value="13">หมีหมี</option><option value="14">หมีหมีหมี</option><option value="15">54545</option></select>
-                              </div>
-                            </div>
-
-                            <div class="row" style="margin-left: 15px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">Color /Size :</lable>
+                              <lable style="font-size:26px;">Product Name TH :</lable>
                               </div>
                               <div class="col" style="margin-left: -45px;">
-                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
-                              </div>
-                            </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">:</lable>
-                              </div>
-                              <div id="div_Size" class="row" style="margin-left: -100px;">   
-                              </div>
-                            </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">:</lable>
-                              </div>
-                              <div id="div_color" class="row" style="margin-left: -100px;">
-                             
+                              <input id="txt_NameTh" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ ไทย" >
                               </div>
                             </div>
 
-                            <div class="row" style="margin-left: 35px;margin-top: 10px;">
+                            <div class="row" style="margin-left: 15px;margin-top: 10px;">
                               <div class="col-3">
-                              <lable style="font-size:26px;">Supplier :</lable>
+                              <lable style="font-size:26px;">Product Name EN :</lable>
                               </div>
-                              <div class="col" style="margin-left: -60px;">
-                              <button style="background: none;border: none;" onclick="openModalSupplier();"><i class="fas fa-plus-square text-info"></i></button>
-                              </div>
-                            </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
-                              <div class="col-3">
-                                <lable style="font-size:26px;">:</lable>
-                              </div>
-                              <div class="col" style="margin-left: -125px;">
-                              <select id="supplier_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"></select>
+                              <div class="col" style="margin-left: -45px;">
+                              <input id="txt_NameEn" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ อังกฤษ" >
                               </div>
                             </div>
 
                             <div class="row" style="margin-left: 70px;margin-top: 10px;">
                               <div class="col-3">
-                              <lable style="font-size:26px;">Site :</lable>
+                              <lable style="font-size:26px;">Type Linen :</lable>
                               </div>
-                              <div class="col" style="margin-left: -85px;">
-                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
+                              <div class="col" style="margin-left: -88px;">
+                              <select id="typelinen_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"><option value="0" selected="">กรุณาเลือกประเภท</option><option value="12">หมี</option><option value="13">หมีหมี</option><option value="14">หมีหมีหมี</option><option value="15">54545</option></select>
                               </div>
                             </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
+
+                            <div class="row" style="margin-left: 70px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">Color /Size :</lable>
+                              </div>
+                              <div class="col" style="margin-left: -65px;">
+                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">:</lable>
+                              </div>
+                              <div id="div_Size" class="row" style="margin-left: -118px;">   
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">:</lable>
+                              </div>
+                              <div id="div_color" class="row" style="margin-left: -118px;">
+                             
+                              </div>
+                            </div>
+
+                            <div class="row" style="margin-left: 90px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">Supplier :</lable>
+                              </div>
+                              <div class="col" style="margin-left: -75px;">
+                              <button style="background: none;border: none;" onclick="openModalSupplier();"><i class="fas fa-plus-square text-info"></i></button>
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
                               <div class="col-3">
                                 <lable style="font-size:26px;">:</lable>
                               </div>
-                              <div class="col" style="margin-left: -125px;">
+                              <div class="col" style="margin-left: -110px;">
+                              <select id="supplier_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: -8px;"></select>
+                              </div>
+                            </div>
+
+                            <div class="row" style="margin-left: 125px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">Site :</lable>
+                              </div>
+                              <div class="col" style="margin-left: -100px;">
+                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
+                              <div class="col-3">
+                                <lable style="font-size:26px;">:</lable>
+                              </div>
+                              <div class="col" style="margin-left: -150px;">
                               <select id="site_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"></select>
                               </div>
                             </div>
 
-                            <div class="row" style="margin-left: 15px;margin-top: 10px;">
+                            <div class="row" style="margin-left: 40px;margin-top: 10px;">
                               <div class="col-3">
                               <lable style="font-size:26px;">Active Catalog :</lable>
                               </div>
-                              <div class="col" style="margin-left: -20px;">
+                              <div class="col" style="margin-left: -8px;">
                               <input class="form-check-input" type="checkbox" value="" id="activecatalog" >
                               </div>
                             </div>
@@ -548,7 +557,8 @@ $array2 = json_decode($json2, TRUE);
               'FUNC_NAME': 'get_typelinen'
             },
             success: function(result) {
-
+              $("#input_typeline").empty();
+              $("#typelinen_detail").empty();
               var ObjData = JSON.parse(result);
               var StrTR = "";
 
@@ -557,7 +567,7 @@ $array2 = json_decode($json2, TRUE);
                 // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
                 var Str = "";
                 $.each(ObjData, function(key, value) {
-                  Str += "<option value=" + value.id + " >" + value.name_En + "</option>";
+                  Str += "<option value=" + value.id + " >" + value.name + "</option>";
                 });
               }
 
@@ -735,7 +745,8 @@ $array2 = json_decode($json2, TRUE);
 
                     $("#txt_Description").val(value.discription);
                     $("#txt_ID").val(value.id);
-                    $("#txt_Name").val(value.name);
+                    $("#txt_NameTh").val(value.itemCategoryName);
+                    $("#txt_NameEn").val(value.itemCategoryNameEn);
                     $("#typelinen_detail").val(value.typeLinen);
                    
 
@@ -1455,8 +1466,9 @@ $array2 = json_decode($json2, TRUE);
         var activecatalog = 0;
       }
      
-
-      var txt_Name = $("#txt_Name").val();
+     
+      var txt_NameTh = $("#txt_NameTh").val();
+      var txt_NameEn = $("#txt_NameEn").val();
       var txtItemId = $("#txt_ID").val();
       // var txtItemNameEn = $("#txtItemNameEn").val();
 
@@ -1472,10 +1484,10 @@ $array2 = json_decode($json2, TRUE);
 
       form_data.append('typelinen_detail', typelinen_detail);
       form_data.append('txtDiscription', txtDiscription);
-      form_data.append('txtItemName', txt_Name);
+      form_data.append('txtItemName', txt_NameTh);
       form_data.append('txtItemId', txtItemId);
       form_data.append('activecatalog', activecatalog);
-      // form_data.append('txtItemNameEn', txtItemNameEn);
+      form_data.append('txtItemNameEn', txt_NameEn);
 
 
       $.ajax({
@@ -1499,7 +1511,8 @@ $array2 = json_decode($json2, TRUE);
           });
 
           setTimeout(() => {
-            edit_Detail(txtItemId)
+            edit_Detail(txtItemId);
+            showData();
           }, 700);
 
         }

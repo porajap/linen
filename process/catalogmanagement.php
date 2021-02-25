@@ -144,15 +144,15 @@ function get_typelinen($conn)
   
   $lang = $_SESSION['lang'];
   if($lang == 'en'){
-    $name = "supplier.name_En AS name";
+    $name = "typelinen.name_En AS name";
   }else{
-    $name = "supplier.name_Th  AS name";
+    $name = "typelinen.name_Th  AS name";
   }
 
 
     $Sql = "SELECT
               typelinen.id, 
-              typelinen.name_En
+              $name
             FROM
               typelinen ";
 
@@ -232,15 +232,12 @@ function edit_Detail($conn)
   $id = $_POST["id"];
   $lang = $_SESSION['lang'];
 
-  if($lang == 'en'){
-    $name = "itemcatalog.itemCategoryNameEn AS name";
-  }else{
-    $name = "itemcatalog.itemCategoryName  AS name";
-  }
+
 
     $Sql = "SELECT
               itemcatalog.id,
-              $name,
+              itemcatalog.itemCategoryNameEn,
+              itemcatalog.itemCategoryName,
               itemcatalog.IsActive,
               itemcatalog.typeLinen,
               itemcatalog.discription	
@@ -654,13 +651,13 @@ function saveData_detail($conn)
   $typelinen_detail = $_POST['typelinen_detail'];
   $txtItemId = $_POST['txtItemId'];
   $activecatalog = $_POST['activecatalog'];
-  // $txtItemNameEn = $_POST['txtItemNameEn'];
+  $txtItemNameEn = $_POST['txtItemNameEn'];
 
   $data_imageOne = $_POST['data_imageOne'];
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
 
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName'  WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName', itemCategoryNameEn = '$txtItemNameEn'  WHERE itemcatalog.id = '$txtItemId' ";
 
   mysqli_query($conn, $Sql);
 
