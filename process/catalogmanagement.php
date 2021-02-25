@@ -662,7 +662,7 @@ function saveData_detail($conn)
 
     $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName'  WHERE itemcatalog.id = '$txtItemId' ";
 
-  // mysqli_query($conn, $Sql);
+  mysqli_query($conn, $Sql);
 
   // $Sql = "SELECT 
   //           itemcatalog.id 
@@ -681,11 +681,11 @@ function saveData_detail($conn)
   include("gen_thumbnail.php");
 
   if ($_FILES['imageOne'] != "") {
-    unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
+    // unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
     copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1'  WHERE itemcatalog.id = '$txtItemId';";
-    // mysqli_query($conn, $Sql);
+    mysqli_query($conn, $Sql);
 
     $cfg_thumb =  (object) array(
       "source" => "../profile/catalog/" . $iamge1,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
@@ -710,79 +710,79 @@ function saveData_detail($conn)
   } else {
     if ($data_imageOne == "default") {
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne=null  WHERE itemcatalog.id = '$txtItemId';";
-      // mysqli_query($conn, $Sql);
+      mysqli_query($conn, $Sql);
     }
   }
 
-  // if ($_FILES['imageTwo'] != "") {
-  //   unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
-  //   copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
+  if ($_FILES['imageTwo'] != "") {
+    // unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
+    copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
 
-  //   $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
-  //   mysqli_query($conn, $Sql);
+    $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
+    mysqli_query($conn, $Sql);
 
-  //   $cfg_thumb =  (object) array(
-  //     "source" => "../profile/catalog/" . $iamge2,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-  //     "destination" => "../profile/catalog/" . $iamge2,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
-  //     "width" => 500,         //  กำหนดความกว้างรูปใหม่
-  //     "height" => 500,       //  กำหนดความสูงรูปใหม่
-  //     "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
-  //     "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
-  //     "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
-  //     "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
-  //   );
-  //   createthumb(
-  //     $cfg_thumb->source,
-  //     $cfg_thumb->destination,
-  //     $cfg_thumb->width,
-  //     $cfg_thumb->height,
-  //     $cfg_thumb->background,
-  //     $cfg_thumb->output,
-  //     $cfg_thumb->show,
-  //     $cfg_thumb->crop
-  //   );
-  // } else {
-  //   if ($data_imageTwo == "default") {
-  //     $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo=null  WHERE itemcatalog.id = '$txtItemId';";
-  //     mysqli_query($conn, $Sql);
-  //   }
-  // }
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/catalog/" . $iamge2,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge2,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 500,         //  กำหนดความกว้างรูปใหม่
+      "height" => 500,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_imageTwo == "default") {
+      $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo=null  WHERE itemcatalog.id = '$txtItemId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
 
-  // if ($_FILES['imageThree'] != "") {
-  //   unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
-  //   copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
+  if ($_FILES['imageThree'] != "") {
+    // unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
+    copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
 
-  //   $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";
-  //   mysqli_query($conn, $Sql);
+    $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";
+    mysqli_query($conn, $Sql);
 
-  //   $cfg_thumb =  (object) array(
-  //     "source" => "../profile/catalog/" . $iamge3,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-  //     "destination" => "../profile/catalog/" . $iamge3,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
-  //     "width" => 500,         //  กำหนดความกว้างรูปใหม่
-  //     "height" => 500,       //  กำหนดความสูงรูปใหม่
-  //     "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
-  //     "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
-  //     "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
-  //     "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
-  //   );
-  //   createthumb(
-  //     $cfg_thumb->source,
-  //     $cfg_thumb->destination,
-  //     $cfg_thumb->width,
-  //     $cfg_thumb->height,
-  //     $cfg_thumb->background,
-  //     $cfg_thumb->output,
-  //     $cfg_thumb->show,
-  //     $cfg_thumb->crop
-  //   );
-  // } else {
-  //   if ($data_imageThree == "default") {
-  //     $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree=null  WHERE itemcatalog.id = '$txtItemId';";
-  //     mysqli_query($conn, $Sql);
-  //   }
-  // }
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/catalog/" . $iamge3,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge3,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 500,         //  กำหนดความกว้างรูปใหม่
+      "height" => 500,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_imageThree == "default") {
+      $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree=null  WHERE itemcatalog.id = '$txtItemId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
 
-  $return[] = $txtItemId;
+  $return[] = $_FILES['imageOne'];
   echo json_encode($return);
   mysqli_close($conn);
 }

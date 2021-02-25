@@ -1418,6 +1418,11 @@ $array2 = json_decode($json2, TRUE);
                   // $(".dropify-clear").click();
                 }
 
+                setTimeout(() => {
+                  $('#imageOne').data("value", imageOne);
+                  $('#imageTwo').data("value", imageTwo);
+                  $('#imageThree').data("value", imageThree);
+                }, 300);
  
                
             });
@@ -1494,8 +1499,7 @@ $array2 = json_decode($json2, TRUE);
           });
 
           setTimeout(() => {
-        
-            showData();
+            edit_Detail(txtItemId)
           }, 700);
 
         }
