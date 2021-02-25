@@ -91,6 +91,11 @@ function showDetail($conn)
 function showDataColor($conn)
 {
   $color_master = $_POST["color_master"];
+  if($color_master==0){
+    $where="";
+  }else{
+    $where="WHERE color_detail.ID_color_master ='$color_master'";
+  }
 
   $Sql = "SELECT
             color_detail.ID, 
@@ -99,7 +104,8 @@ function showDataColor($conn)
             color_master.color_master_name
           FROM  color_detail
           INNER JOIN color_master  ON  color_detail.ID_color_master = color_master.ID
-          WHERE color_detail.ID_color_master ='$color_master' ";
+          $where
+           ";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

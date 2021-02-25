@@ -621,12 +621,6 @@ $array2 = json_decode($json2, TRUE);
           $(".dataTables_length").hide();
     }
 
-    // function relode_div(){
-    //   // $( "#TableItem_paginate" ).load(window.location.href + " #TableItem_paginate" );
-
-    //   $("#div_table22").load(" #div_table22 > *");
-    // }
-
     function show_supplier(id){
       $('#modal_supplier').modal('toggle');
 
@@ -720,6 +714,19 @@ $array2 = json_decode($json2, TRUE);
                     show_supplierDetail(value.id);
                     show_siteDetail(value.id);
                     $("#id_img1").prop("checked", true);
+                   var imageOne= `${"../img/img_nature_wide.jpg"}`;
+                   
+                   var drEvent = $('#imageOne').dropify({
+                    defaultFile: imageOne
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = imageOne;
+                  drEvent.destroy();
+                  drEvent.init();
+
+
                   });
               }
 
@@ -1311,7 +1318,33 @@ $array2 = json_decode($json2, TRUE);
       // }
     }
 
+    function showimg(id) {
+      $.ajax({
+        url: "../process/catalogmanagement.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'showimg',
+          'id':id
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          if (!$.isEmptyObject(ObjData)) {
+            var myDATA = "";
+            $.each(ObjData, function(kay, value) {
+              var supplierName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name}</span>`;
+              var chksupplier = `<input type='checkbox' onclick='switchSupplier()' id='checkSupplier_${value.id}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
+              myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;'  nowrap>" + chksupplier + supplierName + "</div>";
+            });
+          }
 
+          $("#row_supplierAdd").html(myDATA);
+
+
+        }
+      });
+    }
+
+//------------------------------------------------------------------------------------------------
     function currentDiv(n) {
       showDivs(slideIndex = n);
     }
@@ -1331,6 +1364,7 @@ $array2 = json_decode($json2, TRUE);
       x[slideIndex-1].style.display = "block";
       dots[slideIndex-1].className += " w3-opacity-off";
     }
+    
 
 
   </script>
