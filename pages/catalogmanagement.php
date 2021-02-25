@@ -69,7 +69,11 @@ $array2 = json_decode($json2, TRUE);
                     <li class="nav-item">
                         <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
                     </li>
+                    <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
+                      <button type="button" id="btSave" style="width: 180px;height: 80%;"  class="btn btn-outline-success"><p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p></button>
+                    </div>
                 </ul>
+             
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="row">
@@ -140,10 +144,10 @@ $array2 = json_decode($json2, TRUE);
                               </div>
                             </div>
                             <div class="w3-content" style="max-width:1200px">
-                            <div>
-                              <img class="mySlides" src="../img/img_nature_wide.jpg" style="width:95%;height: 450px;margin-left: 20px;">
-                              <img class="mySlides" src="../img/img_snow_wide.jpg" style="width:95%;display:none;height: 450px;margin-left: 20px;">
-                              <img class="mySlides" src="../img/img_mountains_wide.jpg" style="width:95%;display:none;height: 450px;margin-left: 20px;">
+                            <div id="show_img">
+                              <img class="mySlides" id="show_img1" src="" style="width:80%;height: 450px;margin-left: 80px;">
+                              <img class="mySlides" id="show_img2" src="" style="width:80%;display:none;height: 450px;margin-left: 80px;">
+                              <img class="mySlides" id="show_img3" src="" style="width:80%;display:none;height: 450px;margin-left: 80px;">
                             </div>
                             <div class="col">
                                <lable style="font-size:35px;margin-top: 1%;">Other Image</lable>
@@ -459,6 +463,7 @@ $array2 = json_decode($json2, TRUE);
     $(document).ready(function(e) {
 
       $('.dropify').dropify();
+      $('#div_btSave').hide();
 
       var drEvent = $('#imageOne').dropify();
       var drEventTwo = $('#imageTwo').dropify();
@@ -482,10 +487,14 @@ $array2 = json_decode($json2, TRUE);
       }, 200);
 
         $("#detail-tab").click(function(){
-            
-           
-            
-         });
+          $('#div_btSave').show();
+        });
+
+        $("#home-tab").click(function(){
+          $('#div_btSave').hide();
+        });
+
+
 
       $('.numonly').on('input', function() {
         this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
@@ -498,6 +507,30 @@ $array2 = json_decode($json2, TRUE);
       $('.thonly').on('input', function() {
         this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
       });
+
+
+
+
+          var drEvent = $('#imageOne').dropify();
+          var drEventTwo = $('#imageTwo').dropify();
+          var drEventThree = $('#imageThree').dropify();
+
+          drEvent.on('dropify.afterClear ', function(event, element) {
+            $('#imageOne').data("value", "default");
+            document.getElementById("show_img1").src = "../img/icon/no-image.jpg";    
+          });
+        
+          drEventTwo.on('dropify.afterClear ', function(event, element) {
+            $('#imageTwo').data("value", "default");
+            document.getElementById("show_img2").src = "../img/icon/no-image.jpg";
+          });
+
+          drEventThree.on('dropify.afterClear ', function(event, element) {
+            $('#imageThree').data("value", "default");
+            document.getElementById("show_img3").src = "../img/icon/no-image.jpg";
+          });
+
+   
 
 
     }).click(function(e) {
@@ -682,6 +715,7 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function edit_Detail(id){
+      
       $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -695,8 +729,10 @@ $array2 = json_decode($json2, TRUE);
               var myDATA = "";
               if (!$.isEmptyObject(ObjData)) {
                   $.each(ObjData, function(kay, value) {
-                    $('#detail-tab').tab('show');
 
+                    $('#detail-tab').tab('show');
+                    $('#div_btSave').show();
+                    
                     $("#txt_Description").val(value.discription);
                     $("#txt_ID").val(value.id);
                     $("#txt_Name").val(value.name);
@@ -713,18 +749,9 @@ $array2 = json_decode($json2, TRUE);
                     show_SizeDetail(value.id);
                     show_supplierDetail(value.id);
                     show_siteDetail(value.id);
+                    showimg(value.id);
                     $("#id_img1").prop("checked", true);
-                   var imageOne= `${"../img/img_nature_wide.jpg"}`;
-                   
-                   var drEvent = $('#imageOne').dropify({
-                    defaultFile: imageOne
-                  });
-                  drEvent = drEvent.data('dropify');
-                  drEvent.resetPreview();
-                  drEvent.clearElement();
-                  drEvent.settings.defaultFile = imageOne;
-                  drEvent.destroy();
-                  drEvent.init();
+                 
 
 
                   });
@@ -1329,16 +1356,74 @@ $array2 = json_decode($json2, TRUE);
         success: function(result) {
           var ObjData = JSON.parse(result);
           if (!$.isEmptyObject(ObjData)) {
-            var myDATA = "";
             $.each(ObjData, function(kay, value) {
-              var supplierName = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name}</span>`;
-              var chksupplier = `<input type='checkbox' onclick='switchSupplier()' id='checkSupplier_${value.id}' value='${value.id}' class='mySupplier' style='top:-10%;' data-id='${value.id}' >`;
-              myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;'  nowrap>" + chksupplier + supplierName + "</div>";
+                var imageOne = `${"../profile/catalog/"+value.imageOne}`;
+                var imageTwo = `${"../profile/catalog/"+value.imageTwo}`;
+                var imageThree = `${"../profile/catalog/"+value.imageThree}`;
+
+                //--------------------------------------------------------------------------
+               
+               
+                
+                //--------------------------------------------------------------------------
+
+                $(".dropify-clear").click();
+                if (imageOne != "../profile/catalog/null") {
+
+                  var drEvent = $('#imageOne').dropify({
+                    defaultFile: imageOne
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = imageOne;
+                  drEvent.destroy();
+                  drEvent.init();
+                  document.getElementById("show_img1").src = imageOne;
+                 
+                } else {
+                  document.getElementById("show_img1").src = "../img/icon/no-image.jpg";
+                  // $(".dropify-clear").click();
+                }
+
+                if (imageTwo != "../profile/catalog/null") {
+                  var drEvent = $('#imageTwo').dropify({
+                    defaultFile: imageTwo
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = imageTwo;
+                  drEvent.destroy();
+                  drEvent.init();
+                  document.getElementById("show_img2").src = imageTwo;
+                } else {
+                  document.getElementById("show_img2").src = "../img/icon/no-image.jpg";
+                  // $(".dropify-clear").click();
+                }
+
+                if (imageThree != "../profile/catalog/null") {
+                  var drEvent = $('#imageThree').dropify({
+                    defaultFile: imageThree
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = imageThree;
+                  drEvent.destroy();
+                  drEvent.init();
+                  document.getElementById("show_img3").src = imageThree;
+                } else {
+                  document.getElementById("show_img3").src = "../img/icon/no-image.jpg";
+                  // $(".dropify-clear").click();
+                }
+
+ 
+               
             });
           }
 
-          $("#row_supplierAdd").html(myDATA);
-
+         
 
         }
       });

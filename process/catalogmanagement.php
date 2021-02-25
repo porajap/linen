@@ -44,6 +44,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     checkSite($conn);
   } else  if ($_POST['FUNC_NAME'] == 'openModalSite') {
     openModalSite($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showimg') {
+    showimg($conn);
   }
   
 }
@@ -647,6 +649,29 @@ function openModalSite($conn)
           FROM
             multisite
           WHERE multisite.itemCategoryId = '$txtItemId' ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function showimg($conn)
+{
+  $id = $_POST["id"];
+
+  $count = 0;
+  $Sql = "SELECT
+            itemcatalog.imageOne, 
+            itemcatalog.imageTwo, 
+            itemcatalog.imageThree
+          FROM
+            itemcatalog
+            WHERE itemcatalog.id='$id' ";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
