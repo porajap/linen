@@ -70,7 +70,7 @@ $array2 = json_decode($json2, TRUE);
                         <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
                     </li>
                     <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
-                      <button type="button" id="btSave" style="width: 180px;height: 80%;"  class="btn btn-outline-success"><p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p></button>
+                      <button type="button" id="btSave" style="width: 180px;height: 80%;"  class="btn btn-outline-success" onclick="saveData_detail();"><p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p></button>
                     </div>
                 </ul>
              
@@ -1439,13 +1439,23 @@ $array2 = json_decode($json2, TRUE);
       var data_imageOne = $('#imageOne').data('value');
       var data_imageTwo = $('#imageTwo').data('value');
       var data_imageThree = $('#imageThree').data('value');
-      var selectcategory = $("#selectcategory").val();
-      var txtDiscription = $("#txtDiscription").val();
-      var txtItemName = $("#txtItemName").val();
-      var txtItemId = $("#txtItemId").val();
-      var txtItemNameEn = $("#txtItemNameEn").val();
+      var typelinen_detail = $("#typelinen_detail").val();
+      var txtDiscription = $("#txt_Description").val();
 
+      var checkBox = document.getElementById("activecatalog");
 
+      if(checkBox.checked == true){
+        var activecatalog = 1;
+      }else{
+        var activecatalog = 0;
+      }
+     
+
+      var txt_Name = $("#txt_Name").val();
+      var txtItemId = $("#txt_ID").val();
+      // var txtItemNameEn = $("#txtItemNameEn").val();
+
+      // alert(typelinen_detail);
 
       form_data.append('FUNC_NAME', 'saveData_detail');
       form_data.append('imageOne', imageOne);
@@ -1454,11 +1464,13 @@ $array2 = json_decode($json2, TRUE);
       form_data.append('data_imageOne', data_imageOne);
       form_data.append('data_imageTwo', data_imageTwo);
       form_data.append('data_imageThree', data_imageThree);
-      form_data.append('selectcategory', selectcategory);
+
+      form_data.append('typelinen_detail', typelinen_detail);
       form_data.append('txtDiscription', txtDiscription);
-      form_data.append('txtItemName', txtItemName);
+      form_data.append('txtItemName', txt_Name);
       form_data.append('txtItemId', txtItemId);
-      form_data.append('txtItemNameEn', txtItemNameEn);
+      form_data.append('activecatalog', activecatalog);
+      // form_data.append('txtItemNameEn', txtItemNameEn);
 
 
       $.ajax({
