@@ -94,12 +94,15 @@ function checkSite($conn)
 
   $Sql = "DELETE FROM multisite WHERE itemCategoryId = '$txtItemId' ";
   mysqli_query($conn, $Sql);
-
+  $Sql  ="";
   foreach ($SiteArray as $key => $value) {
-    $Sql = "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value' ";
-    mysqli_query($conn, $Sql);
+    $Sql .= "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value'; ";
+    // mysqli_query($conn, $Sql);
   }
-  echo "1";
+  // echo $Sql;
+  if(mysqli_multi_query($conn, $Sql)){
+    echo "1";
+  }
   mysqli_close($conn);
   die;
 }
@@ -298,23 +301,20 @@ function saveData($conn)
   $txtItemName = $_POST['txtItemName'];
   $selectcategory = $_POST['selectcategory'];
   $txtItemId = $_POST['txtItemId'];
-  $txtItemNameEn = $_POST['txtItemNameEn'];
 
   $data_imageOne = $_POST['data_imageOne'];
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
-
-  
   // $imageOne = explode('.', $_FILES['imageOne']);
   // $imageTwo = explode('.', $_FILES['imageTwo']);
   // $imageThree = explode('.', $_FILES['imageThree']);
-  // ss
+
 
 
   if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' , itemCategoryNameEn = '$txtItemNameEn'  ";
+    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' ";
   } else {
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' , itemCategoryNameEn = '$txtItemNameEn' WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
   }
   mysqli_query($conn, $Sql);
 
@@ -328,14 +328,14 @@ function saveData($conn)
   $txtItemId = $Result['id'];
 
 
-  $iamge1 = $txtItemId . "-1". "png";
-  $iamge2 = $txtItemId . "-2". "png";
-  $iamge3 = $txtItemId . "-3". "png";
+  $iamge1 = $txtItemId . "-1" . '.'. "png";
+  $iamge2 = $txtItemId . "-2" . '.'. "png";
+  $iamge3 = $txtItemId . "-3" . '.'. "png";
 
   include("gen_thumbnail.php");
 
   if ($_FILES['imageOne'] != "") {
-    unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
+    // unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
     copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1'  WHERE itemcatalog.id = '$txtItemId';";
@@ -369,7 +369,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageTwo'] != "") {
-    unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
+    // unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
     copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
@@ -403,7 +403,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageThree'] != "") {
-    unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
+    // unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
     copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";
@@ -449,7 +449,6 @@ function showDetail($conn)
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
-            itemcatalog.itemCategoryNameEn,
             itemcatalog.discription,
             itemcatalog.typeLinen,
             itemcatalog.imageOne,
@@ -480,7 +479,6 @@ function showData($conn)
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
-            itemcatalog.itemCategoryNameEn, 
             $typelinen,
             itemcatalog.discription 
           FROM
