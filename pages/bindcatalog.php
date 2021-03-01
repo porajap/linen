@@ -913,7 +913,7 @@ $array2 = json_decode($json2, TRUE);
       $('#modalSelect_colorMaster').val(color_master);
       $(".classColorDetail").css('border', 'none');
       $("#colorDetail_" + id).css('border', '2px solid');
-      $('#txtColorId').val(id);
+      $('#txtColorId').val(color_detail);
       $('#modalColor_btnDelete').attr('disabled', false);
 
       setTimeout(() => {
@@ -1004,14 +1004,21 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function deleteColor() {
+      var sizeArray = [];
+      $(".loopsize:checked").each(function() {
+        sizeArray.push($(this).val());
+      });
       var radioSize = $('input[name="radio_size"]:checked').val();
       var txtColorId = $('#txtColorId').val();
+      var txtItemId = $("#txtItemId").val();
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
         data: {
           'FUNC_NAME': 'deleteColor',
           'txtColorId': txtColorId,
+          'txtItemId': txtItemId,
+          'sizeArray': sizeArray,
         },
         success: function(result) {
           swal({
