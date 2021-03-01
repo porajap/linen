@@ -225,11 +225,8 @@ $array2 = json_decode($json2, TRUE);
                             <div class="row" style="margin-left: 160px;margin-top: 10px;">
                               <div id="div_Size2" class="row" style="margin-left: 3%;">
                               <lable style="font-size:26px;">:</lable>
-                                <!-- <div class="content-tags"> -->
                                   <ul class="tag-inner v_size" id="ul_size">
-                                  <!-- <li><a href="javascript:void(0)" class='clearSize'  id='checksite'>S</a></li> -->
                                   </ul>
-                                <!-- </div>    -->
                               </div>
                             </div>
                             <div class="row" style="margin-left: 160px;margin-top: 10px;">
