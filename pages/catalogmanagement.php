@@ -67,10 +67,10 @@ $array2 = json_decode($json2, TRUE);
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Catalog Management</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
+                        <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false" ><?php echo $array['detail'][$language]; ?></a>
                     </li>
                     <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
-                      <button type="button" id="btSave" style="width: 180px;height: 80%;"  class="btn btn-outline-success"><p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p></button>
+                      <button type="button" id="btSave" style="width: 180px;height: 80%;"  class="btn btn-outline-success" onclick="saveData_detail();"><p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p></button>
                     </div>
                 </ul>
              
@@ -137,7 +137,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                          <div  style="background-color: white; float: left;width: 50%;margin-left: 15px;height: 85%;">
+                          <div  style="background-color: white; float: left;width: 50%;margin-left: 15px;height: 85%;" id="img_div">
                             <div class="row" style="margin-left: 15px">
                               <div class="col">
                                <lable style="font-size:35px;">Product Image</lable>
@@ -187,85 +187,99 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                             <div class="row" style="margin-left: 15px">
                               <div class="col-3">
-                              <lable style="font-size:26px;">Product Name :</lable>
+                              <lable style="font-size:26px;">Product Name TH :</lable>
                               </div>
-                              <div class="col" style="margin-left: -60px;">
-                              <input id="txt_Name" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ" >
-                              </div>
-                            </div>
-
-                            <div class="row" style="margin-left: 15px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">Type Linen :</lable>
-                              </div>
-                              <div class="col" style="margin-left: -60px;">
-                              <select id="typelinen_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"><option value="0" selected="">กรุณาเลือกประเภท</option><option value="12">หมี</option><option value="13">หมีหมี</option><option value="14">หมีหมีหมี</option><option value="15">54545</option></select>
+                              <div class="col" style="margin-left: -6%">
+                              <input id="txt_NameTh" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ ไทย" >
+                              
                               </div>
                             </div>
 
                             <div class="row" style="margin-left: 15px;margin-top: 10px;">
                               <div class="col-3">
-                              <lable style="font-size:26px;">Color /Size :</lable>
+                              <lable style="font-size:26px;">Product Name EN :</lable>
                               </div>
-                              <div class="col" style="margin-left: -45px;">
-                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
-                              </div>
-                            </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">:</lable>
-                              </div>
-                              <div id="div_Size" class="row" style="margin-left: -100px;">   
-                              </div>
-                            </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">:</lable>
-                              </div>
-                              <div id="div_color" class="row" style="margin-left: -100px;">
-                             
-                              </div>
-                            </div>
-
-                            <div class="row" style="margin-left: 35px;margin-top: 10px;">
-                              <div class="col-3">
-                              <lable style="font-size:26px;">Supplier :</lable>
-                              </div>
-                              <div class="col" style="margin-left: -60px;">
-                              <button style="background: none;border: none;" onclick="openModalSupplier();"><i class="fas fa-plus-square text-info"></i></button>
-                              </div>
-                            </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
-                              <div class="col-3">
-                                <lable style="font-size:26px;">:</lable>
-                              </div>
-                              <div class="col" style="margin-left: -125px;">
-                              <select id="supplier_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"></select>
+                              <div class="col" style="">
+                              <input id="txt_NameEn" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 76%;margin-left: -3%;" placeholder="ชื่อรายการ อังกฤษ" >
+                              
                               </div>
                             </div>
 
                             <div class="row" style="margin-left: 70px;margin-top: 10px;">
                               <div class="col-3">
-                              <lable style="font-size:26px;">Site :</lable>
+                              <lable style="font-size:26px;">Type Linen :</lable>
                               </div>
-                              <div class="col" style="margin-left: -85px;">
-                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
+                              <div class="col" style="margin-left: -12.5%;">
+                              <select id="typelinen_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"><option value="0" selected="">กรุณาเลือกประเภท</option><option value="12">หมี</option><option value="13">หมีหมี</option><option value="14">หมีหมีหมี</option><option value="15">54545</option></select>
                               </div>
                             </div>
-                            <div class="row" style="margin-left: 105px;margin-top: 10px;">
+
+                            <div class="row" style="margin-left: 70px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">Color /Size :</lable>
+                              </div>
+                              <div class="col" style="margin-left: -10%;">
+                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
+                              <div id="div_Size2" class="row" style="margin-left: 3%;">
+                              <lable style="font-size:26px;">:</lable>
+                                <!-- <div class="content-tags"> -->
+                                  <ul class="tag-inner v_size" id="ul_size">
+                                  <!-- <li><a href="javascript:void(0)" class='clearSize'  id='checksite'>S</a></li> -->
+                                  </ul>
+                                <!-- </div>    -->
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">:</lable>
+                              </div>
+                              <div id="div_color" class="row" style="margin-left: -21%;">
+                             
+                              </div>
+                            </div>
+
+                            <div class="row" style="margin-left: 90px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">Supplier :</lable>
+                              </div>
+                              <div class="col" style="margin-left: -12%;">
+                              <button style="background: none;border: none;" onclick="openModalSupplier();"><i class="fas fa-plus-square text-info"></i></button>
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
                               <div class="col-3">
                                 <lable style="font-size:26px;">:</lable>
                               </div>
-                              <div class="col" style="margin-left: -125px;">
+                              <div class="col" style="margin-left: -20%;">
+                              <select id="supplier_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: -8px;"></select>
+                              </div>
+                            </div>
+
+                            <div class="row" style="margin-left: 125px;margin-top: 10px;">
+                              <div class="col-3">
+                              <lable style="font-size:26px;">Site :</lable>
+                              </div>
+                              <div class="col" style="margin-left: -17%;">
+                              <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
+                              </div>
+                            </div>
+                            <div class="row" style="margin-left: 160px;margin-top: 10px;">
+                              <div class="col-3">
+                                <lable style="font-size:26px;">:</lable>
+                              </div>
+                              <div class="col" style="margin-left: -27%;">
                               <select id="site_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"></select>
                               </div>
                             </div>
 
-                            <div class="row" style="margin-left: 15px;margin-top: 10px;">
+                            <div class="row" style="margin-left: 40px;margin-top: 10px;">
                               <div class="col-3">
                               <lable style="font-size:26px;">Active Catalog :</lable>
                               </div>
-                              <div class="col" style="margin-left: -20px;">
+                              <div class="col" style="margin-left: -8px;">
                               <input class="form-check-input" type="checkbox" value="" id="activecatalog" >
                               </div>
                             </div>
@@ -487,7 +501,55 @@ $array2 = json_decode($json2, TRUE);
       }, 200);
 
         $("#detail-tab").click(function(){
-          $('#div_btSave').show();
+          $('#div_btSave').hide();
+
+          $('#txt_Description').val("");
+          $('#txt_NameTh').val("");
+          $('#txt_NameEn').val("");
+          $('#typelinen_detail').val("");
+          $("#activecatalog").prop("checked", false);
+          $('#txt_ID').val(0);
+          
+          document.getElementById("show_img1").src = "../img/icon/no-image.jpg";
+          document.getElementById("show_img2").src = "../img/icon/no-image.jpg";
+          document.getElementById("show_img3").src = "../img/icon/no-image.jpg";
+
+                    show_colorDetail("00");
+                    show_SizeDetail("00");
+                    show_supplierDetail("");
+                    show_siteDetail("");
+                    showimg("00");
+
+
+                  var drEvent = $('#imageOne').dropify({
+                    defaultFile: null
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = null;
+                  drEvent.destroy();
+                  drEvent.init();
+
+                  var drEvent = $('#imageTwo').dropify({
+                    defaultFile: null
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = null;
+                  drEvent.destroy();
+                  drEvent.init();
+
+                  var drEvent = $('#imageThree').dropify({
+                    defaultFile: null
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = null;
+                  drEvent.destroy();
+                  drEvent.init();
         });
 
         $("#home-tab").click(function(){
@@ -548,7 +610,8 @@ $array2 = json_decode($json2, TRUE);
               'FUNC_NAME': 'get_typelinen'
             },
             success: function(result) {
-
+              $("#input_typeline").empty();
+              $("#typelinen_detail").empty();
               var ObjData = JSON.parse(result);
               var StrTR = "";
 
@@ -557,7 +620,7 @@ $array2 = json_decode($json2, TRUE);
                 // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
                 var Str = "";
                 $.each(ObjData, function(key, value) {
-                  Str += "<option value=" + value.id + " >" + value.name_En + "</option>";
+                  Str += "<option value=" + value.id + " >" + value.name + "</option>";
                 });
               }
 
@@ -735,7 +798,8 @@ $array2 = json_decode($json2, TRUE);
 
                     $("#txt_Description").val(value.discription);
                     $("#txt_ID").val(value.id);
-                    $("#txt_Name").val(value.name);
+                    $("#txt_NameTh").val(value.itemCategoryName);
+                    $("#txt_NameEn").val(value.itemCategoryNameEn);
                     $("#typelinen_detail").val(value.typeLinen);
                    
 
@@ -752,7 +816,7 @@ $array2 = json_decode($json2, TRUE);
                     showimg(value.id);
                     $("#id_img1").prop("checked", true);
                  
-
+                    
 
                   });
               }
@@ -800,16 +864,43 @@ $array2 = json_decode($json2, TRUE);
               var mySize = "";
               if (!$.isEmptyObject(ObjData)) {
                   $.each(ObjData, function(kay, value) {
-                    mySize += "<div class='px-3 ml-1'  style=' border-radius: 70%;  height: 35px; border: 2px solid; width:2%;text-align: center;'><lable style='text-align: center;margin-left: -4px;'>"+value.itemsize+"</lable></div>";
+                    // mySize += "<div class='px-3 ml-1'  style=' border-radius: 70%;  height: 35px; border: 2px solid; width:2%;text-align: center;'><lable style='text-align: center;margin-left: -4px;'>"+value.itemsize+"</lable></div>";
+                    mySize += `<li><a href="javascript:void(0)" class='clearSize'  onclick='showColorDetail_size("${kay}","${value.itemsize}","${id}")'  id='checksite_${kay}' >${value.itemsize}</a></li>`;
                   });
               }else{
                    
               }
 
-                $("#div_Size").html(mySize);
+                $("#ul_size").html(mySize);
+                // $('#checksite_0').addClass('focusSize');
             }
           });
     }
+
+    function showColorDetail_size(key_site, sizeName, catalog_id) {
+        $(".clearSize").removeClass('focusSize');
+        $("#checksite_" + key_site).addClass('focusSize');
+
+        $.ajax({
+          url: "../process/catalogmanagement.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'showColorDetail_size',
+            'sizeName': sizeName,
+            'catalog_id': catalog_id,
+          },
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+            var mycolor = "";
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+                mycolor += "<div class='px-3 ml-1'  style='background-color: "+value.color_detail+"; border-radius: 70%;  height: 35px; border: 2px solid; width:2%;'></div>";
+              });
+            }
+            $("#div_color").html(mycolor);
+          }
+        });
+      }
     
     function show_supplierDetail(id){
       $.ajax({
@@ -1418,6 +1509,11 @@ $array2 = json_decode($json2, TRUE);
                   // $(".dropify-clear").click();
                 }
 
+                setTimeout(() => {
+                  $('#imageOne').data("value", imageOne);
+                  $('#imageTwo').data("value", imageTwo);
+                  $('#imageThree').data("value", imageThree);
+                }, 300);
  
                
             });
@@ -1439,12 +1535,72 @@ $array2 = json_decode($json2, TRUE);
       var data_imageOne = $('#imageOne').data('value');
       var data_imageTwo = $('#imageTwo').data('value');
       var data_imageThree = $('#imageThree').data('value');
-      var selectcategory = $("#selectcategory").val();
-      var txtDiscription = $("#txtDiscription").val();
-      var txtItemName = $("#txtItemName").val();
-      var txtItemId = $("#txtItemId").val();
-      var txtItemNameEn = $("#txtItemNameEn").val();
+      var typelinen_detail = $("#typelinen_detail").val();
+      var txtDiscription = $("#txt_Description").val();
 
+      var checkBox = document.getElementById("activecatalog");
+
+      if(checkBox.checked == true){
+        var activecatalog = 1;
+      }else{
+        var activecatalog = 0;
+      }
+     
+     
+      var txt_NameTh = $("#txt_NameTh").val();
+      var txt_NameEn = $("#txt_NameEn").val();
+      var txtItemId = $("#txt_ID").val();
+      // var txtItemNameEn = $("#txtItemNameEn").val();
+
+      // alert(typelinen_detail);
+
+      if (txt_NameTh == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการไทย',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txt_NameTh").addClass("border-danger");
+          // $("#alert_txtItemNameEn").show();
+          return;
+        }else{
+          $("#txt_NameTh").removeClass("border-danger");
+        }
+
+        if (txt_NameEn == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการอังกฤษ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txt_NameEn").addClass("border-danger");
+          // $("#alert_txtItemName").show();
+          return;
+        }else{
+          $("#txt_NameEn").removeClass("border-danger");
+        }
+
+        if (txtDiscription == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txt_Description").addClass("border-danger");
+          // $("#alert_txtDiscription").show();
+          return;
+        }else{
+          $("#txt_Description").removeClass("border-danger");
+        }
 
 
       form_data.append('FUNC_NAME', 'saveData_detail');
@@ -1454,11 +1610,13 @@ $array2 = json_decode($json2, TRUE);
       form_data.append('data_imageOne', data_imageOne);
       form_data.append('data_imageTwo', data_imageTwo);
       form_data.append('data_imageThree', data_imageThree);
-      form_data.append('selectcategory', selectcategory);
+
+      form_data.append('typelinen_detail', typelinen_detail);
       form_data.append('txtDiscription', txtDiscription);
-      form_data.append('txtItemName', txtItemName);
+      form_data.append('txtItemName', txt_NameTh);
       form_data.append('txtItemId', txtItemId);
-      form_data.append('txtItemNameEn', txtItemNameEn);
+      form_data.append('activecatalog', activecatalog);
+      form_data.append('txtItemNameEn', txt_NameEn);
 
 
       $.ajax({
@@ -1482,7 +1640,7 @@ $array2 = json_decode($json2, TRUE);
           });
 
           setTimeout(() => {
-        
+            edit_Detail(txtItemId);
             showData();
           }, 700);
 
@@ -1546,6 +1704,67 @@ $array2 = json_decode($json2, TRUE);
     .pagination a:hover:not(.active) {
       background-color: #ddd;
       border-radius: 5px;
+    }
+
+    .tag-inner li a {
+      border-radius: 30px;
+      border: 1px solid black;
+      padding: 5px 25px;
+      background: white;
+      font-size: 18px;
+    }
+
+    .focusSize {
+        border: 3px solid black !important;
+        font-weight: bold;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img, a, input, h1, h2, h3, h4, h5, h6 {
+      -webkit-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+    }
+
+    a, button, input {
+      font-weight: 400;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    [role=button], a, area, button, input:not([type=range]), label, select, summary, textarea {
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+    }
+
+
+
+  
+
+    ul, ul li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      text-align: -webkit-match-parent;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
+    ul.v_size > li{ /* กำหนดรูปแบบให้กับเมนูเ */
+      display:block;
+      text-indent:5px;
+      float:left;
+      text-align:center;
     }
   </style>
 

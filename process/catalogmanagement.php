@@ -48,6 +48,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     showimg($conn);
   }else  if ($_POST['FUNC_NAME'] == 'saveData_detail') {
     saveData_detail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showColorDetail_size') {
+    showColorDetail_size($conn);
   }
   
 }
@@ -144,15 +146,15 @@ function get_typelinen($conn)
   
   $lang = $_SESSION['lang'];
   if($lang == 'en'){
-    $name = "supplier.name_En AS name";
+    $name = "typelinen.name_En AS name";
   }else{
-    $name = "supplier.name_Th  AS name";
+    $name = "typelinen.name_Th  AS name";
   }
 
 
     $Sql = "SELECT
               typelinen.id, 
-              typelinen.name_En
+              $name
             FROM
               typelinen ";
 
@@ -232,15 +234,12 @@ function edit_Detail($conn)
   $id = $_POST["id"];
   $lang = $_SESSION['lang'];
 
-  if($lang == 'en'){
-    $name = "itemcatalog.itemCategoryNameEn AS name";
-  }else{
-    $name = "itemcatalog.itemCategoryName  AS name";
-  }
+
 
     $Sql = "SELECT
               itemcatalog.id,
-              $name,
+              itemcatalog.itemCategoryNameEn,
+              itemcatalog.itemCategoryName,
               itemcatalog.IsActive,
               itemcatalog.typeLinen,
               itemcatalog.discription	
@@ -651,40 +650,37 @@ function saveData_detail($conn)
 {
   $txtDiscription = $_POST['txtDiscription'];
   $txtItemName = $_POST['txtItemName'];
-  $selectcategory = $_POST['selectcategory'];
+  $typelinen_detail = $_POST['typelinen_detail'];
   $txtItemId = $_POST['txtItemId'];
+  $activecatalog = $_POST['activecatalog'];
   $txtItemNameEn = $_POST['txtItemNameEn'];
 
   $data_imageOne = $_POST['data_imageOne'];
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
 
-  
-  if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' , itemCategoryNameEn = '$txtItemNameEn'  ";
-  } else {
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' , itemCategoryNameEn = '$txtItemNameEn' WHERE itemcatalog.id = '$txtItemId' ";
-  }
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName', itemCategoryNameEn = '$txtItemNameEn', IsActive = '$activecatalog'  WHERE itemcatalog.id = '$txtItemId' ";
+
   mysqli_query($conn, $Sql);
 
-  $Sql = "SELECT 
-            itemcatalog.id 
-          FROM 
-            itemcatalog
-          WHERE itemcatalog.itemCategoryName = '$txtItemName' ";
-  $meQuery = mysqli_query($conn, $Sql);
-  $Result = mysqli_fetch_assoc($meQuery);
-  $txtItemId = $Result['id'];
+  // $Sql = "SELECT 
+  //           itemcatalog.id 
+  //         FROM 
+  //           itemcatalog
+  //         WHERE itemcatalog.itemCategoryName = '$txtItemName' ";
+  // $meQuery = mysqli_query($conn, $Sql);
+  // $Result = mysqli_fetch_assoc($meQuery);
+  // $txtItemId = $Result['id'];
 
 
-  $iamge1 = $txtItemId . "-1". "png";
-  $iamge2 = $txtItemId . "-2". "png";
-  $iamge3 = $txtItemId . "-3". "png";
+  $iamge1 = $txtItemId . "-1". ".png";
+  $iamge2 = $txtItemId . "-2". ".png";
+  $iamge3 = $txtItemId . "-3". ".png";
 
   include("gen_thumbnail.php");
 
   if ($_FILES['imageOne'] != "") {
-    unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
+    // unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
     copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1'  WHERE itemcatalog.id = '$txtItemId';";
@@ -718,7 +714,7 @@ function saveData_detail($conn)
   }
 
   if ($_FILES['imageTwo'] != "") {
-    unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
+    // unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
     copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
@@ -752,7 +748,7 @@ function saveData_detail($conn)
   }
 
   if ($_FILES['imageThree'] != "") {
-    unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
+    // unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
     copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
 
     $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";
@@ -785,8 +781,30 @@ function saveData_detail($conn)
     }
   }
 
-  $return[] = $txtItemId;
+  $return[] = $_FILES['imageOne'];
   echo json_encode($return);
   mysqli_close($conn);
 }
 
+
+function showColorDetail_size($conn)
+{
+  $sizeName = $_POST['sizeName'];
+  $catalog_id = $_POST['catalog_id'];
+
+  $Sql = "SELECT
+            multicolor.color_detail 
+          FROM
+            multicolor 
+          WHERE
+            multicolor.itemCategoryId = '$catalog_id' 
+            AND multicolor.itemsize = '$sizeName' ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  unset($conn);
+  die;
+}
