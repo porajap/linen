@@ -235,43 +235,43 @@ $array2 = json_decode($json2, TRUE);
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="form-check form-check-inline">
-            <label class='radio '>
-              <input type='radio' name='radio_size' id="size_s" value="S" class="form-check-input" onclick="openMasterColor('S');">
-              <span class='checkmark'></span>
-            </label>
+          <div class="form-check form-check-inline mt-3" style="align-items: end;">
+            <!-- <label class='radio '> -->
+            <input type='checkbox' name='radio_size' id="size_s" value="S" class="form-check-input loopsize" onclick="openMasterColor('S');">
+            <!-- <span class='checkmark'></span>
+            </label> -->
             <label class="form-check-label ml-2" for="size_s">S</label>
           </div>
 
-          <div class="form-check form-check-inline">
-            <label class='radio '>
-              <input type='radio' name='radio_size' id="size_m" value="M" class="form-check-input" onclick="openMasterColor('M');">
-              <span class='checkmark'></span>
-            </label>
+          <div class="form-check form-check-inline mt-3" style="align-items: end;">
+            <!-- <label class='radio '> -->
+            <input type='checkbox' name='radio_size' id="size_m" value="M" class="form-check-input loopsize" onclick="openMasterColor('M');">
+            <!-- <span class='checkmark'></span>
+            </label> -->
             <label class="form-check-label ml-2" for="size_m">M</label>
           </div>
 
-          <div class="form-check form-check-inline">
-            <label class='radio '>
-              <input type='radio' name='radio_size' id="size_l" value="L" class="form-check-input" onclick="openMasterColor('L');">
-              <span class='checkmark'></span>
-            </label>
+          <div class="form-check form-check-inline mt-3" style="align-items: end;">
+            <!-- <label class='radio '> -->
+            <input type='checkbox' name='radio_size' id="size_l" value="L" class="form-check-input loopsize" onclick="openMasterColor('L');">
+            <!-- <span class='checkmark'></span>
+            </label> -->
             <label class="form-check-label ml-2" for="size_l">L</label>
           </div>
 
-          <div class="form-check form-check-inline">
-            <label class='radio '>
-              <input type='radio' name='radio_size' id="size_xl" value="XL" class="form-check-input" onclick="openMasterColor('XL');">
-              <span class='checkmark'></span>
-            </label>
+          <div class="form-check form-check-inline mt-3" style="align-items: end;">
+            <!-- <label class='radio '> -->
+            <input type='checkbox' name='radio_size' id="size_xl" value="XL" class="form-check-input loopsize" onclick="openMasterColor('XL');">
+            <!-- <span class='checkmark'></span>
+            </label> -->
             <label class="form-check-label ml-2" for="size_xl">XL</label>
           </div>
 
-          <div class="form-check form-check-inline">
-            <label class='radio '>
-              <input type='radio' name='radio_size' id="size_xxl" value="XXL" class="form-check-input" onclick="openMasterColor('XXL');">
-              <span class='checkmark'></span>
-            </label>
+          <div class="form-check form-check-inline mt-3" style="align-items: end;">
+            <!-- <label class='radio '> -->
+            <input type='checkbox' name='radio_size' id="size_xxl" value="XXL" class="form-check-input loopsize" onclick="openMasterColor('XXL');">
+            <!-- <span class='checkmark'></span>
+            </label> -->
             <label class="form-check-label ml-2" for="size_xxl">XXL</label>
           </div>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -504,6 +504,9 @@ $array2 = json_decode($json2, TRUE);
             $.each(ObjData, function(key, value) {
               if (value.discription == null) {
                 value.discription = "";
+              }
+              if (value.itemCategoryNameEn == null) {
+                value.itemCategoryNameEn = "";
               }
               var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classItemName' name='idSupplier' id='idItemName_" + key + "' value='" + value.id + "' onclick='showDetail(\"" + value.id + "\" , \"" + key + "\")' ><span class='checkmark'></span></label>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
@@ -822,6 +825,12 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function openMasterColor(size) {
+      var sizeArray = [];
+
+      $(".loopsize:checked").each(function() {
+        sizeArray.push($(this).val());
+      });
+
       var txtItemId = $("#txtItemId").val();
       $('#modalColor_btnDelete').attr('disabled', true);
       $("#modalSelect_colorMaster").attr("disabled", false);
@@ -831,6 +840,8 @@ $array2 = json_decode($json2, TRUE);
       $("#modaltxt_colorDetail").spectrum({
         type: "component"
       });
+
+      $("#row_color").empty();
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
@@ -838,10 +849,10 @@ $array2 = json_decode($json2, TRUE);
           'FUNC_NAME': 'openMasterColor',
           'size': size,
           'txtItemId': txtItemId,
+          'sizeArray': sizeArray,
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
-          $("#row_color").empty();
           if (!$.isEmptyObject(ObjData)) {
             var option = ``;
             $.each(ObjData, function(kay, value) {
@@ -902,7 +913,7 @@ $array2 = json_decode($json2, TRUE);
       $('#modalSelect_colorMaster').val(color_master);
       $(".classColorDetail").css('border', 'none');
       $("#colorDetail_" + id).css('border', '2px solid');
-      $('#txtColorId').val(id);
+      $('#txtColorId').val(color_detail);
       $('#modalColor_btnDelete').attr('disabled', false);
 
       setTimeout(() => {
@@ -950,6 +961,10 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function saveColor() {
+      var sizeArray = [];
+      $(".loopsize:checked").each(function() {
+        sizeArray.push($(this).val());
+      });
       var colorMaster = $("#modalSelect_colorMaster").val();
       var colorDetail = $("#modaltxt_colorDetail").val();
       var txtItemId = $("#txtItemId").val();
@@ -965,6 +980,7 @@ $array2 = json_decode($json2, TRUE);
           'txtItemId': txtItemId,
           'radioSize': radioSize,
           'txtColorId': txtColorId,
+          'sizeArray': sizeArray,
         },
         success: function(result) {
           swal({
@@ -988,14 +1004,21 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function deleteColor() {
+      var sizeArray = [];
+      $(".loopsize:checked").each(function() {
+        sizeArray.push($(this).val());
+      });
       var radioSize = $('input[name="radio_size"]:checked').val();
       var txtColorId = $('#txtColorId').val();
+      var txtItemId = $("#txtItemId").val();
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
         data: {
           'FUNC_NAME': 'deleteColor',
           'txtColorId': txtColorId,
+          'txtItemId': txtItemId,
+          'sizeArray': sizeArray,
         },
         success: function(result) {
           swal({

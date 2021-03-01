@@ -41,18 +41,17 @@ if (!empty($_POST['FUNC_NAME'])) {
 
 function getTypeLinen($conn)
 {
- $PmID = $_SESSION['PmID'];
+  $PmID = $_SESSION['PmID'];
   $lang = $_POST["lang"];
   $count = 0;
   if ($lang == 'en') {
-      $Sql = "SELECT
+    $Sql = "SELECT
                 typelinen.id, 
                 typelinen.name_En  as nametype
               FROM
                 typelinen";
-    
   } else {
-      $Sql = "SELECT
+    $Sql = "SELECT
                 typelinen.id, 
                 typelinen.name_Th as nametype
               FROM
@@ -94,13 +93,13 @@ function checkSite($conn)
 
   $Sql = "DELETE FROM multisite WHERE itemCategoryId = '$txtItemId' ";
   mysqli_query($conn, $Sql);
-  $Sql  ="";
+  $Sql  = "";
   foreach ($SiteArray as $key => $value) {
     $Sql .= "INSERT INTO multisite SET itemCategoryId = '$txtItemId' ,  site = '$value'; ";
     // mysqli_query($conn, $Sql);
   }
   // echo $Sql;
-  if(mysqli_multi_query($conn, $Sql)){
+  if (mysqli_multi_query($conn, $Sql)) {
     echo "1";
   }
   mysqli_close($conn);
@@ -172,11 +171,17 @@ function deleteColor($conn)
 {
   $count    = 0;
   $txtColorId = $_POST["txtColorId"];
+  $txtItemId = $_POST["txtItemId"];
+  $sizeArray = $_POST["sizeArray"];
   $return = array();
+  foreach ($sizeArray as $key => $value) {
+    $Sql = "DELETE FROM multicolor 
+                   WHERE multicolor.color_detail = '$txtColorId' 
+                   AND itemCategoryId = '$txtItemId'
+                   AND multicolor.itemsize = '$value'";
+    mysqli_query($conn, $Sql);
+  }
 
-  $Sql = "DELETE FROM multicolor WHERE id = '$txtColorId' ";
-
-  mysqli_query($conn, $Sql);
   echo "1";
   mysqli_close($conn);
   die;
@@ -190,23 +195,61 @@ function saveColor($conn)
   $colorDetail = $_POST["colorDetail"];
   $colorMaster = $_POST["colorMaster"];
   $txtColorId = $_POST["txtColorId"];
+  $sizeArray = $_POST["sizeArray"];
   $return = array();
-  if ($txtColorId == "") {
-    $Sql = "INSERT INTO multicolor SET  itemCategoryId = '$txtItemId',
-                                        itemsize = '$radioSize',
+  foreach ($sizeArray as $key => $value) {
+    $Sql = "SELECT
+              COUNT( multicolor.id ) AS count_id 
+            FROM
+              multicolor 
+            WHERE
+              multicolor.itemsize = '$value'
+            AND multicolor.itemCategoryId = '$txtItemId' 
+            AND multicolor.color_detail  = '$txtColorId' ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($row = mysqli_fetch_assoc($meQuery)) {
+      $count_id = $row['count_id'];
+
+      if ($count_id == 0) {
+        $Sql_ = "INSERT INTO multicolor SET  itemCategoryId = '$txtItemId',
+                                        itemsize = '$value',
                                         color_master = '$colorMaster',
                                         color_detail = '$colorDetail'    ";
-  } else {
-    $Sql = "UPDATE multicolor SET itemsize = '$radioSize',
-                                  color_master = '$colorMaster',
-                                  color_detail = '$colorDetail'  
-            WHERE multicolor.id = '$txtColorId'  ";
+      } else {
+        $Sql_ = "UPDATE multicolor 
+                SET itemsize = '$value',
+                color_master = '$colorMaster',
+                color_detail = '$colorDetail' 
+                WHERE
+                  multicolor.color_detail = '$txtColorId' 
+                  AND itemCategoryId = '$txtItemId'
+                  AND multicolor.itemsize = '$value'";
+      }
+      mysqli_query($conn, $Sql_);
+    }
   }
 
-  mysqli_query($conn, $Sql);
+
+
+
   echo "1";
   mysqli_close($conn);
   die;
+
+  // if ($txtColorId == "") {
+  //   $Sql = "INSERT INTO multicolor SET  itemCategoryId = '$txtItemId',
+  //                                       itemsize = '$radioSize',
+  //                                       color_master = '$colorMaster',
+  //                                       color_detail = '$colorDetail'    ";
+  // } else {
+  //   $Sql = "UPDATE multicolor SET itemsize = '$radioSize',
+  //                                 color_master = '$colorMaster',
+  //                                 color_detail = '$colorDetail'  
+  //           WHERE multicolor.id = '$txtColorId'  ";
+  // }
+
+
 }
 
 function openMasterColor($conn)
@@ -214,6 +257,13 @@ function openMasterColor($conn)
   $count    = 0;
   $size     = $_POST["size"];
   $txtItemId = $_POST["txtItemId"];
+  $sizeArray = $_POST["sizeArray"];
+  $wheresize = "";
+  foreach ($sizeArray as $key => $value) {
+    $wheresize .= "'" . $value . "',";
+  }
+  $wheresize = rtrim($wheresize, ',');
+
 
   $Sql = "SELECT
             multicolor.itemCategoryId,
@@ -223,7 +273,8 @@ function openMasterColor($conn)
             multicolor.id 
           FROM
             multicolor
-          WHERE multicolor.itemCategoryId = '$txtItemId' AND  multicolor.itemsize = '$size' ";
+          WHERE multicolor.itemCategoryId = '$txtItemId' AND  multicolor.itemsize IN( $wheresize ) GROUP BY multicolor.color_detail";
+  // echo $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
     $return[] = $row;
@@ -299,6 +350,7 @@ function saveData($conn)
 {
   $txtDiscription = $_POST['txtDiscription'];
   $txtItemName = $_POST['txtItemName'];
+  $txtItemNameEn = $_POST['txtItemNameEn'];
   $selectcategory = $_POST['selectcategory'];
   $txtItemId = $_POST['txtItemId'];
 
@@ -312,9 +364,9 @@ function saveData($conn)
 
 
   if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' ";
+    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' ";
   } else {
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
   }
   mysqli_query($conn, $Sql);
 
@@ -328,9 +380,9 @@ function saveData($conn)
   $txtItemId = $Result['id'];
 
 
-  $iamge1 = $txtItemId . "-1" . '.'. "png";
-  $iamge2 = $txtItemId . "-2" . '.'. "png";
-  $iamge3 = $txtItemId . "-3" . '.'. "png";
+  $iamge1 = $txtItemId . "-1" . '.' . "png";
+  $iamge2 = $txtItemId . "-2" . '.' . "png";
+  $iamge3 = $txtItemId . "-3" . '.' . "png";
 
   include("gen_thumbnail.php");
 
@@ -449,6 +501,7 @@ function showDetail($conn)
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
+            itemcatalog.itemCategoryNameEn,
             itemcatalog.discription,
             itemcatalog.typeLinen,
             itemcatalog.imageOne,
@@ -471,14 +524,15 @@ function showData($conn)
   // $selectSite = $_POST["selectSite"];
   $txtSearch = $_POST["txtSearch"];
   $lang = $_SESSION["lang"];
-  if($lang == 'en'){
+  if ($lang == 'en') {
     $typelinen = 'typelinen.name_En AS nameType';
-  }else{
+  } else {
     $typelinen = 'typelinen.name_Th AS nameType';
   }
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
+            itemcatalog.itemCategoryNameEn,
             $typelinen,
             itemcatalog.discription 
           FROM
