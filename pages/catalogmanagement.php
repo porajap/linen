@@ -189,8 +189,9 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                               <lable style="font-size:26px;">Product Name TH :</lable>
                               </div>
-                              <div class="col" style="margin-left: -45px;">
+                              <div class="col" style="margin-left: -6%">
                               <input id="txt_NameTh" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ ไทย" >
+                              
                               </div>
                             </div>
 
@@ -198,8 +199,9 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                               <lable style="font-size:26px;">Product Name EN :</lable>
                               </div>
-                              <div class="col" style="margin-left: -45px;">
-                              <input id="txt_NameEn" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ อังกฤษ" >
+                              <div class="col" style="">
+                              <input id="txt_NameEn" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 76%;margin-left: -3%;" placeholder="ชื่อรายการ อังกฤษ" >
+                              
                               </div>
                             </div>
 
@@ -207,7 +209,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                               <lable style="font-size:26px;">Type Linen :</lable>
                               </div>
-                              <div class="col" style="margin-left: -88px;">
+                              <div class="col" style="margin-left: -12.5%;">
                               <select id="typelinen_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"><option value="0" selected="">กรุณาเลือกประเภท</option><option value="12">หมี</option><option value="13">หมีหมี</option><option value="14">หมีหมีหมี</option><option value="15">54545</option></select>
                               </div>
                             </div>
@@ -216,22 +218,25 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                               <lable style="font-size:26px;">Color /Size :</lable>
                               </div>
-                              <div class="col" style="margin-left: -65px;">
+                              <div class="col" style="margin-left: -10%;">
                               <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
                               </div>
                             </div>
                             <div class="row" style="margin-left: 160px;margin-top: 10px;">
-                              <div class="col-3">
+                              <div id="div_Size2" class="row" style="margin-left: 3%;">
                               <lable style="font-size:26px;">:</lable>
-                              </div>
-                              <div id="div_Size" class="row" style="margin-left: -118px;">   
+                                <!-- <div class="content-tags"> -->
+                                  <ul class="tag-inner v_size" id="ul_size">
+                                  <!-- <li><a href="javascript:void(0)" class='clearSize'  id='checksite'>S</a></li> -->
+                                  </ul>
+                                <!-- </div>    -->
                               </div>
                             </div>
                             <div class="row" style="margin-left: 160px;margin-top: 10px;">
                               <div class="col-3">
                               <lable style="font-size:26px;">:</lable>
                               </div>
-                              <div id="div_color" class="row" style="margin-left: -118px;">
+                              <div id="div_color" class="row" style="margin-left: -21%;">
                              
                               </div>
                             </div>
@@ -240,7 +245,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                               <lable style="font-size:26px;">Supplier :</lable>
                               </div>
-                              <div class="col" style="margin-left: -75px;">
+                              <div class="col" style="margin-left: -12%;">
                               <button style="background: none;border: none;" onclick="openModalSupplier();"><i class="fas fa-plus-square text-info"></i></button>
                               </div>
                             </div>
@@ -248,7 +253,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                                 <lable style="font-size:26px;">:</lable>
                               </div>
-                              <div class="col" style="margin-left: -110px;">
+                              <div class="col" style="margin-left: -20%;">
                               <select id="supplier_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: -8px;"></select>
                               </div>
                             </div>
@@ -257,7 +262,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                               <lable style="font-size:26px;">Site :</lable>
                               </div>
-                              <div class="col" style="margin-left: -100px;">
+                              <div class="col" style="margin-left: -17%;">
                               <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
                               </div>
                             </div>
@@ -265,7 +270,7 @@ $array2 = json_decode($json2, TRUE);
                               <div class="col-3">
                                 <lable style="font-size:26px;">:</lable>
                               </div>
-                              <div class="col" style="margin-left: -150px;">
+                              <div class="col" style="margin-left: -27%;">
                               <select id="site_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"></select>
                               </div>
                             </div>
@@ -763,7 +768,7 @@ $array2 = json_decode($json2, TRUE);
                     showimg(value.id);
                     $("#id_img1").prop("checked", true);
                  
-
+                    
 
                   });
               }
@@ -811,16 +816,43 @@ $array2 = json_decode($json2, TRUE);
               var mySize = "";
               if (!$.isEmptyObject(ObjData)) {
                   $.each(ObjData, function(kay, value) {
-                    mySize += "<div class='px-3 ml-1'  style=' border-radius: 70%;  height: 35px; border: 2px solid; width:2%;text-align: center;'><lable style='text-align: center;margin-left: -4px;'>"+value.itemsize+"</lable></div>";
+                    // mySize += "<div class='px-3 ml-1'  style=' border-radius: 70%;  height: 35px; border: 2px solid; width:2%;text-align: center;'><lable style='text-align: center;margin-left: -4px;'>"+value.itemsize+"</lable></div>";
+                    mySize += `<li><a href="javascript:void(0)" class='clearSize'  onclick='showColorDetail_size("${kay}","${value.itemsize}","${id}")'  id='checksite_${kay}' >${value.itemsize}</a></li>`;
                   });
               }else{
                    
               }
 
-                $("#div_Size").html(mySize);
+                $("#ul_size").html(mySize);
+                // $('#checksite_0').addClass('focusSize');
             }
           });
     }
+
+    function showColorDetail_size(key_site, sizeName, catalog_id) {
+        $(".clearSize").removeClass('focusSize');
+        $("#checksite_" + key_site).addClass('focusSize');
+
+        $.ajax({
+          url: "../process/catalogmanagement.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'showColorDetail_size',
+            'sizeName': sizeName,
+            'catalog_id': catalog_id,
+          },
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+            var mycolor = "";
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+                mycolor += "<div class='px-3 ml-1'  style='background-color: "+value.color_detail+"; border-radius: 70%;  height: 35px; border: 2px solid; width:2%;'></div>";
+              });
+            }
+            $("#div_color").html(mycolor);
+          }
+        });
+      }
     
     function show_supplierDetail(id){
       $.ajax({
@@ -1474,6 +1506,55 @@ $array2 = json_decode($json2, TRUE);
 
       // alert(typelinen_detail);
 
+      if (txt_NameTh == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการไทย',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txt_NameTh").addClass("border-danger");
+          // $("#alert_txtItemNameEn").show();
+          return;
+        }else{
+          $("#txt_NameTh").removeClass("border-danger");
+        }
+
+        if (txt_NameEn == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการอังกฤษ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txt_NameEn").addClass("border-danger");
+          // $("#alert_txtItemName").show();
+          return;
+        }else{
+          $("#txt_NameEn").removeClass("border-danger");
+        }
+
+        if (txtDiscription == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุรายการ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txt_Description").addClass("border-danger");
+          // $("#alert_txtDiscription").show();
+          return;
+        }else{
+          $("#txt_Description").removeClass("border-danger");
+        }
+
+
       form_data.append('FUNC_NAME', 'saveData_detail');
       form_data.append('imageOne', imageOne);
       form_data.append('imageTwo', imageTwo);
@@ -1575,6 +1656,67 @@ $array2 = json_decode($json2, TRUE);
     .pagination a:hover:not(.active) {
       background-color: #ddd;
       border-radius: 5px;
+    }
+
+    .tag-inner li a {
+      border-radius: 30px;
+      border: 1px solid black;
+      padding: 5px 25px;
+      background: white;
+      font-size: 18px;
+    }
+
+    .focusSize {
+        border: 3px solid black !important;
+        font-weight: bold;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img, a, input, h1, h2, h3, h4, h5, h6 {
+      -webkit-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+    }
+
+    a, button, input {
+      font-weight: 400;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    [role=button], a, area, button, input:not([type=range]), label, select, summary, textarea {
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+    }
+
+
+
+  
+
+    ul, ul li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      text-align: -webkit-match-parent;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
+    ul.v_size > li{ /* กำหนดรูปแบบให้กับเมนูเ */
+      display:block;
+      text-indent:5px;
+      float:left;
+      text-align:center;
     }
   </style>
 

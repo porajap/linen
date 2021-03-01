@@ -48,6 +48,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     showimg($conn);
   }else  if ($_POST['FUNC_NAME'] == 'saveData_detail') {
     saveData_detail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showColorDetail_size') {
+    showColorDetail_size($conn);
   }
   
 }
@@ -784,3 +786,25 @@ function saveData_detail($conn)
   mysqli_close($conn);
 }
 
+
+function showColorDetail_size($conn)
+{
+  $sizeName = $_POST['sizeName'];
+  $catalog_id = $_POST['catalog_id'];
+
+  $Sql = "SELECT
+            multicolor.color_detail 
+          FROM
+            multicolor 
+          WHERE
+            multicolor.itemCategoryId = '$catalog_id' 
+            AND multicolor.itemsize = '$sizeName' ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  unset($conn);
+  die;
+}
