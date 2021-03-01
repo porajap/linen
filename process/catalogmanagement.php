@@ -659,7 +659,7 @@ function saveData_detail($conn)
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
 
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName', itemCategoryNameEn = '$txtItemNameEn'  WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName', itemCategoryNameEn = '$txtItemNameEn', IsActive = '$activecatalog'  WHERE itemcatalog.id = '$txtItemId' ";
 
   mysqli_query($conn, $Sql);
 
