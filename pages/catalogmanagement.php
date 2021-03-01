@@ -67,7 +67,7 @@ $array2 = json_decode($json2, TRUE);
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Catalog Management</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
+                        <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false" ><?php echo $array['detail'][$language]; ?></a>
                     </li>
                     <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
                       <button type="button" id="btSave" style="width: 180px;height: 80%;"  class="btn btn-outline-success" onclick="saveData_detail();"><p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p></button>
@@ -137,7 +137,7 @@ $array2 = json_decode($json2, TRUE);
                             </div>
                           </div>
 
-                          <div  style="background-color: white; float: left;width: 50%;margin-left: 15px;height: 85%;">
+                          <div  style="background-color: white; float: left;width: 50%;margin-left: 15px;height: 85%;" id="img_div">
                             <div class="row" style="margin-left: 15px">
                               <div class="col">
                                <lable style="font-size:35px;">Product Image</lable>
@@ -501,7 +501,55 @@ $array2 = json_decode($json2, TRUE);
       }, 200);
 
         $("#detail-tab").click(function(){
-          $('#div_btSave').show();
+          $('#div_btSave').hide();
+
+          $('#txt_Description').val("");
+          $('#txt_NameTh').val("");
+          $('#txt_NameEn').val("");
+          $('#typelinen_detail').val("");
+          $("#activecatalog").prop("checked", false);
+          $('#txt_ID').val(0);
+          
+          document.getElementById("show_img1").src = "../img/icon/no-image.jpg";
+          document.getElementById("show_img2").src = "../img/icon/no-image.jpg";
+          document.getElementById("show_img3").src = "../img/icon/no-image.jpg";
+
+                    show_colorDetail("00");
+                    show_SizeDetail("00");
+                    show_supplierDetail("");
+                    show_siteDetail("");
+                    showimg("00");
+
+
+                  var drEvent = $('#imageOne').dropify({
+                    defaultFile: null
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = null;
+                  drEvent.destroy();
+                  drEvent.init();
+
+                  var drEvent = $('#imageTwo').dropify({
+                    defaultFile: null
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = null;
+                  drEvent.destroy();
+                  drEvent.init();
+
+                  var drEvent = $('#imageThree').dropify({
+                    defaultFile: null
+                  });
+                  drEvent = drEvent.data('dropify');
+                  drEvent.resetPreview();
+                  drEvent.clearElement();
+                  drEvent.settings.defaultFile = null;
+                  drEvent.destroy();
+                  drEvent.init();
         });
 
         $("#home-tab").click(function(){
