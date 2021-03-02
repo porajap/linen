@@ -174,11 +174,11 @@ $array2 = json_decode($json2, TRUE);
           <li class="nav-item">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Catalog Management</a>
           </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="detail3-tab" data-toggle="tab" href="#detail3" role="tab" aria-controls="detail3" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
           </li>
           <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
             <button type="button" id="btSave" style="width: 180px;height: 80%;" class="btn btn-outline-success" onclick="saveData_detail();">
@@ -231,202 +231,15 @@ $array2 = json_decode($json2, TRUE);
 
           </div>
           <!-- ====================END Tap 1=========================================================================== -->
-
-          <!-- search document -->
           <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">
-
-            <div class="card-body" style="background-color: whitesmoke;height: 1000px;">
-              <div style="background-color: white; float: left;width: 45%; height: 12%;">
-                <div class="row" style="margin-left: 15px">
-                  <div class="col">
-                    <lable style="font-size:35px;">Description</lable>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <input id="txt_Description" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="รายละเอียด">
-                    <input id="txt_ID" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 20%;margin-left: 30px;" hidden>
-                  </div>
-                </div>
-              </div>
-
-              <div style="background-color: white; float: left;width: 50%;margin-left: 15px;height: 85%;" id="img_div">
-                <div class="row" style="margin-left: 15px">
-                  <div class="col">
-                    <lable style="font-size:35px;">Product Image</lable>
-                  </div>
-                </div>
-                <div class="w3-content" style="max-width:1200px">
-                  <div id="show_img">
-                    <img class="mySlides" id="show_img1" src="" style="width:80%;height: 450px;margin-left: 80px;">
-                    <img class="mySlides" id="show_img2" src="" style="width:80%;display:none;height: 450px;margin-left: 80px;">
-                    <img class="mySlides" id="show_img3" src="" style="width:80%;display:none;height: 450px;margin-left: 80px;">
-                  </div>
-                  <div class="col">
-                    <lable style="font-size:35px;margin-top: 1%;">Other Image</lable>
-                  </div>
-                  <div class="row" style="margin-top: 0%;width: 98%;margin-left: 1%;">
-                    <div class="col">
-                      <input type="file" id="imageOne" accept="image/x-png,image/gif,image/jpeg" class="dropify">
-                      <div>
-                        <center>
-                          <label class="radio" style="margin-top:7px;width: 10%;"><input type="radio" class="classItemName" name="id_img" id="id_img1" onclick="currentDiv(1)"><span class="checkmark"></span></label>
-                        </center>
-                      </div>
-
-                    </div>
-                    <div class="col">
-                      <input type="file" id="imageTwo" accept="image/x-png,image/gif,image/jpeg" class="dropify">
-                      <div>
-                        <center>
-                          <label class="radio" style="margin-top:7px;width: 10%;"><input type="radio" class="classItemName" name="id_img" id="id_img2" onclick="currentDiv(2)"><span class="checkmark"></span></label>
-                        </center>
-                      </div>
-
-                    </div>
-                    <div class="col">
-                      <input type="file" id="imageThree" accept="image/x-png,image/gif,image/jpeg" class="dropify">
-                      <div>
-                        <center>
-                          <label class="radio" style="margin-top:7px;width: 10%;"><input type="radio" class="classItemName" name="id_img" id="id_img3" onclick="currentDiv(3)"><span class="checkmark"></span></label>
-                        </center>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div style="background-color: white; float: left;width: 45%;margin-top: -42%;height: 70.5%;">
-                <div class="row" style="margin-left: 15px">
-                  <div class="col">
-                    <lable style="font-size:35px;">Product Informailon</lable>
-                  </div>
-                </div>
-                <div class="row" style="margin-left: 15px">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">Product Name TH :</lable>
-                  </div>
-                  <div class="col" style="margin-left: -6%">
-                    <input id="txt_NameTh" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 70%;margin-left: 30px;" placeholder="ชื่อรายการ ไทย">
-
-                  </div>
-                </div>
-
-                <div class="row" style="margin-left: 15px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">Product Name EN :</lable>
-                  </div>
-                  <div class="col" style="">
-                    <input id="txt_NameEn" type="text" autocomplete="off" class="form-control" style="font-size:24px;width: 76%;margin-left: -3%;" placeholder="ชื่อรายการ อังกฤษ">
-
-                  </div>
-                </div>
-
-                <div class="row" style="margin-left: 70px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">Type Linen :</lable>
-                  </div>
-                  <div class="col" style="margin-left: -12.5%;">
-                    <select id="typelinen_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;">
-                      <option value="0" selected="">กรุณาเลือกประเภท</option>
-                      <option value="12">หมี</option>
-                      <option value="13">หมีหมี</option>
-                      <option value="14">หมีหมีหมี</option>
-                      <option value="15">54545</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="row" style="margin-left: 70px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">Color /Size :</lable>
-                  </div>
-                  <div class="col" style="margin-left: -10%;">
-                    <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
-                  </div>
-                </div>
-                <div class="row" style="margin-left: 160px;margin-top: 10px;">
-                  <div id="div_Size2" class="row" style="margin-left: 3%;">
-                    <lable style="font-size:26px;">:</lable>
-                    <ul class="tag-inner v_size" id="ul_size">
-                    </ul>
-                  </div>
-                </div>
-                <div class="row" style="margin-left: 160px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">:</lable>
-                  </div>
-                  <div id="div_color" class="row" style="margin-left: -21%;">
-
-                  </div>
-                </div>
-
-                <div class="row" style="margin-left: 90px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">Supplier :</lable>
-                  </div>
-                  <div class="col" style="margin-left: -12%;">
-                    <button style="background: none;border: none;" onclick="openModalSupplier();"><i class="fas fa-plus-square text-info"></i></button>
-                  </div>
-                </div>
-                <div class="row" style="margin-left: 160px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">:</lable>
-                  </div>
-                  <div class="col" style="margin-left: -20%;">
-                    <select id="supplier_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: -8px;"></select>
-                  </div>
-                </div>
-
-                <div class="row" style="margin-left: 125px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">Site :</lable>
-                  </div>
-                  <div class="col" style="margin-left: -17%;">
-                    <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
-                  </div>
-                </div>
-                <div class="row" style="margin-left: 160px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">:</lable>
-                  </div>
-                  <div class="col" style="margin-left: -27%;">
-                    <select id="site_detail" class="form-control " style="font-size:24px;width: 70%;margin-left: 30px;"></select>
-                  </div>
-                </div>
-
-                <div class="row" style="margin-left: 40px;margin-top: 10px;">
-                  <div class="col-3">
-                    <lable style="font-size:26px;">Active Catalog :</lable>
-                  </div>
-                  <div class="col" style="margin-left: -8px;">
-                    <input class="form-check-input" type="checkbox" value="" id="activecatalog">
-                  </div>
-                </div>
-
-              </div>
-
-
-
-
-
-
-            </div>
-          </div>
-
-
-          <!-- ==========================END Tab 2=========================================================================================================== -->
-
-          <div class="tab-pane fade" id="detail3" role="tabpanel" aria-labelledby="detail3-tab">
             <div class="row mt-2">
               <div class="col-6">
                 <div class="col-12">
                   <div class="card" style="min-height: 100px;">
                     <div class="form-group px-3">
                       <h3 for="exampleInputEmail1">Description</h3>
-                      <input type="text" class="form-control" id="Description-test" aria-describedby="emailHelp" placeholder="Description">
+                      <input type="text" id="txt_Description" class="form-control" id="Description-test" aria-describedby="emailHelp" placeholder="Description">
+                      <input type="text" id="txt_ID" class="form-control" id="Description-test" aria-describedby="emailHelp" hidden>
                     </div>
                   </div>
                 </div>
@@ -439,19 +252,19 @@ $array2 = json_decode($json2, TRUE);
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Product Name TH :</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" placeholder="Product Name TH">
+                          <input type="text" class="form-control" placeholder="Product Name TH" id="txt_NameTh">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Product Name EN :</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" placeholder="Product Name EN">
+                          <input type="text" class="form-control" placeholder="Product Name EN" id="txt_NameEn">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Type Linen :</label>
                         <div class="col-sm-9">
-                          <select type="text" class="form-control"></select>
+                          <select type="text" class="form-control" id="typelinen_detail"></select>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -463,37 +276,38 @@ $array2 = json_decode($json2, TRUE);
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
                         <div class="col-sm-9">
-                          <select type="text" class="form-control"></select>
+                          <!-- <select type="text" class="form-control"></select> -->
+                          <ul class="tag-inner v_size" id="ul_size"></ul>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
-                        <div class="col-sm-9">
-                          <select type="text" class="form-control"></select>
+                        <div class="col-sm-9 row" id="div_color" style="margin-left: 0%">
+                          <!-- <select type="text" class="form-control"></select> -->
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Supplier :</label>
                         <div class="col-sm-9">
-                          <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
+                          <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSupplier();"><i class="fas fa-plus-square text-info"></i></button>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
                         <div class="col-sm-9">
-                          <select type="text" class="form-control"></select>
+                          <select type="text" class="form-control" id="supplier_detail"></select>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Site :</label>
                         <div class="col-sm-9">
-                          <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
+                          <button style="background: none;border: none;" data-toggle="modal" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
                         <div class="col-sm-9">
-                          <select type="text" class="form-control"></select>
+                          <select type="text" class="form-control" id="site_detail"></select>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -512,6 +326,11 @@ $array2 = json_decode($json2, TRUE);
                   <div class="card-body">
                     <h3>Product Image</h3>
                     <div class="col-12" style="min-height: 515px;">
+                      <div id="show_img">
+                        <img class="mySlides" id="show_img1" src="" style="width:80%;height: 450px;margin-left: 80px;">
+                        <img class="mySlides" id="show_img2" src="" style="width:80%;display:none;height: 450px;margin-left: 80px;">
+                        <img class="mySlides" id="show_img3" src="" style="width:80%;display:none;height: 450px;margin-left: 80px;">
+                      </div>
                     </div>
                     <h3>Other Image</h3>
                     <div class="row">
@@ -522,15 +341,15 @@ $array2 = json_decode($json2, TRUE);
                         </center>
                       </div>
                       <div class="col-4">
-                        <input type="file" id="imageOne" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                        <input type="file" id="imageTwo" accept="image/x-png,image/gif,image/jpeg" class="dropify">
                         <center>
-                          <label class="radio" style="margin-top:7px;width: 10%;"><input type="radio" class="classItemName" name="id_img" id="id_img1" onclick="currentDiv(1)"><span class="checkmark"></span></label>
+                          <label class="radio" style="margin-top:7px;width: 10%;"><input type="radio" class="classItemName" name="id_img" id="id_img2" onclick="currentDiv(2)"><span class="checkmark"></span></label>
                         </center>
                       </div>
                       <div class="col-4">
-                        <input type="file" id="imageOne" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                        <input type="file" id="imageThree" accept="image/x-png,image/gif,image/jpeg" class="dropify">
                         <center>
-                          <label class="radio" style="margin-top:7px;width: 10%;"><input type="radio" class="classItemName" name="id_img" id="id_img1" onclick="currentDiv(1)"><span class="checkmark"></span></label>
+                          <label class="radio" style="margin-top:7px;width: 10%;"><input type="radio" class="classItemName" name="id_img" id="id_img3" onclick="currentDiv(3)"><span class="checkmark"></span></label>
                         </center>
                       </div>
                     </div>
@@ -539,7 +358,7 @@ $array2 = json_decode($json2, TRUE);
               </div>
             </div>
           </div>
-
+ <!-- ==========================END Tab 2=========================================================================================================== -->
         </div>
       </div>
 
