@@ -56,7 +56,7 @@ function checklogin($conn,$DATA)
       $_SESSION['lang']     = $Result['lang']==null?'th':$Result['lang'];
       $lang1     = $Result['lang']==null?'th':$Result['lang'];
       $IsActive  = $Result['IsActive'];
-
+      $pm = $Result['PmID'];
       $Count = $Result['Count'];
       // $FirstName = $Result['FirstName'];
       $boolean = true;
@@ -72,6 +72,7 @@ function checklogin($conn,$DATA)
         if($IsActive == 0){
           $return['status'] = "success";
           $return['form'] = "chk_login";
+          $return['pm'] = $pm;
           if($lang1 == 'en'){
           $return['msg'] = "Login Success";
           }else{
