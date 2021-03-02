@@ -435,7 +435,7 @@ $language = $_SESSION['lang'];
                                 showConfirmButton: false
                             });
                             setTimeout(function() {
-                                if(temp["pm"] == 6){
+                                if(temp["pm"] == 9){
                                     window.location.href = 'http://119.59.116.26:8181/linen-catalog/index.php';
                                 }else{
                                     window.location.href = 'main.php';
