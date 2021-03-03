@@ -120,12 +120,14 @@ function cPassword($conn,$DATA)
     $confirmpassword = md5($DATA['confirmpassword']);
     $Username = $DATA['Username'];
     $boolean = false;
-    $Sql = "SELECT users.ID
+    $Sql = "SELECT users.ID ,
+                   users.PmID
             FROM users
             WHERE users.UserName = '$Username' AND users.`Password` = '$oldpassword' AND users.IsCancel = 0";
     $meQuery = mysqli_query($conn,$Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
       $ID = $Result['ID'];
+      $pm = $Result['PmID'];
       $Cnt1 = 1;
     }
 
@@ -142,6 +144,7 @@ function cPassword($conn,$DATA)
       $return['status'] = "success";
       $return['form'] = "change_password";
       $return['Count'] = $Count;
+      $return['pm'] = $pm;
       $return['msg'] = "Chang password success.";
       echo json_encode($return);
       mysqli_close($conn);

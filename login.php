@@ -454,7 +454,11 @@ $language = $_SESSION['lang'];
                                 showConfirmButton: false
                             });
                             setTimeout(function() {
-                                window.location.href = 'main.php';
+                                if(temp["pm"] == 9){
+                                    window.location.href = 'http://119.59.116.26:8181/linen-catalog/index.php';
+                                }else{
+                                    window.location.href = 'main.php';
+                                }
                             }, 1000);
                         } else if (temp["form"] == 'sendmail') {
                             swal({

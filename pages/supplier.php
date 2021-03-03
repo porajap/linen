@@ -235,11 +235,11 @@ $array2 = json_decode($json2, TRUE);
         $("#alert_txtPhoneNumber").hide();
       });
 
-      GetSite();
+      // GetSite();
 
       setTimeout(() => {
         showData();
-      }, 200);
+      }, 500);
 
 
       $('.numonly').on('input', function() {

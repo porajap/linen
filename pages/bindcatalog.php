@@ -33,7 +33,10 @@ $array2 = json_decode($json2, TRUE);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
+  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+  <meta http-equiv="Pragma" content="no-cache"> 
+  <meta http-equiv="Expires" content="0"> 
+  <meta http-equiv="refresh" content="300">
   <title>
     bindcatalog
   </title>
@@ -155,19 +158,25 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <div class="col-md-4">
-                </div>
-                <div class="col-md-4">
-                </div>
-              </div>
-
-              <div class="row mt-1">
-                <div class="col-md-4">
-                  <div class='form-group row'>
+                <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">รายการไทย</label>
                     <input id="txtItemName" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                     <input hidden id="txtItemId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
                     <label id="alert_txtItemName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
+                </div>
+                <div class="col-md-4">
+                <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label ">รายละเอียดไทย</label>
+                    <input id="txtDiscription" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                    <label id="alert_txtDiscription" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-1">
+                <div class="col-md-4">
+
                 </div>
 
                 <div class="col-md-4">
@@ -179,10 +188,10 @@ $array2 = json_decode($json2, TRUE);
                 </div>
 
                 <div class="col-md-4">
-                  <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายละเอียด</label>
-                    <input id="txtDiscription" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
-                    <label id="alert_txtDiscription" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label ">รายละเอียดอังกฤษ</label>
+                    <input id="txtDiscriptionEn" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                    <label id="alert_txtDiscriptionEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
               </div>
@@ -359,6 +368,7 @@ $array2 = json_decode($json2, TRUE);
       $("#alert_selectcategory").hide();
       $("#alert_txtDiscription").hide();
       $("#alert_txtItemNameEn").hide();
+      $("#alert_txtDiscriptionEn").hide();
 
       $('#modaltxt_colorDetail').spectrum({
         type: "component"
@@ -388,6 +398,11 @@ $array2 = json_decode($json2, TRUE);
       $("#txtDiscription").change(function() {
         $("#txtDiscription").removeClass("border-danger");
         $("#alert_txtDiscription").hide();
+      });
+
+      $("#txtDiscriptionEn").change(function() {
+        $("#txtDiscriptionEn").removeClass("border-danger");
+        $("#alert_txtDiscriptionEn").hide();
       });
 
 
@@ -439,6 +454,7 @@ $array2 = json_decode($json2, TRUE);
       $("#txtItemName").val("");
       $("#selectcategory").val("0");
       $("#txtDiscription").val("");
+      $("#txtDiscriptionEn").val("");
       $("#txtItemId").val("");
       $("#txtItemNameEn").val("");
       $("#txtItemNameEn").removeClass("border-danger");
@@ -619,11 +635,15 @@ $array2 = json_decode($json2, TRUE);
                 if (value.discription == null) {
                   value.discription = "";
                 }
+                if (value.discriptionEn == null) {
+                  value.discriptionEn = "";
+                }
                 $("#selectcategory").val(value.typeLinen);
                 $("#txtDiscription").val(value.discription);
+                $("#txtDiscriptionEn").val(value.discriptionEn);
                 $("#txtItemName").val(value.itemCategoryName);
                 $("#txtItemNameEn").val(value.itemCategoryNameEn);
-
+                
                 $("#txtItemId").val(value.id);
 
                 var imageOne = `${"../profile/catalog/"+value.imageOne}`;
@@ -703,7 +723,8 @@ $array2 = json_decode($json2, TRUE);
       var txtItemName = $("#txtItemName").val();
       var txtItemId = $("#txtItemId").val();
       var txtItemNameEn = $("#txtItemNameEn").val();
-
+      var txtDiscriptionEn = $("#txtDiscriptionEn").val();
+      
       if (txtItemNameEn == "") {
         swal({
           title: '',
@@ -735,7 +756,7 @@ $array2 = json_decode($json2, TRUE);
       if (txtDiscription == "") {
         swal({
           title: '',
-          text: 'กรุณาระบุรายการ',
+          text: 'กรุณาระบุรายละเอียดไทย',
           type: 'warning',
           showCancelButton: false,
           showConfirmButton: false,
@@ -743,6 +764,20 @@ $array2 = json_decode($json2, TRUE);
         });
         $("#txtDiscription").addClass("border-danger");
         $("#alert_txtDiscription").show();
+        return;
+      }
+
+      if (txtDiscriptionEn == "") {
+        swal({
+          title: '',
+          text: 'กรุณาระบุรายละเอียดอังกฤษ',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#txtDiscriptionEn").addClass("border-danger");
+        $("#alert_txtDiscriptionEn").show();
         return;
       }
 
@@ -758,6 +793,7 @@ $array2 = json_decode($json2, TRUE);
       form_data.append('txtItemName', txtItemName);
       form_data.append('txtItemId', txtItemId);
       form_data.append('txtItemNameEn', txtItemNameEn);
+      form_data.append('txtDiscriptionEn', txtDiscriptionEn);
 
 
       $.ajax({
