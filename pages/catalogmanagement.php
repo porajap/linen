@@ -868,7 +868,17 @@ $array2 = json_decode($json2, TRUE);
         }
 
         function edit_Detail(id) {
-         var num_lang = $("#num_lang").val();
+       
+         var language = '<?php echo $language; ?>';
+          if(language=="th"){
+            $('#chk_lang').prop('checked', true).change();
+            $("#num_lang").val(1);
+          }else{
+            $('#chk_lang').prop('checked', false).change();
+            $("#num_lang").val(0);
+          }
+
+        var num_lang = $("#num_lang").val();
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',

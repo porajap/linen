@@ -665,14 +665,33 @@ function saveData_detail($conn)
 
   mysqli_query($conn, $Sql);
 
-  // $Sql = "SELECT 
-  //           itemcatalog.id 
-  //         FROM 
-  //           itemcatalog
-  //         WHERE itemcatalog.itemCategoryName = '$txtItemName' ";
-  // $meQuery = mysqli_query($conn, $Sql);
-  // $Result = mysqli_fetch_assoc($meQuery);
-  // $txtItemId = $Result['id'];
+  $Sql = "SELECT 
+            itemcatalog.id,
+            ROUND((37384 - 1231 * RAND()), 0) AS random_new,
+            imageOne,
+            imageTwo,
+            imageThree
+          FROM 
+            itemcatalog
+          WHERE itemcatalog.itemCategoryName = '$txtItemName' ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  $Result = mysqli_fetch_assoc($meQuery);
+  $txtItemId = $Result['id'];
+  $random_new = $Result['random_new'];
+  $imageOne = $Result['imageOne']==null?"":$Result['imageOne'];
+  $imageTwo = $Result['imageTwo']==null?"":$Result['imageTwo'];
+  $imageThree = $Result['imageThree']==null?"":$Result['imageThree'];
+
+
+  $iamge1 = $txtItemId . "-1" .".png";
+  $iamge2 = $txtItemId . "-2" .".png";
+  $iamge3 = $txtItemId . "-3" .".png";
+
+  $iamge1_now = $txtItemId . "-1_" . $random_new. ".png";
+  $iamge2_now = $txtItemId . "-2_" . $random_new. ".png";
+  $iamge3_now = $txtItemId . "-3_" . $random_new. ".png";
+
 
 
   $iamge1 = $txtItemId . "-1". ".png";
@@ -682,15 +701,17 @@ function saveData_detail($conn)
   include("gen_thumbnail.php");
 
   if ($_FILES['imageOne'] != "") {
-    // unlink($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
-    copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1);
+    if($imageOne != ""){
+      unlink('../profile/catalog/' . $imageOne);
+    }
+    copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1_now);
 
-    $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1'  WHERE itemcatalog.id = '$txtItemId';";
+    $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne='$iamge1_now'  WHERE itemcatalog.id = '$txtItemId';";
     mysqli_query($conn, $Sql);
 
     $cfg_thumb =  (object) array(
-      "source" => "../profile/catalog/" . $iamge1,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-      "destination" => "../profile/catalog/" . $iamge1,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "source" => "../profile/catalog/" . $iamge1_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge1_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
       "width" => 500,         //  กำหนดความกว้างรูปใหม่
       "height" => 500,       //  กำหนดความสูงรูปใหม่
       "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
@@ -710,21 +731,28 @@ function saveData_detail($conn)
     );
   } else {
     if ($data_imageOne == "default") {
+
+      if($imageOne != ""){
+        unlink('../profile/catalog/' . $imageOne);
+      }
+
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageOne=null  WHERE itemcatalog.id = '$txtItemId';";
       mysqli_query($conn, $Sql);
     }
   }
 
   if ($_FILES['imageTwo'] != "") {
-    // unlink($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
-    copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2);
+   if($imageTwo != ""){
+      unlink('../profile/catalog/' . $imageTwo);
+    }
+    copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2_now);
 
-    $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2' WHERE itemcatalog.id = '$txtItemId';";
+    $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo='$iamge2_now' WHERE itemcatalog.id = '$txtItemId';";
     mysqli_query($conn, $Sql);
 
     $cfg_thumb =  (object) array(
-      "source" => "../profile/catalog/" . $iamge2,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-      "destination" => "../profile/catalog/" . $iamge2,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "source" => "../profile/catalog/" . $iamge2_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge2_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
       "width" => 500,         //  กำหนดความกว้างรูปใหม่
       "height" => 500,       //  กำหนดความสูงรูปใหม่
       "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
@@ -744,6 +772,11 @@ function saveData_detail($conn)
     );
   } else {
     if ($data_imageTwo == "default") {
+
+      if($imageTwo != ""){
+        unlink('../profile/catalog/' . $imageTwo);
+      }
+      
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo=null  WHERE itemcatalog.id = '$txtItemId';";
       mysqli_query($conn, $Sql);
     }
@@ -751,14 +784,17 @@ function saveData_detail($conn)
 
   if ($_FILES['imageThree'] != "") {
     // unlink($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
-    copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3);
+    if($imageThree != ""){
+      unlink('../profile/catalog/' . $imageThree);
+    }
+    copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3_now);
 
-    $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3' WHERE itemcatalog.id = '$txtItemId';";
+    $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree='$iamge3_now' WHERE itemcatalog.id = '$txtItemId';";
     mysqli_query($conn, $Sql);
 
     $cfg_thumb =  (object) array(
-      "source" => "../profile/catalog/" . $iamge3,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
-      "destination" => "../profile/catalog/" . $iamge3,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "source" => "../profile/catalog/" . $iamge3_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/catalog/" . $iamge3_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
       "width" => 500,         //  กำหนดความกว้างรูปใหม่
       "height" => 500,       //  กำหนดความสูงรูปใหม่
       "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
@@ -778,12 +814,16 @@ function saveData_detail($conn)
     );
   } else {
     if ($data_imageThree == "default") {
+      if($imageThree != ""){
+        unlink('../profile/catalog/' . $imageThree);
+      }
+
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree=null  WHERE itemcatalog.id = '$txtItemId';";
       mysqli_query($conn, $Sql);
     }
   }
 
-  $return[] = $_FILES['imageOne'];
+  $return[] = $txtItemId;
   echo json_encode($return);
   mysqli_close($conn);
 }
