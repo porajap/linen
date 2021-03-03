@@ -143,9 +143,9 @@ $count_i=0;
 
 function get_typelinen($conn)
 {
+  $chk_lang = $_POST["chk_lang"];
   
-  $lang = $_SESSION['lang'];
-  if($lang == 'en'){
+  if($chk_lang == 0){
     $name = "typelinen.name_En AS name";
   }else{
     $name = "typelinen.name_Th  AS name";
@@ -242,7 +242,8 @@ function edit_Detail($conn)
               itemcatalog.itemCategoryName,
               itemcatalog.IsActive,
               itemcatalog.typeLinen,
-              itemcatalog.discription	
+              itemcatalog.discription,
+              itemcatalog.discription_EN		
             FROM
               itemcatalog
               INNER JOIN typelinen ON itemcatalog.typeLinen = typelinen.id 
@@ -323,8 +324,9 @@ function show_supplierDetail($conn){
 
     $id = $_POST["id"];
     $lang = $_SESSION['lang'];
+    $num_lang = $_POST['num_lang'];
 
-    if($lang == 'en'){
+    if($num_lang == 0){
       $name = "supplier.name_En AS name";
     }else{
       $name = "supplier.name_Th  AS name";
@@ -353,8 +355,8 @@ function show_siteDetail($conn){
 
   $id = $_POST["id"];
   $lang = $_SESSION['lang'];
-
-  if($lang == 'en'){
+  $num_lang = $_POST['num_lang'];
+  if($num_lang == 0){
     $name = "site.HptName AS name";
   }else{
     $name = "site.HptNameTH  AS name";
@@ -530,10 +532,10 @@ function checkSupplier($conn)
 
 function showSupplierAdd($conn)
 {
+  $chk_lang = $_POST["chk_lang"];
+  
 
-  $lang = $_SESSION['lang'];
-
-  if($lang == 'en'){
+  if($chk_lang == 0){
     $name = "supplier.name_En AS name";
   }else{
     $name = "supplier.name_Th  AS name";
@@ -558,10 +560,9 @@ function showSupplierAdd($conn)
 
 function showSiteAdd($conn)
 {
-
-  $lang = $_SESSION['lang'];
-
-  if($lang == 'en'){
+  $chk_lang = $_POST["chk_lang"];
+ 
+  if($chk_lang == 0){
     $name = "site.HptName AS name";
   }else{
     $name = "site.HptNameTH  AS name";
@@ -649,6 +650,7 @@ function showimg($conn)
 function saveData_detail($conn)
 {
   $txtDiscription = $_POST['txtDiscription'];
+  $txtDiscription_EN = $_POST['txtDiscription_EN'];
   $txtItemName = $_POST['txtItemName'];
   $typelinen_detail = $_POST['typelinen_detail'];
   $txtItemId = $_POST['txtItemId'];
@@ -659,7 +661,7 @@ function saveData_detail($conn)
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
 
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , itemCategoryName = '$txtItemName', itemCategoryNameEn = '$txtItemNameEn', IsActive = '$activecatalog'  WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , discription_EN = '$txtDiscription_EN' , itemCategoryName = '$txtItemName', itemCategoryNameEn = '$txtItemNameEn', IsActive = '$activecatalog'  WHERE itemcatalog.id = '$txtItemId' ";
 
   mysqli_query($conn, $Sql);
 

@@ -33,10 +33,11 @@ $array2 = json_decode($json2, TRUE);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
   <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
@@ -154,10 +155,16 @@ $array2 = json_decode($json2, TRUE);
       float: left;
       text-align: center;
     }
+
+    .f_size{
+      font-size: 22px;
+    }
+
   </style>
 </head>
 
 <body id="page-top">
+
   <ol class="breadcrumb">
 
     <li class="breadcrumb-item"><a href="javascript:void(0)"><?php echo $array2['menu']['system']['title'][$language]; ?></a></li>
@@ -237,9 +244,14 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-12">
                   <div class="card" style="min-height: 100px;">
                     <div class="form-group px-3">
+                        <div style="float: right;margin-top: 1.5%;margin-bottom: 3%;" >
+                          <input type="checkbox"  data-toggle="toggle" data-width="70" data-on="TH" data-off="EN" onchange="chk_lang();" id="chk_lang">
+                        </div>
                       <h3 for="exampleInputEmail1">Description</h3>
-                      <input type="text" id="txt_Description" class="form-control" id="Description-test" aria-describedby="emailHelp" placeholder="Description">
+                      <input type="text"  id="txt_Description_TH" class="form-control f_size thonly" id="Description-test" aria-describedby="emailHelp" placeholder="Description TH">
+                      <input type="text"  id="txt_Description_EN" class="form-control f_size enonly" id="Description-test" aria-describedby="emailHelp" placeholder="Description EN">
                       <input type="text" id="txt_ID" class="form-control" id="Description-test" aria-describedby="emailHelp" hidden>
+                      <input type="text" id="num_lang" class="form-control" id="Description-test" aria-describedby="emailHelp" hidden>
                     </div>
                   </div>
                 </div>
@@ -249,28 +261,28 @@ $array2 = json_decode($json2, TRUE);
                       <h3>
                         Product Informailon
                       </h3>
-                      <div class="form-group row">
+                      <div class="form-group row" id="div_nameTH">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Product Name TH :</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" placeholder="Product Name TH" id="txt_NameTh">
+                          <input type="text" class="form-control f_size thonly" placeholder="Product Name TH" id="txt_NameTh">
                         </div>
                       </div>
-                      <div class="form-group row">
+                      <div class="form-group row" id="div_nameEH">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Product Name EN :</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" placeholder="Product Name EN" id="txt_NameEn">
+                          <input type="text" class="form-control f_size enonly" placeholder="Product Name EN" id="txt_NameEn">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Type Linen :</label>
                         <div class="col-sm-9">
-                          <select type="text" class="form-control" id="typelinen_detail"></select>
+                          <select type="text" class="form-control f_size" id="typelinen_detail"></select>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Color/Size :</label>
                         <div class="col-sm-9">
-                          <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
+                          <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info f_size"></i></button>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -295,7 +307,7 @@ $array2 = json_decode($json2, TRUE);
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
                         <div class="col-sm-9">
-                          <select type="text" class="form-control" id="supplier_detail"></select>
+                          <select type="text" class="form-control f_size" id="supplier_detail"></select>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -307,7 +319,7 @@ $array2 = json_decode($json2, TRUE);
                       <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
                         <div class="col-sm-9">
-                          <select type="text" class="form-control" id="site_detail"></select>
+                          <select type="text" class="form-control f_size" id="site_detail"></select>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -534,9 +546,8 @@ $array2 = json_decode($json2, TRUE);
 
 
       <?php include_once('../assets/import/js.php'); ?>
+      <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
-
-
       <script type="text/javascript">
         $(document).ready(function(e) {
 
@@ -547,7 +558,18 @@ $array2 = json_decode($json2, TRUE);
           var drEventTwo = $('#imageTwo').dropify();
           var drEventThree = $('#imageThree').dropify();
 
+          var language = '<?php echo $language; ?>';
 
+          if(language=="th"){
+           
+            $('#chk_lang').prop('checked', true).change();
+            var chklang =1;
+            $("#num_lang").val(1);
+          }else{
+            $('#chk_lang').prop('checked', false).change();
+            var chklang =0;
+            $("#num_lang").val(0);
+          }
 
           $('#color-picker').spectrum({
             type: "component"
@@ -556,24 +578,26 @@ $array2 = json_decode($json2, TRUE);
           $('#div_bt_edit').hide();
 
 
-          get_typelinen();
+          get_typelinen(chklang);
           setTimeout(() => {
             showData();
             showMasterColor();
-            showSupplierAdd();
-            showSiteAdd();
+            showSupplierAdd(chklang);
+            showSiteAdd(chklang);
           }, 200);
 
           $("#detail-tab").click(function() {
             $('#div_btSave').hide();
 
-            $('#txt_Description').val("");
+            $('#txt_Description_TH').val("");
+            $('#txt_Description_EN').val("");
             $('#txt_NameTh').val("");
             $('#txt_NameEn').val("");
+            
             $('#typelinen_detail').val("");
             $("#activecatalog").prop("checked", false);
             $('#txt_ID').val(0);
-
+            
             document.getElementById("show_img1").src = "../img/icon/no-image.jpg";
             document.getElementById("show_img2").src = "../img/icon/no-image.jpg";
             document.getElementById("show_img3").src = "../img/icon/no-image.jpg";
@@ -666,12 +690,13 @@ $array2 = json_decode($json2, TRUE);
         });
 
 
-        function get_typelinen() {
+        function get_typelinen(chk_lang) {
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
             data: {
-              'FUNC_NAME': 'get_typelinen'
+              'FUNC_NAME': 'get_typelinen',
+              'chk_lang':chk_lang
             },
             success: function(result) {
               $("#input_typeline").empty();
@@ -843,7 +868,7 @@ $array2 = json_decode($json2, TRUE);
         }
 
         function edit_Detail(id) {
-
+         var num_lang = $("#num_lang").val();
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -861,7 +886,8 @@ $array2 = json_decode($json2, TRUE);
                   $('#detail-tab').tab('show');
                   $('#div_btSave').show();
 
-                  $("#txt_Description").val(value.discription);
+                  $("#txt_Description_TH").val(value.discription);
+                  $('#txt_Description_EN').val(value.discription_EN);
                   $("#txt_ID").val(value.id);
                   $("#txt_NameTh").val(value.itemCategoryName);
                   $("#txt_NameEn").val(value.itemCategoryNameEn);
@@ -876,8 +902,8 @@ $array2 = json_decode($json2, TRUE);
 
                   show_colorDetail(value.id);
                   show_SizeDetail(value.id);
-                  show_supplierDetail(value.id);
-                  show_siteDetail(value.id);
+                  show_supplierDetail(value.id,num_lang);
+                  show_siteDetail(value.id,num_lang);
                   showimg(value.id);
                   $("#id_img1").prop("checked", true);
 
@@ -967,13 +993,14 @@ $array2 = json_decode($json2, TRUE);
           });
         }
 
-        function show_supplierDetail(id) {
+        function show_supplierDetail(id,num_lang) {
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
             data: {
               'FUNC_NAME': 'show_supplierDetail',
-              'id': id
+              'id': id,
+              'num_lang':num_lang
             },
             success: function(result) {
 
@@ -995,13 +1022,14 @@ $array2 = json_decode($json2, TRUE);
           });
         }
 
-        function show_siteDetail(id) {
+        function show_siteDetail(id,num_lang) {
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
             data: {
               'FUNC_NAME': 'show_siteDetail',
-              'id': id
+              'id': id,
+              'num_lang':num_lang
             },
             success: function(result) {
 
@@ -1292,12 +1320,13 @@ $array2 = json_decode($json2, TRUE);
           });
         }
 
-        function showSupplierAdd() {
+        function showSupplierAdd(chk_lang) {
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
             data: {
               'FUNC_NAME': 'showSupplierAdd',
+              'chk_lang': chk_lang
             },
             success: function(result) {
               var ObjData = JSON.parse(result);
@@ -1318,6 +1347,7 @@ $array2 = json_decode($json2, TRUE);
         }
 
         function checkSupplier() {
+          var num_lang = $("#num_lang").val();
           var SupplierArray = [];
           var txtItemId = $("#txt_ID").val();
           $(".mySupplier:checked").each(function() {
@@ -1341,7 +1371,7 @@ $array2 = json_decode($json2, TRUE);
                 timer: 1500,
               });
 
-              show_supplierDetail(txtItemId);
+              show_supplierDetail(txtItemId,num_lang);
             }
           });
 
@@ -1414,12 +1444,13 @@ $array2 = json_decode($json2, TRUE);
           });
         }
 
-        function showSiteAdd() {
+        function showSiteAdd(chk_lang) {
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
             data: {
               'FUNC_NAME': 'showSiteAdd',
+              'chk_lang': chk_lang
             },
             success: function(result) {
               var ObjData = JSON.parse(result);
@@ -1601,7 +1632,8 @@ $array2 = json_decode($json2, TRUE);
           var data_imageTwo = $('#imageTwo').data('value');
           var data_imageThree = $('#imageThree').data('value');
           var typelinen_detail = $("#typelinen_detail").val();
-          var txtDiscription = $("#txt_Description").val();
+          var txtDiscription = $("#txt_Description_TH").val();
+          var txtDiscription_EN = $("#txt_Description_EN").val();
 
           var checkBox = document.getElementById("activecatalog");
 
@@ -1660,11 +1692,27 @@ $array2 = json_decode($json2, TRUE);
               showConfirmButton: false,
               timer: 1500,
             });
-            $("#txt_Description").addClass("border-danger");
+            $("#txt_Description_TH").addClass("border-danger");
             // $("#alert_txtDiscription").show();
             return;
           } else {
-            $("#txt_Description").removeClass("border-danger");
+            $("#txt_Description_TH").removeClass("border-danger");
+          }
+
+          if (txtDiscription_EN == "") {
+            swal({
+              title: '',
+              text: 'กรุณาระบุรายการ',
+              type: 'warning',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            $("#txt_Description_EN").addClass("border-danger");
+            // $("#alert_txtDiscription").show();
+            return;
+          } else {
+            $("#txt_Description_EN").removeClass("border-danger");
           }
 
 
@@ -1682,7 +1730,8 @@ $array2 = json_decode($json2, TRUE);
           form_data.append('txtItemId', txtItemId);
           form_data.append('activecatalog', activecatalog);
           form_data.append('txtItemNameEn', txt_NameEn);
-
+          form_data.append('txtDiscription_EN', txtDiscription_EN);
+          
 
           $.ajax({
             url: "../process/catalogmanagement.php",
@@ -1711,6 +1760,46 @@ $array2 = json_decode($json2, TRUE);
 
             }
           });
+
+        }
+
+        function chk_lang(){
+          var chk_lang = $("#chk_lang").prop('checked');
+          
+          var txt_ID = $("#txt_ID").val();
+
+          if (chk_lang == true) {
+            
+            $("#num_lang").val(1);
+            $("#txt_Description_TH").show();
+            $("#txt_Description_EN").hide();
+
+            $("#div_nameTH").show();
+            $("#div_nameEH").hide();
+
+            showSupplierAdd(1);
+            showSiteAdd(1);
+            get_typelinen(1);
+
+            show_supplierDetail(txt_ID,1);
+            show_siteDetail(txt_ID,1);
+           
+          }else{
+            $("#num_lang").val(0);
+            $("#txt_Description_TH").hide();
+            $("#txt_Description_EN").show();
+
+            $("#div_nameTH").hide();
+            $("#div_nameEH").show();
+
+            showSupplierAdd(0);
+            showSiteAdd(0);
+            get_typelinen(0);
+
+            show_supplierDetail(txt_ID,0);
+            show_siteDetail(txt_ID,0);
+           
+          }
 
         }
 
