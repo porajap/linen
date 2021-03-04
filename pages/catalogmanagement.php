@@ -161,7 +161,7 @@ $array2 = json_decode($json2, TRUE);
     }
 
     .dropify-wrapper {
-      height: 380px;
+      height: 100%;
     }
 
   </style>
@@ -191,12 +191,15 @@ $array2 = json_decode($json2, TRUE);
           <li class="nav-item">
             <a class="nav-link" id="banner-tab" data-toggle="tab" href="#banner" role="tab" aria-controls="banner" aria-selected="false">Banner Header</a>
           </li>
-          <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
+          <li class="nav-item">
+            <a class="nav-link" id="storc_location-tab" data-toggle="tab" href="#storc_location" role="tab" aria-controls="storc_location" aria-selected="false">Storc Location</a>
+          </li>
+        </ul>
+        <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
             <button type="button" id="btSave" style="width: 180px;height: 80%;" class="btn btn-outline-success" onclick="saveData_detail();">
               <p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p>
             </button>
           </div>
-        </ul>
 
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -338,7 +341,7 @@ $array2 = json_decode($json2, TRUE);
 
               </div>
               <div class="col-6">
-                <div class="card" style="min-height: 700px;">
+                <div class="card" style="min-height: 848px;">
                   <div class="card-body">
                     <h3>Product Image</h3>
                     <div class="col-12" style="min-height: 515px;">
@@ -349,7 +352,7 @@ $array2 = json_decode($json2, TRUE);
                       </div>
                     </div>
                     <h3>Other Image</h3>
-                    <div class="row">
+                    <div class="row"  style="height: 180px;">
                       <div class="col-4">
                         <input type="file" id="imageOne" accept="image/x-png,image/gif,image/jpeg" class="dropify">
                         <center>
@@ -380,7 +383,7 @@ $array2 = json_decode($json2, TRUE);
               <div class="col">
                 <div class="card" style="min-height: 700px;">
                   <div class="card-body">
-                    <div style="float: right;width: 12%;">
+                    <div style="float: right;width: 165px;">
                       <button type="button" id="btSave_banner" style="width: 100%;height: 55px;"  class="btn btn-outline-success btn-lg"  onclick="save_banner();"> <label class="radio" style="margin-top:1px;width: 10%;font-size:35px;padding-left: 52px;"><?php echo $array['save'][$language]; ?></label></button>
                     </div>
                     
@@ -388,22 +391,22 @@ $array2 = json_decode($json2, TRUE);
                     <div >
                       <div class="col-11">
                         <label class="radio" style="margin-top:7px;width: 10%;">Banner 1</label>
-                        <div style="margin-left:5%;">
-                          <input type="file" id="bannerOne" accept="image/x-png,image/gif,image/jpeg" class="dropify" >
+                        <div style="margin-left:5%;height: 385px;">
+                          <input type="file" id="bannerOne" accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="500" >
                         </div>
                       </div><br>
 
                       <div class="col-11">
                         <label class="radio" style="margin-top:7px;width: 10%;">Banner 2</label>
-                        <div style="margin-left:5%;">
-                          <input type="file" id="bannerTwo" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                        <div style="margin-left:5%;height: 385px;">
+                          <input type="file" id="bannerTwo"  accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="500">
                         </div >
                       </div><br>
 
                       <div class="col-11">
                         <label class="radio" style="margin-top:7px;width: 10%;">Banner 3</label>
-                        <div style="margin-left:5%;">
-                          <input type="file" id="bannerThree" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                        <div style="margin-left:5%;height: 385px;">
+                          <input type="file" id="bannerThree"  accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="500">
                         </div>
                       </div>
 
@@ -414,6 +417,155 @@ $array2 = json_decode($json2, TRUE);
             </div>
           </div>
 <!-- ==========================END Tab 3=========================================================================================================== -->
+          <div class="tab-pane fade" id="storc_location" role="tabpanel" aria-labelledby="storc_location-tab">
+            <div id="content-wrapper">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="container-fluid">
+                    <div class="card-body" style="padding:0px; margin-top:-12px;">
+                      <div class="row">
+                        <div class="col-md-8 off-set-10">
+                          <div class="row" style="margin-left:5px;">
+                            <!-- <select class="form-control col-md-4 " id="selectSite" style="font-size:22px;" onchange="changeSite('top')">
+                            </select> -->
+                            <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;">
+                            <div class="search_custom col-md-2">
+                              <div class="search_1 d-flex justify-content-start">
+                                <button class="btn" onclick="showData()" id="bSave">
+                                  <i class="fas fa-search mr-2"></i>
+                                  <?php echo $array['search'][$language]; ?>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row mt-2">
+                        <div class="col-12">
+                          <table class="table table-fixed table-condensed table-striped mt-3" id="tableDocument" width="100%" cellspacing="0" role="grid">
+                            <thead id="theadsum" style="font-size:24px;">
+                              <tr role="row" id='tr_1'>
+                                <th nowrap style="width:10%"><br></th>
+                                <th nowrap style="width:20%">ลำดับ</th>
+                                <th nowrap style="width:23.3%">ชื่อบริษัทภาษาอังกฤษ</th>
+                                <th nowrap style="width:23.3%">ชื่อบริษัทภาษาไทย</th>
+                                <th nowrap style="width:23.3%">เบอร์โทรศัพท์</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
+                        <div class="menu mhee">
+                          <div class="d-flex justify-content-center">
+                            <div class="circle4 d-flex justify-content-center">
+                              <button class="btn" onclick="saveData()" id="bSave">
+                                <i class="fas fa-save"></i>
+                                <div>
+                                  <?php echo $array['save'][$language]; ?>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="menu mhee">
+                          <div class="d-flex justify-content-center">
+                            <div class="circle6 d-flex justify-content-center">
+                              <button class="btn" onclick="cleartxt()" id="bDelete">
+                                <i class="fas fa-redo-alt"></i>
+                                <div>
+                                  <?php echo $array['clear'][$language]; ?>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="menu ">
+                          <div class="d-flex justify-content-center">
+                            <div class="circle3 d-flex justify-content-center opacity" id="cancelIcon">
+                              <button class="btn" onclick="deleteData()" id="bCancel" disabled>
+                                <i class="fas fa-trash-alt"></i>
+                                <div>
+                                  <?php echo $array['cancel'][$language]; ?>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                            <?php echo $array['detail'][$language]; ?></a>
+                        </li>
+                      </ul>
+
+                      <div class="row mt-4">
+                        <div class="col-md-6">
+                          <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label ">ลำดับ</label>
+                            <input id="txtNumber" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label ">เบอร์โทรศัพท์</label>
+                            <input id="txtPhoneNumber" type="text" autocomplete="off" class="form-control col-sm-7 numonly" style="font-size:22px;">
+                            <label id="alert_txtPhoneNumber" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-6">
+                          <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                            <select class="form-control col-sm-7" id="selectSiteLow" style="font-size:22px;" onchange="changeSite('low')"></select>
+                            <label id="alert_selectSiteLow" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                          </div>
+                        </div> -->
+                      </div>
+
+                      <div class="row ">
+                        <div class="col-md-6">
+                          <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label ">ชื่อบริษัทภาษาอังกฤษ</label>
+                            <input id="txtNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
+                            <label id="alert_txtNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label ">ที่อยู่</label>
+                            <input id="txtAddress" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                            <label id="alert_txtAddress" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label ">ชื่อบริษัทภาษาไทย</label>
+                            <input id="txtNameTh" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
+                            <label id="alert_txtNameTh" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                          </div>
+                        </div>
+
+                      </div>
+
+
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- ==========================END Tab 4=========================================================================================================== -->
         </div>
       </div>
 
@@ -690,6 +842,7 @@ $array2 = json_decode($json2, TRUE);
           $("#banner-tab").click(function() {
             $('#div_btSave').hide();
             show_banner();
+           
           });
 
 
@@ -751,7 +904,7 @@ $array2 = json_decode($json2, TRUE);
           });
 
 
-
+         
 
         }).click(function(e) {
           parent.afk();
