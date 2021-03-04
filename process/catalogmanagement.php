@@ -50,6 +50,10 @@ if (!empty($_POST['FUNC_NAME'])) {
     saveData_detail($conn);
   }else  if ($_POST['FUNC_NAME'] == 'showColorDetail_size') {
     showColorDetail_size($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_banner') {
+    show_banner($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'save_banner') {
+    save_banner($conn);
   }
   
 }
@@ -84,13 +88,13 @@ function showData($conn)
             itemcatalog.itemCategoryName LIKE '$txtSearch%'
          
           ";
-$count_i=0;
+  $count_i=0;
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
   $id = $Result['id'];
 
-//----------------------------color_detail-----------------------------------------
+  //----------------------------color_detail-----------------------------------------
       $Sql_color = "SELECT
                       multicolor.color_detail
                     FROM
@@ -103,7 +107,7 @@ $count_i=0;
       while ($Result_color = mysqli_fetch_assoc($meQuery_color)) {
         $return['color_c'][$id][] = $Result_color;
       }
-//----------------------------size_detail-----------------------------------------
+  //----------------------------size_detail-----------------------------------------
       $Sql_size = "SELECT
                       multicolor.itemsize
                     FROM
@@ -129,7 +133,7 @@ $count_i=0;
           $count_size++;
         }
         $return['size'][$id][] = $itemsize;
-//---------------------------------------------------------------------
+  //---------------------------------------------------------------------
 
     $return['item'][] = $Result;
     $count_i++;
@@ -634,7 +638,30 @@ function showimg($conn)
             itemcatalog.imageThree
           FROM
             itemcatalog
-            WHERE itemcatalog.id='$id' ";
+            WHERE itemcatalog.id='$id' 
+          ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_banner($conn)
+{
+  $id = $_POST["id"];
+
+  $count = 0;
+  $Sql = "SELECT
+            banner.bannerOne, 
+            banner.bannerTwo, 
+            banner.bannerThree
+          FROM banner
+          ORDER BY banner.row ASC LIMIT 1";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
@@ -849,4 +876,174 @@ function showColorDetail_size($conn)
   echo json_encode($return);
   unset($conn);
   die;
+}
+
+
+function save_banner($conn)
+{
+
+  $data_bannerOne = $_POST['data_bannerOne'];
+  $data_bannerTwo = $_POST['data_bannerTwo'];
+  $data_bannerThree = $_POST['data_bannerThree'];
+
+  $Sql = "SELECT 
+            banner.row,
+            ROUND((37384 - 1231 * RAND()), 0) AS random_new,
+            banner.bannerOne,
+            banner.bannerTwo,
+            banner.bannerThree
+          FROM banner
+          ORDER BY banner.row ASC LIMIT 1
+          ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  $Result = mysqli_fetch_assoc($meQuery);
+  $bannerId = $Result['row'];
+  $random_new = $Result['random_new'];
+  $bannerOne = $Result['bannerOne']==null?"":$Result['bannerOne'];
+  $bannerTwo = $Result['bannerTwo']==null?"":$Result['bannerTwo'];
+  $bannerThree = $Result['bannerThree']==null?"":$Result['bannerThree'];
+
+
+  $banner1 = $bannerId . "-1" .".jpg";
+  $banner2 = $bannerId . "-2" .".jpg";
+  $banner3 = $bannerId . "-3" .".jpg";
+
+  $banner1_now = $bannerId . "-1_" . $random_new. ".jpg";
+  $banner2_now = $bannerId . "-2_" . $random_new. ".jpg";
+  $banner3_now = $bannerId . "-3_" . $random_new. ".jpg";
+
+
+
+  $banner1 = $bannerId . "-1". ".jpg";
+  $banner2 = $bannerId . "-2". ".jpg";
+  $banner3 = $bannerId . "-3". ".jpg";
+
+  include("gen_thumbnail.php");
+
+  if ($_FILES['bannerOne'] != "") {
+    if($bannerOne != ""){
+      unlink('../profile/banner/' . $bannerOne);
+    }
+    copy($_FILES['bannerOne']['tmp_name'], '../profile/banner/' . $banner1_now);
+
+    $Sql = "UPDATE banner SET banner.bannerOne='$banner1_now'  WHERE banner.row = '$bannerId';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/banner/" . $banner1_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/banner/" . $banner1_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 1900,         //  กำหนดความกว้างรูปใหม่
+      "height" => 600,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_bannerOne == "default") {
+
+      if($bannerOne != ""){
+        unlink('../profile/banner/' . $bannerOne);
+      }
+
+      $Sql = "UPDATE banner SET banner.bannerOne=null  WHERE banner.row = '$bannerId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
+
+  if ($_FILES['bannerTwo'] != "") {
+   if($bannerTwo != ""){
+      unlink('../profile/banner/' . $bannerTwo);
+    }
+    copy($_FILES['bannerTwo']['tmp_name'], '../profile/banner/' . $banner2_now);
+
+    $Sql = "UPDATE banner SET banner.bannerTwo='$banner2_now' WHERE banner.row = '$bannerId';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/banner/" . $banner2_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/banner/" . $banner2_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 1900,         //  กำหนดความกว้างรูปใหม่
+      "height" => 600,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_bannerTwo == "default") {
+
+      if($bannerTwo != ""){
+        unlink('../profile/banner/' . $bannerTwo);
+      }
+      
+      $Sql = "UPDATE banner SET banner.bannerTwo=null  WHERE banner.row = '$bannerId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
+
+  if ($_FILES['bannerThree'] != "") {
+    if($bannerThree != ""){
+      unlink('../profile/banner/' . $bannerThree);
+    }
+    copy($_FILES['bannerThree']['tmp_name'], '../profile/banner/' . $banner3_now);
+
+    $Sql = "UPDATE banner SET banner.bannerThree='$banner3_now' WHERE banner.row = '$bannerId';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/banner/" . $banner3_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/banner/" . $banner3_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 1900,         //  กำหนดความกว้างรูปใหม่
+      "height" => 600,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_bannerThree == "default") {
+      if($bannerThree != ""){
+        unlink('../profile/banner/' . $bannerThree);
+      }
+
+      $Sql = "UPDATE banner SET banner.bannerThree=null  WHERE banner.row = '$bannerId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
+
+  $return[] = $bannerId;
+  echo json_encode($return);
+  mysqli_close($conn);
 }

@@ -160,6 +160,10 @@ $array2 = json_decode($json2, TRUE);
       font-size: 22px;
     }
 
+    .dropify-wrapper {
+      height: 380px;
+    }
+
   </style>
 </head>
 
@@ -181,11 +185,11 @@ $array2 = json_decode($json2, TRUE);
           <li class="nav-item">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Catalog Management</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
-          </li> -->
           <li class="nav-item">
             <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="banner-tab" data-toggle="tab" href="#banner" role="tab" aria-controls="banner" aria-selected="false">Banner Header</a>
           </li>
           <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
             <button type="button" id="btSave" style="width: 180px;height: 80%;" class="btn btn-outline-success" onclick="saveData_detail();">
@@ -371,6 +375,45 @@ $array2 = json_decode($json2, TRUE);
             </div>
           </div>
  <!-- ==========================END Tab 2=========================================================================================================== -->
+          <div class="tab-pane fade" id="banner" role="tabpanel" aria-labelledby="banner-tab">
+            <div class="row mt-2">          
+              <div class="col">
+                <div class="card" style="min-height: 700px;">
+                  <div class="card-body">
+                    <div style="float: right;width: 12%;">
+                      <button type="button" id="btSave_banner" style="width: 100%;height: 55px;"  class="btn btn-outline-success btn-lg"  onclick="save_banner();"> <label class="radio" style="margin-top:1px;width: 10%;font-size:35px;padding-left: 52px;"><?php echo $array['save'][$language]; ?></label></button>
+                    </div>
+                    
+                    <h2 style="font-weight: bold;">Banner Image</h2>
+                    <div >
+                      <div class="col-11">
+                        <label class="radio" style="margin-top:7px;width: 10%;">Banner 1</label>
+                        <div style="margin-left:5%;">
+                          <input type="file" id="bannerOne" accept="image/x-png,image/gif,image/jpeg" class="dropify" >
+                        </div>
+                      </div><br>
+
+                      <div class="col-11">
+                        <label class="radio" style="margin-top:7px;width: 10%;">Banner 2</label>
+                        <div style="margin-left:5%;">
+                          <input type="file" id="bannerTwo" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                        </div >
+                      </div><br>
+
+                      <div class="col-11">
+                        <label class="radio" style="margin-top:7px;width: 10%;">Banner 3</label>
+                        <div style="margin-left:5%;">
+                          <input type="file" id="bannerThree" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- ==========================END Tab 3=========================================================================================================== -->
         </div>
       </div>
 
@@ -644,6 +687,14 @@ $array2 = json_decode($json2, TRUE);
             $('#div_btSave').hide();
           });
 
+          $("#banner-tab").click(function() {
+            $('#div_btSave').hide();
+            show_banner();
+          });
+
+
+         
+
 
 
           $('.numonly').on('input', function() {
@@ -678,6 +729,25 @@ $array2 = json_decode($json2, TRUE);
           drEventThree.on('dropify.afterClear ', function(event, element) {
             $('#imageThree').data("value", "default");
             document.getElementById("show_img3").src = "../img/icon/no-image.jpg";
+          });
+
+
+          //---------------banner-------------------------------------------------------------------------
+
+          var drEventbanner = $('#bannerOne').dropify();
+          var drEventbannerTwo = $('#bannerTwo').dropify();
+          var drEventbannerThree = $('#bannerThree').dropify();
+
+          drEventbanner.on('dropify.afterClear ', function(event, element) {
+            $('#bannerOne').data("value", "default");
+          });
+
+          drEventbannerTwo.on('dropify.afterClear ', function(event, element) {
+            $('#bannerTwo').data("value", "default");
+          });
+
+          drEventbannerThree.on('dropify.afterClear ', function(event, element) {
+            $('#bannerThree').data("value", "default");
           });
 
 
@@ -1813,6 +1883,132 @@ $array2 = json_decode($json2, TRUE);
 
         }
 
+        function show_banner() {
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_banner'
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(kay, value) {
+                  var bannerOne = `${"../profile/banner/"+value.bannerOne}`;
+                  var bannerTwo = `${"../profile/banner/"+value.bannerTwo}`;
+                  var bannerThree = `${"../profile/banner/"+value.bannerThree}`;
+
+                  //--------------------------------------------------------------------------
+
+
+
+                  //--------------------------------------------------------------------------
+
+                  $(".dropify-clear").click();
+                  if (bannerOne != "../profile/banner/null") {
+
+                    var drEvent = $('#bannerOne').dropify({
+                      defaultFile: bannerOne
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = bannerOne;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  if (bannerTwo != "../profile/banner/null") {
+                    var drEvent = $('#bannerTwo').dropify({
+                      defaultFile: bannerTwo
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = bannerTwo;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  if (bannerThree != "../profile/banner/null") {
+                    var drEvent = $('#bannerThree').dropify({
+                      defaultFile: bannerThree
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = bannerThree;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  setTimeout(() => {
+                    $('#bannerOne').data("value", bannerOne);
+                    $('#bannerTwo').data("value", bannerTwo);
+                    $('#bannerThree').data("value", bannerThree);
+                  }, 300);
+
+
+                });
+              }
+
+
+
+            }
+          });
+        }
+
+        function save_banner(){
+          
+          var form_data = new FormData();
+          var bannerOne = $('#bannerOne').prop('files')[0];
+          var bannerTwo = $('#bannerTwo').prop('files')[0];
+          var bannerThree = $('#bannerThree').prop('files')[0];
+          var data_bannerOne = $('#bannerOne').data('value');
+          var data_bannerTwo = $('#bannerTwo').data('value');
+          var data_bannerThree = $('#bannerThree').data('value');
+
+          form_data.append('FUNC_NAME', 'save_banner');
+          form_data.append('bannerOne', bannerOne);
+          form_data.append('bannerTwo', bannerTwo);
+          form_data.append('bannerThree', bannerThree);
+          form_data.append('data_bannerOne', data_bannerOne);
+          form_data.append('data_bannerTwo', data_bannerTwo);
+          form_data.append('data_bannerThree', data_bannerThree);
+       
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              $("#txtItemId").val(ObjData);
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+              setTimeout(() => {
+                show_banner();
+              }, 500);
+
+            }
+          });
+        }
         //------------------------------------------------------------------------------------------------
         function currentDiv(n) {
           showDivs(slideIndex = n);
