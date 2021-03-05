@@ -192,11 +192,11 @@ $array2 = json_decode($json2, TRUE);
             <a class="nav-link" id="banner-tab" data-toggle="tab" href="#banner" role="tab" aria-controls="banner" aria-selected="false">Banner Header</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="storc_location-tab" data-toggle="tab" href="#storc_location" role="tab" aria-controls="storc_location" aria-selected="false">Storc Location</a>
+            <a class="nav-link" id="store_location-tab" data-toggle="tab" href="#store_location" role="tab" aria-controls="store_location" aria-selected="false">Store Location</a>
           </li>
         </ul>
-        <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
-            <button type="button" id="btSave" style="width: 180px;height: 80%;" class="btn btn-outline-success" onclick="saveData_detail();">
+        <div id="div_btSave" style="margin-top: -50px;float: right;">
+            <button type="button" id="btSave" style="width: 160px;height: 40px;" class="btn btn-outline-success" onclick="saveData_detail();">
               <p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p>
             </button>
           </div>
@@ -417,18 +417,16 @@ $array2 = json_decode($json2, TRUE);
             </div>
           </div>
 <!-- ==========================END Tab 3=========================================================================================================== -->
-          <div class="tab-pane fade" id="storc_location" role="tabpanel" aria-labelledby="storc_location-tab">
+          <div class="tab-pane fade" id="store_location" role="tabpanel" aria-labelledby="store_location-tab">
             <div id="content-wrapper">
               <div class="row">
                 <div class="col-md-12">
                   <div class="container-fluid">
                     <div class="card-body" style="padding:0px; margin-top:-12px;">
                       <div class="row">
-                        <div class="col-md-8 off-set-10">
-                          <div class="row" style="margin-left:5px;">
-                            <!-- <select class="form-control col-md-4 " id="selectSite" style="font-size:22px;" onchange="changeSite('top')">
-                            </select> -->
-                            <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;">
+                        <div class="col-md-12 off-set-10">
+                          <div class="row" style="margin-left:5px;margin-top:15px;">
+                            <input id="txtSearch_htp" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;" placeholder=" <?php echo $array['Searchitem2'][$language]; ?>">
                             <div class="search_custom col-md-2">
                               <div class="search_1 d-flex justify-content-start">
                                 <button class="btn" onclick="showData()" id="bSave">
@@ -436,21 +434,27 @@ $array2 = json_decode($json2, TRUE);
                                   <?php echo $array['search'][$language]; ?>
                                 </button>
                               </div>
+                              
+                            </div>
+                            <div  style="margin-left: 41%;">
+                              <!-- <input type="checkbox"  data-toggle="toggle" data-width="70" data-on="TH" data-off="EN" onchange="chk_lang_store();" id="chk_lang_store">
+                              <input type="text" id="num_lang_store" class="form-control" id="Description-test" aria-describedby="emailHelp" hidden> -->
                             </div>
                           </div>
                         </div>
+                       
                       </div>
 
                       <div class="row mt-2">
                         <div class="col-12">
-                          <table class="table table-fixed table-condensed table-striped mt-3" id="tableDocument" width="100%" cellspacing="0" role="grid">
+                          <table class="table table-fixed table-condensed table-striped mt-3" id="tableDocument_hpt" width="100%" cellspacing="0" role="grid">
                             <thead id="theadsum" style="font-size:24px;">
                               <tr role="row" id='tr_1'>
-                                <th nowrap style="width:10%"><br></th>
-                                <th nowrap style="width:20%">ลำดับ</th>
-                                <th nowrap style="width:23.3%">ชื่อบริษัทภาษาอังกฤษ</th>
-                                <th nowrap style="width:23.3%">ชื่อบริษัทภาษาไทย</th>
-                                <th nowrap style="width:23.3%">เบอร์โทรศัพท์</th>
+                                <th nowrap style="width:10%;text-align: center;"><br></th>
+                                <th nowrap style="width:10%;text-align: center;"><?php echo $array['no'][$language]; ?></th>
+                                <th nowrap style="width:34%;text-align: left;"><?php echo $array['side'][$language]; ?></th>
+                                <th nowrap style="width:23%;text-align: center;"><?php echo $array['phone'][$language]; ?></th>
+                                <th nowrap style="width:23%;text-align: center;">Active</th>
                               </tr>
                             </thead>
                             <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -508,51 +512,58 @@ $array2 = json_decode($json2, TRUE);
                       <div class="row mt-4">
                         <div class="col-md-6">
                           <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label ">ลำดับ</label>
-                            <input id="txtNumber" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
+                            <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                            <select type="text" class="form-control f_size col-sm-7" id="htp_select"></select>
+
+                            
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label ">เบอร์โทรศัพท์</label>
-                            <input id="txtPhoneNumber" type="text" autocomplete="off" class="form-control col-sm-7 numonly" style="font-size:22px;">
-                            <label id="alert_txtPhoneNumber" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?></label>
+                            <textarea id="txtaddress"  class="form-control col-sm-7" rows="3"  style="font-size:22px;">
+                            </textarea>
+                            <label id="alert_txtaddress" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                           </div>
                         </div>
-                        <!-- <div class="col-md-6">
-                          <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
-                            <select class="form-control col-sm-7" id="selectSiteLow" style="font-size:22px;" onchange="changeSite('low')"></select>
-                            <label id="alert_selectSiteLow" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
-                          </div>
-                        </div> -->
                       </div>
-
+                      
                       <div class="row ">
                         <div class="col-md-6">
                           <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label ">ชื่อบริษัทภาษาอังกฤษ</label>
-                            <input id="txtNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
-                            <label id="alert_txtNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['image'][$language]; ?></label>
+                            <div class="col-md-7" style="height: 400px;">
+                            <input type="file" id="imag_htp" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                            </div>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class='form-group row'>
-                            <label class="col-sm-3 col-form-label ">ที่อยู่</label>
-                            <input id="txtAddress" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
-                            <label id="alert_txtAddress" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['phone'][$language]; ?></label>
+                            <input id="txtphone" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                            <label id="alert_txtphone" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                        
+                            <label class="col-sm-3 col-form-label ">Active</label>
+                            <div class="col-md-6">
+                            <input type="checkbox" value="" id="active_htp">
+                           </div>
+                          
+                         
+                            <label class="col-sm-6 col-form-label "><?php echo $array['officehours'][$language]; ?> :</label>
+                            <!-- <input id="txtphone" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;"> -->
+                         
                           </div>
                         </div>
                       </div>
 
                       <div class="row">
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                           <div class='form-group row'>
                             <label class="col-sm-3 col-form-label ">ชื่อบริษัทภาษาไทย</label>
                             <input id="txtNameTh" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                             <label id="alert_txtNameTh" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                           </div>
-                        </div>
+                        </div> -->
 
                       </div>
 
@@ -755,8 +766,7 @@ $array2 = json_decode($json2, TRUE);
 
           var language = '<?php echo $language; ?>';
 
-          if(language=="th"){
-           
+          if(language=="th"){  
             $('#chk_lang').prop('checked', true).change();
             var chklang =1;
             $("#num_lang").val(1);
@@ -845,7 +855,14 @@ $array2 = json_decode($json2, TRUE);
            
           });
 
+          $("#store_location-tab").click(function() {
+            $('#div_btSave').hide();
+            showData_htp();
+            show_htp();
+            cleartxt();
+          });
 
+          
          
 
 
@@ -904,7 +921,10 @@ $array2 = json_decode($json2, TRUE);
           });
 
 
-         
+          var drEventhtp = $('#imag_htp').dropify();
+          drEventhtp.on('dropify.afterClear ', function(event, element) {
+            $('#imag_htp').data("value", "default");
+          });
 
         }).click(function(e) {
           parent.afk();
@@ -1101,7 +1121,7 @@ $array2 = json_decode($json2, TRUE);
             $("#num_lang").val(0);
           }
 
-        var num_lang = $("#num_lang").val();
+          var num_lang = $("#num_lang").val();
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -2036,6 +2056,8 @@ $array2 = json_decode($json2, TRUE);
 
         }
 
+
+
         function show_banner() {
           $.ajax({
             url: "../process/catalogmanagement.php",
@@ -2162,6 +2184,177 @@ $array2 = json_decode($json2, TRUE);
             }
           });
         }
+
+
+        function showData_htp() {
+          var txtSearch_htp = $("#txtSearch_htp").val();
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'showData_htp',
+              'txtSearch_htp': txtSearch_htp
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              var StrTR = "" ;
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(key, value) {
+
+                  if (value.IsActive == 0) {
+                    var IsActive = "<input type='checkbox' id='IsActive_htp' style='argin-top: 1.5%;' disabled>";
+                  } else {
+                    var IsActive = "<input type='checkbox' id='IsActive_htp' style='argin-top: 1.5%;' checked disabled>";
+                  }
+                  var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classItemName' name='idhtp' id='idhtp_" + key + "' value='" + value.id + "' onclick='show_storeDetail(\"" + value.id + "\")' ><span class='checkmark'></span></label>";
+                  StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
+                    "<td style='width:10%;text-align: center;'><center>"+chkDoc+"</center></td>" +
+                    "<td style='width:10%;text-align: center;'>" + (key + 1) + "</td>" +
+                    "<td style='width:34%;text-align: left;'>" + value.HptName + "</td>" +
+                    "<td style='width:23%;text-align: center;'>" + value.phone + "</td>" +
+                    "<td style='width:23%;text-align: center;'>" + IsActive + "</td>" +
+                    "</tr>";
+                });
+              }
+              $('#tableDocument_hpt tbody').html(StrTR);
+            }
+
+
+          });
+
+        }
+
+        function show_htp(){
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_htp'
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              $("#htp_select").empty();
+              var Str = "";
+
+
+              if (!$.isEmptyObject(ObjData)) {
+                // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+
+                $.each(ObjData, function(key, value) {
+                  Str += "<option value=" + value.id + " >" + value.name + "</option>";
+                });
+              }
+
+              $("#htp_select").append(Str);
+            }
+          });
+        }
+
+        function show_htpDetail(htpcode){
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_htpDetail',
+              'htpcode': htpcode
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              $("#htp_select").empty();
+              var Str = "";
+
+
+              if (!$.isEmptyObject(ObjData)) {
+                // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+
+                $.each(ObjData, function(key, value) {
+                  Str += "<option value=" + value.id + " >" + value.name + "</option>";
+                });
+              }
+
+              $("#htp_select").append(Str);
+            }
+          });
+        }
+
+      function show_storeDetail(id) {
+      
+        $.ajax({
+          url: "../process/catalogmanagement.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'show_storeDetail',
+            'id': id
+          },
+          success: function(result) {
+
+            var ObjData = JSON.parse(result);
+            var myDATA = "";
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+
+                show_htpDetail(value.HptCode)
+
+                $("#txtphone").val(value.phone);
+                $("#txtaddress").val(value.address);
+
+                if (value.IsActive == 0) {
+                    $("#active_htp").prop("checked", false);
+                  } else {
+                    $("#active_htp").prop("checked", true);
+                  }
+                
+                  var imag_htp = `${"../profile/img_store/"+value.image_htp}`;
+
+                  $(".dropify-clear").click();
+                  if (imag_htp != "../profile/img_store/null") {
+
+                    var drEvent = $('#imag_htp').dropify({
+                      defaultFile: imag_htp
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = imag_htp;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  setTimeout(() => {
+                    $('#imag_htp').data("value", imag_htp);
+                  }, 300);
+
+              
+
+              });
+            }
+
+          }
+        });
+      }
+
+      function cleartxt(){
+
+          show_htp();
+          $("#txtphone").val("");
+          $("#txtaddress").val("");
+          $("#active_htp").prop("checked", false);
+          $(".classItemName").prop("checked", false);
+          var drEvent = $('#imag_htp').dropify({
+              defaultFile: null
+            });
+            drEvent = drEvent.data('dropify');
+            drEvent.resetPreview();
+            drEvent.clearElement();
+            drEvent.settings.defaultFile = null;
+            drEvent.destroy();
+            drEvent.init();
+
+      }
         //------------------------------------------------------------------------------------------------
         function currentDiv(n) {
           showDivs(slideIndex = n);

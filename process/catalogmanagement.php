@@ -54,6 +54,14 @@ if (!empty($_POST['FUNC_NAME'])) {
     show_banner($conn);
   }else  if ($_POST['FUNC_NAME'] == 'save_banner') {
     save_banner($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showData_htp') {
+    showData_htp($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_htp') {
+    show_htp($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_htpDetail') {
+    show_htpDetail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_storeDetail') {
+    show_storeDetail($conn);
   }
   
 }
@@ -1046,4 +1054,148 @@ function save_banner($conn)
   $return[] = $bannerId;
   echo json_encode($return);
   mysqli_close($conn);
+}
+
+function showData_htp($conn)
+{
+  $txtSearch_htp = $_POST["txtSearch_htp"];
+  $lang = $_SESSION['lang'];
+  
+ 
+
+  if($lang == "en"){
+    $name = "site.HptName AS HptName";
+  }else{
+    $name = "site.HptNameTH  AS HptName";
+  }
+
+  $Sql = "SELECT
+              store_location.id,
+              store_location.HptCode,
+              store_location.phone,
+              store_location.IsActive,
+              store_location.address,
+              $name
+            FROM
+              store_location
+              INNER JOIN site ON store_location.HptCode = site.HptCode
+              WHERE (site.HptName LIKE '$txtSearch_htp%' OR site.HptNameTH LIKE '$txtSearch_htp%')
+          ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_htp($conn){
+
+  $lang = $_SESSION['lang'];
+
+  if($lang == "en"){
+    $name = "site.HptName AS name";
+    // $name2 = "site.HptName";
+  }else{
+    $name = "site.HptNameTH  AS name";
+    // $name2 = "site.HptNameTH";
+  }
+$count=0;
+  $Sql_htpstore = "SELECT
+                    store_location.HptCode
+                   FROM
+                    store_location
+                    GROUP BY store_location.HptCode
+                  ";
+  $meQuery_htpstore = mysqli_query($conn, $Sql_htpstore);
+  $HptCode="";
+  while ($Result_htpstore = mysqli_fetch_assoc($meQuery_htpstore)) {
+    
+    if($count==0){
+      $t="";
+    }else{
+      $t=",";
+    }
+
+    $HptCode .= $t."'".$Result_htpstore['HptCode']."'";
+    $count++;
+  }
+
+    $Sql = "SELECT
+                site.HptCode, 
+                $name
+              FROM
+                site
+              WHERE site.HptCode NOT IN ($HptCode)
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+ 
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_htpDetail($conn){
+
+  $htpcode = $_POST["htpcode"];
+  $lang = $_SESSION['lang'];
+
+  if($lang == "en"){
+    $name = "site.HptName AS name";
+  }else{
+    $name = "site.HptNameTH  AS name";
+  }
+
+      $Sql = "SELECT
+                site.HptCode, 
+                $name
+              FROM
+                site
+              WHERE site.HptCode ='$htpcode'
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_storeDetail($conn){
+
+  $id = $_POST["id"];
+
+    $Sql = "SELECT
+              store_location.phone,
+              store_location.HptCode,
+              store_location.IsActive,
+              store_location.image_htp,
+              store_location.address
+            FROM
+              store_location
+              INNER JOIN site ON store_location.HptCode = site.HptCode
+              WHERE store_location.id ='$id'
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }

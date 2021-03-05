@@ -74,6 +74,7 @@
 <time2><en>Time</en><th>เวลา</th></time2>
 <Receivetime><en>Receive time</en><th>เวลารับเอกสาร</th></Receivetime>
 <protime><en>Use time</en><th>เวลาที่ใช้</th></protime>
+<officehours><en>Office Hours</en><th>เวลาทำการ</th></officehours>
 <Starttime><en>Start</en><th>เวลาเริ่ม</th></Starttime>
 <tFinish><en>Finish</en><th>เสร็จสิ้น</th></tFinish>
 <departmentcode><en>DepCode</en><th>รหัสแผนก</th></departmentcode>
@@ -403,6 +404,7 @@
 <serchref><en>serchref</en><th>ค้นหาเอกสารอ้างอิง</th></serchref>
 <youlogout><en>Do you want to logout ?</en><th>คุณต้องการออกจากระบบหรือไม่</th></youlogout>
 <formatmonth><en>Format month</en><th>รูปแบบเดือน</th></formatmonth>
+<image><en>Image</en><th>รูปภาพ</th></image>
 <typereport><en>Type Report</en><th>ประเภทเอกสาร : </th></typereport>
 <datefound><en>Format date is Worng!</en><th>รูปแบบวันที่ไม่ถูกต้อง!</th></datefound>
 <spacial><en>Clean</en><th>ผ้าสะอาด</th></spacial>
