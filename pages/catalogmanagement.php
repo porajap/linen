@@ -160,6 +160,10 @@ $array2 = json_decode($json2, TRUE);
       font-size: 22px;
     }
 
+    .dropify-wrapper {
+      height: 100%;
+    }
+
   </style>
 </head>
 
@@ -181,18 +185,21 @@ $array2 = json_decode($json2, TRUE);
           <li class="nav-item">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Catalog Management</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
-          </li> -->
           <li class="nav-item">
             <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false"><?php echo $array['detail'][$language]; ?></a>
           </li>
-          <div id="div_btSave" style="margin-left: 66.5%;margin-top: -10px;">
-            <button type="button" id="btSave" style="width: 180px;height: 80%;" class="btn btn-outline-success" onclick="saveData_detail();">
+          <li class="nav-item">
+            <a class="nav-link" id="banner-tab" data-toggle="tab" href="#banner" role="tab" aria-controls="banner" aria-selected="false">Banner Header</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="store_location-tab" data-toggle="tab" href="#store_location" role="tab" aria-controls="store_location" aria-selected="false">Store Location</a>
+          </li>
+        </ul>
+        <div id="div_btSave" style="margin-top: -50px;float: right;">
+            <button type="button" id="btSave" style="width: 160px;height: 40px;" class="btn btn-outline-success" onclick="saveData_detail();">
               <p style="font-size: 26px;margin-top: 4px;"><?php echo $array['save'][$language]; ?></p>
             </button>
           </div>
-        </ul>
 
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -248,10 +255,10 @@ $array2 = json_decode($json2, TRUE);
                           <input type="checkbox"  data-toggle="toggle" data-width="70" data-on="TH" data-off="EN" onchange="chk_lang();" id="chk_lang">
                         </div>
                       <h3 for="exampleInputEmail1">Description</h3>
-                      <input type="text"  id="txt_Description_TH" class="form-control f_size thonly" id="Description-test" aria-describedby="emailHelp" placeholder="Description TH">
-                      <input type="text"  id="txt_Description_EN" class="form-control f_size enonly" id="Description-test" aria-describedby="emailHelp" placeholder="Description EN">
-                      <input type="text" id="txt_ID" class="form-control" id="Description-test" aria-describedby="emailHelp" hidden>
-                      <input type="text" id="num_lang" class="form-control" id="Description-test" aria-describedby="emailHelp" hidden>
+                      <input type="text"  id="txt_Description_TH" class="form-control f_size thonly" aria-describedby="emailHelp" placeholder="Description TH">
+                      <input type="text"  id="txt_Description_EN" class="form-control f_size enonly" aria-describedby="emailHelp" placeholder="Description EN">
+                      <input type="text" id="txt_ID" class="form-control"  aria-describedby="emailHelp" hidden>
+                      <input type="text" id="num_lang" class="form-control"  aria-describedby="emailHelp" hidden>
                     </div>
                   </div>
                 </div>
@@ -334,7 +341,7 @@ $array2 = json_decode($json2, TRUE);
 
               </div>
               <div class="col-6">
-                <div class="card" style="min-height: 700px;">
+                <div class="card" style="min-height: 848px;">
                   <div class="card-body">
                     <h3>Product Image</h3>
                     <div class="col-12" style="min-height: 515px;">
@@ -345,7 +352,7 @@ $array2 = json_decode($json2, TRUE);
                       </div>
                     </div>
                     <h3>Other Image</h3>
-                    <div class="row">
+                    <div class="row"  style="height: 180px;">
                       <div class="col-4">
                         <input type="file" id="imageOne" accept="image/x-png,image/gif,image/jpeg" class="dropify">
                         <center>
@@ -371,6 +378,210 @@ $array2 = json_decode($json2, TRUE);
             </div>
           </div>
  <!-- ==========================END Tab 2=========================================================================================================== -->
+          <div class="tab-pane fade" id="banner" role="tabpanel" aria-labelledby="banner-tab">
+            <div class="row mt-2">          
+              <div class="col">
+                <div class="card" style="min-height: 700px;">
+                  <div class="card-body">
+                    <div style="float: right;width: 165px;">
+                      <button type="button" id="btSave_banner" style="width: 100%;height: 55px;"  class="btn btn-outline-success btn-lg"  onclick="save_banner();"> <label class="radio" style="margin-top:1px;width: 10%;font-size:35px;padding-left: 52px;"><?php echo $array['save'][$language]; ?></label></button>
+                    </div>
+                    
+                    <h2 style="font-weight: bold;">Banner Image</h2>
+                    <div >
+                      <div class="col-11">
+                        <label class="radio" style="margin-top:7px;width: 10%;">Banner 1</label>
+                        <div style="margin-left:5%;height: 385px;">
+                          <input type="file" id="bannerOne" accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="500" >
+                        </div>
+                      </div><br>
+
+                      <div class="col-11">
+                        <label class="radio" style="margin-top:7px;width: 10%;">Banner 2</label>
+                        <div style="margin-left:5%;height: 385px;">
+                          <input type="file" id="bannerTwo"  accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="500">
+                        </div >
+                      </div><br>
+
+                      <div class="col-11">
+                        <label class="radio" style="margin-top:7px;width: 10%;">Banner 3</label>
+                        <div style="margin-left:5%;height: 385px;">
+                          <input type="file" id="bannerThree"  accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="500">
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- ==========================END Tab 3=========================================================================================================== -->
+          <div class="tab-pane fade" id="store_location" role="tabpanel" aria-labelledby="store_location-tab">
+            <div id="content-wrapper">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="container-fluid">
+                    <div class="card-body" style="padding:0px; margin-top:-12px;">
+                      <div class="row">
+                        <div class="col-md-12 off-set-10">
+                          <div class="row" style="margin-left:5px;margin-top:15px;">
+                            <input id="txtSearch_htp" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;" placeholder=" <?php echo $array['Searchitem2'][$language]; ?>"  onkeyup="showData_htp();">
+                            <input type="text" id="id_store" class="form-control"   hidden>
+                            <input type="text" id="key_row_store" class="form-control"   hidden>
+                              <!-- <div class="search_custom col-md-2">
+                              <div class="search_1 d-flex justify-content-start">
+                                <button class="btn" onclick="showData()" id="bSave">
+                                  <i class="fas fa-search mr-2"></i>
+                                  <?php echo $array['search'][$language]; ?>
+                                </button>
+                              </div>
+                              
+                            </div> -->
+                            <div  style="margin-left: 41%;">
+                           
+                            </div>
+                          </div>
+                        </div>
+                       
+                      </div>
+
+                      <div class="row mt-2">
+                        <div class="col-12">
+                          <table class="table table-fixed table-condensed table-striped mt-3" id="tableDocument_hpt" width="100%" cellspacing="0" role="grid">
+                            <thead id="theadsum" style="font-size:24px;">
+                              <tr role="row" id='tr_1'>
+                                <th nowrap style="width:10%;text-align: center;"><br></th>
+                                <th nowrap style="width:10%;text-align: center;"><?php echo $array['no'][$language]; ?></th>
+                                <th nowrap style="width:34%;text-align: left;"><?php echo $array['side'][$language]; ?></th>
+                                <th nowrap style="width:23%;text-align: center;"><?php echo $array['phone'][$language]; ?></th>
+                                <th nowrap style="width:23%;text-align: center;">Active</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <div class="row col-12 m-1 mt-4 mb-4 d-flex justify-content-end">
+                        <div class="menu mhee">
+                          <div class="d-flex justify-content-center">
+                            <div class="circle4 d-flex justify-content-center">
+                              <button class="btn" onclick="saveData_storeDetail()" id="bSave">
+                                <i class="fas fa-save"></i>
+                                <div>
+                                  <?php echo $array['save'][$language]; ?>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="menu mhee">
+                          <div class="d-flex justify-content-center">
+                            <div class="circle6 d-flex justify-content-center">
+                              <button class="btn" onclick="cleartxt()" id="bDelete">
+                                <i class="fas fa-redo-alt"></i>
+                                <div>
+                                  <?php echo $array['clear'][$language]; ?>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="menu ">
+                          <div class="d-flex justify-content-center">
+                            <div class="circle3 d-flex justify-content-center opacity" id="cancelIcon">
+                              <button class="btn" onclick="delete_storeDetail()" id="bCancel" disabled>
+                                <i class="fas fa-trash-alt"></i>
+                                <div>
+                                  <?php echo $array['cancel'][$language]; ?>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                            <?php echo $array['detail'][$language]; ?></a>
+                        </li>
+                      </ul>
+                      <div class="row mt-4">
+                        <div class="col-6">
+                          <div class="col-12">
+                            <div class='form-group row'>
+                              <label class="col-sm-3 col-form-label "><?php echo $array['side'][$language]; ?></label>
+                              <select type="text" class="form-control f_size col-sm-7" id="htp_select"></select>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                          <div class='form-group row'>
+                            <label class="col-sm-3 col-form-label "><?php echo $array['image'][$language]; ?></label>
+                            <div class="col-md-7" style="height: 400px;">
+                            <input type="file" id="imag_htp" accept="image/x-png,image/gif,image/jpeg" class="dropify">
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="col-12">
+                              <div class='form-group row'>
+                                <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?> TH</label>
+                                <textarea id="txtaddress"  class="form-control col-sm-7 thonly" rows="3"  style="font-size:22px;">
+                                </textarea>
+                                <label id="alert_txtaddress" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class='form-group row'>
+                                <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?> EN</label>
+                                <textarea id="txtaddress_EN"  class="form-control col-sm-7 enonly" rows="3"  style="font-size:22px;">
+                                </textarea>
+                                <label id="alert_txtaddress_EN" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class='form-group row'>
+                                <label class="col-sm-3 col-form-label "><?php echo $array['phone'][$language]; ?></label>
+                                <input id="txtphone" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                                <label id="alert_txtphone" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                            
+                                <label class="col-sm-3 col-form-label ">Active</label>
+                                <div >
+                                  <input type="checkbox" value="" id="active_htp">
+                                </div>
+                              <div>
+                            </div>
+                            <div class="col-12">
+                              <div class='form-group row'>
+                                <label class="col-sm-3 col-form-label "><?php echo $array['officehours'][$language]; ?> :</label>
+                                <button style="background: none;border: none;" data-toggle="modal" onclick="openModalTime();" id="bt_addtime"><i class="fas fa-plus-square text-info f_size"></i></button>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class='form-group row'>
+                                
+                                <label class="col-sm-3 col-form-label ">:</label>
+                                 <div id="div_timestore"></div>
+                                
+                              </div>
+    
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- ==========================END Tab 4=========================================================================================================== -->
         </div>
       </div>
 
@@ -543,6 +754,60 @@ $array2 = json_decode($json2, TRUE);
         </div>
       </div>
 
+      <!-- -----------------------------edit_Office_Hours------------------------------------ -->
+      <div class="modal fade" id="modal_edit_Timestoce" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Office Hours</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             <span style="font-size:30px; " ><?php echo $array['officehours'][$language]; ?></span>
+             <input id="txtTimestoce_edit" type="text" autocomplete="off" class="form-control col-sm-9 " style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?>">
+             <input type="text" id="id_Timestoce" hidden>
+            </div>
+            <div class="modal-footer">
+           
+              <button type="button" style="width:12%;" onclick="save_Timestoce_edit()" id="btn_SaveSite" class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
+              <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- -----------------------------modal_Timestoce------------------------------------ -->
+      <div class="modal fade" id="modal_Timestoce" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Office Hours</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <span style="font-size:30px; " class="ml-4 "><?php echo $array['officehours'][$language]; ?></span>
+              <div class="col-12">
+                <div class='form-group row ml-2'>
+                  <input id="txtTimestoce" type="text" autocomplete="off" class="form-control col-sm-9 " style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?>">
+                <div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" style="width:12%;" onclick="save_Timestoce();" id="btn_Savetime" class="btn btn-success px-2"><?php echo $array['save'][$language]; ?></button>
+              <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  
+
+
 
 
       <?php include_once('../assets/import/js.php'); ?>
@@ -560,8 +825,7 @@ $array2 = json_decode($json2, TRUE);
 
           var language = '<?php echo $language; ?>';
 
-          if(language=="th"){
-           
+          if(language=="th"){  
             $('#chk_lang').prop('checked', true).change();
             var chklang =1;
             $("#num_lang").val(1);
@@ -644,6 +908,22 @@ $array2 = json_decode($json2, TRUE);
             $('#div_btSave').hide();
           });
 
+          $("#banner-tab").click(function() {
+            $('#div_btSave').hide();
+            show_banner();
+           
+          });
+
+          $("#store_location-tab").click(function() {
+            $('#div_btSave').hide();
+            showData_htp();
+            show_htp();
+            cleartxt();
+          });
+
+          
+         
+
 
 
           $('.numonly').on('input', function() {
@@ -681,7 +961,29 @@ $array2 = json_decode($json2, TRUE);
           });
 
 
+          //---------------banner-------------------------------------------------------------------------
 
+          var drEventbanner = $('#bannerOne').dropify();
+          var drEventbannerTwo = $('#bannerTwo').dropify();
+          var drEventbannerThree = $('#bannerThree').dropify();
+
+          drEventbanner.on('dropify.afterClear ', function(event, element) {
+            $('#bannerOne').data("value", "default");
+          });
+
+          drEventbannerTwo.on('dropify.afterClear ', function(event, element) {
+            $('#bannerTwo').data("value", "default");
+          });
+
+          drEventbannerThree.on('dropify.afterClear ', function(event, element) {
+            $('#bannerThree').data("value", "default");
+          });
+
+
+          var drEventhtp = $('#imag_htp').dropify();
+          drEventhtp.on('dropify.afterClear ', function(event, element) {
+            $('#imag_htp').data("value", "default");
+          });
 
         }).click(function(e) {
           parent.afk();
@@ -878,7 +1180,7 @@ $array2 = json_decode($json2, TRUE);
             $("#num_lang").val(0);
           }
 
-        var num_lang = $("#num_lang").val();
+          var num_lang = $("#num_lang").val();
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -1813,6 +2115,681 @@ $array2 = json_decode($json2, TRUE);
 
         }
 
+
+
+        function show_banner() {
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_banner'
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(kay, value) {
+                  var bannerOne = `${"../profile/banner/"+value.bannerOne}`;
+                  var bannerTwo = `${"../profile/banner/"+value.bannerTwo}`;
+                  var bannerThree = `${"../profile/banner/"+value.bannerThree}`;
+
+                  //--------------------------------------------------------------------------
+
+
+
+                  //--------------------------------------------------------------------------
+
+                  $(".dropify-clear").click();
+                  if (bannerOne != "../profile/banner/null") {
+
+                    var drEvent = $('#bannerOne').dropify({
+                      defaultFile: bannerOne
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = bannerOne;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  if (bannerTwo != "../profile/banner/null") {
+                    var drEvent = $('#bannerTwo').dropify({
+                      defaultFile: bannerTwo
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = bannerTwo;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  if (bannerThree != "../profile/banner/null") {
+                    var drEvent = $('#bannerThree').dropify({
+                      defaultFile: bannerThree
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = bannerThree;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  setTimeout(() => {
+                    $('#bannerOne').data("value", bannerOne);
+                    $('#bannerTwo').data("value", bannerTwo);
+                    $('#bannerThree').data("value", bannerThree);
+                  }, 300);
+
+
+                });
+              }
+
+
+
+            }
+          });
+        }
+
+        function save_banner(){
+          
+          var form_data = new FormData();
+          var bannerOne = $('#bannerOne').prop('files')[0];
+          var bannerTwo = $('#bannerTwo').prop('files')[0];
+          var bannerThree = $('#bannerThree').prop('files')[0];
+          var data_bannerOne = $('#bannerOne').data('value');
+          var data_bannerTwo = $('#bannerTwo').data('value');
+          var data_bannerThree = $('#bannerThree').data('value');
+
+          form_data.append('FUNC_NAME', 'save_banner');
+          form_data.append('bannerOne', bannerOne);
+          form_data.append('bannerTwo', bannerTwo);
+          form_data.append('bannerThree', bannerThree);
+          form_data.append('data_bannerOne', data_bannerOne);
+          form_data.append('data_bannerTwo', data_bannerTwo);
+          form_data.append('data_bannerThree', data_bannerThree);
+       
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+             
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+              setTimeout(() => {
+                show_banner();
+              }, 500);
+
+            }
+          });
+        }
+
+
+        function showData_htp() {
+          var txtSearch_htp = $("#txtSearch_htp").val();
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'showData_htp',
+              'txtSearch_htp': txtSearch_htp
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              var StrTR = "" ;
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(key, value) {
+
+                  if (value.IsActive == 0) {
+                    var IsActive = "<input type='checkbox' id='IsActive_htp' style='argin-top: 1.5%;' disabled>";
+                  } else {
+                    var IsActive = "<input type='checkbox' id='IsActive_htp' style='argin-top: 1.5%;' checked disabled>";
+                  }
+                  var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classItemName' name='idhtp' id='idhtp_" + key + "' value='" + value.id + "' onclick='show_storeDetail(\"" + value.id + "\",\"" + key + "\")' ><span class='checkmark'></span></label>";
+                  StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
+                    "<td style='width:10%;text-align: center;'><center>"+chkDoc+"</center></td>" +
+                    "<td style='width:10%;text-align: center;'>" + (key + 1) + "</td>" +
+                    "<td style='width:34%;text-align: left;'>" + value.HptName + "</td>" +
+                    "<td style='width:23%;text-align: center;'>" + value.phone + "</td>" +
+                    "<td style='width:23%;text-align: center;'>" + IsActive + "</td>" +
+                    "</tr>";
+                });
+              }
+              $('#tableDocument_hpt tbody').html(StrTR);
+            }
+
+
+          });
+
+        }
+
+        function show_htp(){
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_htp'
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              $("#htp_select").empty();
+              var Str = "";
+
+
+              if (!$.isEmptyObject(ObjData)) {
+                // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+
+                $.each(ObjData, function(key, value) {
+                  Str += "<option value=" + value.HptCode + " >" + value.name + "</option>";
+                });
+              }
+
+              $("#htp_select").append(Str);
+            }
+          });
+        }
+
+        function show_htpDetail(htpcode){
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_htpDetail',
+              'htpcode': htpcode
+            },
+            success: function(result) {
+
+              var ObjData = JSON.parse(result);
+              $("#htp_select").empty();
+              var Str = "";
+
+
+              if (!$.isEmptyObject(ObjData)) {
+                // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+
+                $.each(ObjData, function(key, value) {
+                  Str += "<option value=" + value.HptCode + " >" + value.name + "</option>";
+                });
+              }
+
+              $("#htp_select").append(Str);
+            }
+          });
+        }
+
+      function show_storeDetail(id,key) {
+        
+       
+        $.ajax({
+          url: "../process/catalogmanagement.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'show_storeDetail',
+            'id': id
+          },
+          success: function(result) {
+
+            var ObjData = JSON.parse(result);
+            var myDATA = "";
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+
+                show_htpDetail(value.HptCode)
+                $("#id_store").val(id);
+                $("#key_row_store").val(key);
+                $("#txtphone").val(value.phone);
+                $("#txtaddress").val(value.address);
+                $("#txtaddress_EN").val(value.address_En);
+                $("#bt_addtime").show();
+
+                $('#bCancel').attr('disabled', false);
+                $('#cancelIcon').removeClass('opacity');
+
+                show_Timestoce();
+
+                if (value.IsActive == 0) {
+                    $("#active_htp").prop("checked", false);
+                  } else {
+                    $("#active_htp").prop("checked", true);
+                  }
+                
+                  var imag_htp = `${"../profile/img_store/"+value.image_htp}`;
+
+                  $(".dropify-clear").click();
+                  if (imag_htp != "../profile/img_store/null") {
+
+                    var drEvent = $('#imag_htp').dropify({
+                      defaultFile: imag_htp
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = imag_htp;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+
+                  setTimeout(() => {
+                    $('#imag_htp').data("value", imag_htp);
+                  }, 300);
+
+              
+
+              });
+            }
+
+          }
+        });
+      }
+
+      function cleartxt(){
+
+          show_htp();
+          
+          $("#key_row_store").val("");
+          $("#id_store").val("");
+          $("#txtphone").val("");
+          $("#txtaddress").val("");
+          $("#txtaddress_EN").val("");
+          $("#active_htp").prop("checked", false);
+          $(".classItemName").prop("checked", false);
+          $("#div_timestore").empty();
+          $("#bt_addtime").hide();
+
+          $('#bCancel').attr('disabled', true);
+          $('#cancelIcon').addClass('opacity');
+
+          var drEvent = $('#imag_htp').dropify({
+              defaultFile: null
+            });
+            drEvent = drEvent.data('dropify');
+            drEvent.resetPreview();
+            drEvent.clearElement();
+            drEvent.settings.defaultFile = null;
+            drEvent.destroy();
+            drEvent.init();
+
+      }
+
+      function saveData_storeDetail() {
+
+        var form_data = new FormData();
+        var imag_htp = $('#imag_htp').prop('files')[0];
+        var data_imag_htp = $('#imag_htp').data('value');
+        var htp_select = $("#htp_select").val();
+
+        var txtaddress = $("#txtaddress").val();
+        var txtaddress_EN = $("#txtaddress_EN").val();
+        var txtphone = $("#txtphone").val();
+        var id_store = $("#id_store").val();
+        var key_row_store = $("#key_row_store").val();
+
+        var checkBox = document.getElementById("active_htp");
+
+        if (checkBox.checked == true) {
+          var active_htp = 1;
+        } else {
+          var active_htp = 0;
+        }
+
+        if (txtaddress == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุที่อยู่ไทย',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txtaddress").addClass("border-danger");
+          // $("#alert_txtItemNameEn").show();
+          return;
+        } else {
+          $("#txtaddress").removeClass("border-danger");
+        }
+
+        if (txtaddress_EN == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุที่อยู่อังกฤษ',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txtaddress_EN").addClass("border-danger");
+          // $("#alert_txtItemName").show();
+          return;
+        } else {
+          $("#txtaddress_EN").removeClass("border-danger");
+        }
+
+        if (txtphone == "") {
+          swal({
+            title: '',
+            text: 'กรุณาระบุเบอร์โทรศัพท์',
+            type: 'warning',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          $("#txtphone").addClass("border-danger");
+          // $("#alert_txtDiscription").show();
+          return;
+        } else {
+          $("#txtphone").removeClass("border-danger");
+        }
+        
+
+        form_data.append('FUNC_NAME', 'saveData_storeDetail');
+        form_data.append('imag_htp', imag_htp);
+        form_data.append('data_imag_htp', data_imag_htp);
+
+        form_data.append('id_store', id_store);
+        form_data.append('htp_select', htp_select);
+        form_data.append('txtaddress', txtaddress);
+        form_data.append('txtaddress_EN', txtaddress_EN);
+        form_data.append('txtphone', txtphone);
+        form_data.append('active_htp', active_htp);
+
+        $.ajax({
+          url: "../process/catalogmanagement.php",
+          type: 'POST',
+          dataType: 'text',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: form_data,
+          success: function(result) {
+            var ObjData = JSON.parse(result);
+
+            swal({
+              title: '',
+              text: '<?php echo $array['savesuccess'][$language]; ?>',
+              type: 'success',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            setTimeout(() => {
+              if(id_store==""){
+                showData_htp();
+                cleartxt();
+              }else{
+                show_storeDetail(id_store);
+                showData_htp();
+                setTimeout(() => {
+                  $("#idhtp_"+key_row_store).prop("checked", true);
+                }, 200);
+              
+              }
+            }, 700);
+
+          }
+        });
+
+      }
+
+        
+      function openModalTime() {
+          var id_store = $("id_store").val();
+          $("#modal_Timestoce").modal('show');
+           $("#txtTimestoce").val("");
+         
+      }
+
+      function save_Timestoce() {
+          var id_store = $("#id_store").val();
+          var txtTimestoce = $("#txtTimestoce").val();
+
+          if (txtTimestoce == "") {
+            swal({
+              title: '',
+              text: 'กรุณาระบุเวลาทำการ',
+              type: 'warning',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            $("#txtTimestoce").addClass("border-danger");
+            // $("#alert_txtDiscription").show();
+            return;
+          } else {
+            $("#txtTimestoce").removeClass("border-danger");
+          }
+
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'save_Timestoce',
+              'id_store': id_store,
+              'txtTimestoce': txtTimestoce,
+            },
+            success: function(result) {
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              $("#modal_Timestoce").modal('toggle');
+              show_Timestoce();
+            }
+          });
+
+      }
+
+      function show_Timestoce() {
+          var id_store = $("#id_store").val();
+
+
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_Timestoce',
+              'id_store': id_store
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              var myDATA = "";
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(kay, value) {
+                  var edit_time =" <a class='aButton ml-4' href='javascript:void(0)' onclick='show_edit_time(\"" + value.id + "\" );'><img src='../img/edit.png' style='width:20px;'></a>";
+                  var delete_time =" <a class='aButton ml-3' href='javascript:void(0)' onclick='delete_time(\"" + value.id + "\" );'><img src='../img/icon/ic_cancel.png' style='width:20px;'></a>"
+                  var Timestoce = `<span  style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.office_hours}</span>`;
+                  myDATA += "<div>" + Timestoce +edit_time+delete_time+ "</div>";
+                });
+              }
+
+              $("#div_timestore").html(myDATA);
+            
+
+            }
+          });
+
+      }
+
+      function show_edit_time(id) {
+        $("#modal_edit_Timestoce").modal('toggle');
+        $("#id_Timestoce").val(id);
+        $("#txtTimestoce_edit").val("");
+        // alert(id);
+
+        $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'show_edit_time',
+              'id_Timestoce': id
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(kay, value) {
+                  $("#txtTimestoce_edit").val(value.office_hours);
+                });
+              }
+              
+            }
+          });
+      }
+
+      function save_Timestoce_edit() {
+        var id_Timestoce = $("#id_Timestoce").val();
+        var txtTimestoce_edit = $("#txtTimestoce_edit").val();
+
+        $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'save_Timestoce_edit',
+              'id_Timestoce': id_Timestoce,
+              'txtTimestoce_edit': txtTimestoce_edit
+            },
+            success: function(result) {
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              $("#modal_edit_Timestoce").modal('toggle');
+              show_Timestoce();
+              
+            }
+          });
+      }
+
+
+      function delete_time(id) {
+          swal({
+                title: "<?php echo $array['canceldata'][$language]; ?>",
+                text: "<?php echo $array['canceldata1'][$language]; ?>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true
+              }).then(result => {
+                if (result.value) {
+                    $.ajax({
+                      url: "../process/catalogmanagement.php",
+                      type: 'POST',
+                      data: {
+                        'FUNC_NAME': 'delete_time',
+                        'id_Timestoce': id,
+                      },
+                      success: function(result) {
+
+                        swal({
+                          title: '',
+                          text: '<?php echo $array['cancelsuccessmsg'][$language]; ?>',
+                          type: 'success',
+                          showCancelButton: false,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          showConfirmButton: false,
+                          timer: 2000,
+                          confirmButtonText: 'Ok'
+                        })
+
+                        setTimeout(() => {
+                          show_Timestoce();
+                        }, 200);
+                      }
+                    });
+                  } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                  }
+              });
+      }
+
+      function delete_storeDetail() {
+        var id_store = $("#id_store").val();
+          swal({
+                title: "<?php echo $array['canceldata'][$language]; ?>",
+                text: "<?php echo $array['canceldata1'][$language]; ?>",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                showCancelButton: true
+              }).then(result => {
+                if (result.value) {
+                    $.ajax({
+                      url: "../process/catalogmanagement.php",
+                      type: 'POST',
+                      data: {
+                        'FUNC_NAME': 'delete_storeDetail',
+                        'id_store': id_store,
+                      },
+                      success: function(result) {
+
+                        swal({
+                          title: '',
+                          text: '<?php echo $array['cancelsuccessmsg'][$language]; ?>',
+                          type: 'success',
+                          showCancelButton: false,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          showConfirmButton: false,
+                          timer: 2000,
+                          confirmButtonText: 'Ok'
+                        })
+
+                        setTimeout(() => {
+                          showData_htp();
+                          cleartxt();
+                        }, 200);
+                      }
+                    });
+                  } else if (result.dismiss === 'cancel') {
+                    swal.close();
+                  }
+              });
+      }
+      
+        
         //------------------------------------------------------------------------------------------------
         function currentDiv(n) {
           showDivs(slideIndex = n);

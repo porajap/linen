@@ -50,6 +50,32 @@ if (!empty($_POST['FUNC_NAME'])) {
     saveData_detail($conn);
   }else  if ($_POST['FUNC_NAME'] == 'showColorDetail_size') {
     showColorDetail_size($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_banner') {
+    show_banner($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'save_banner') {
+    save_banner($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showData_htp') {
+    showData_htp($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_htp') {
+    show_htp($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_htpDetail') {
+    show_htpDetail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_storeDetail') {
+    show_storeDetail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'saveData_storeDetail') {
+    saveData_storeDetail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'save_Timestoce') {
+    save_Timestoce($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_Timestoce') {
+    show_Timestoce($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_edit_time') {
+    show_edit_time($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'save_Timestoce_edit') {
+    save_Timestoce_edit($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'delete_time') {
+    delete_time($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'delete_storeDetail') {
+    delete_storeDetail($conn);
   }
   
 }
@@ -84,13 +110,13 @@ function showData($conn)
             itemcatalog.itemCategoryName LIKE '$txtSearch%'
          
           ";
-$count_i=0;
+  $count_i=0;
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
   $id = $Result['id'];
 
-//----------------------------color_detail-----------------------------------------
+  //----------------------------color_detail-----------------------------------------
       $Sql_color = "SELECT
                       multicolor.color_detail
                     FROM
@@ -103,7 +129,7 @@ $count_i=0;
       while ($Result_color = mysqli_fetch_assoc($meQuery_color)) {
         $return['color_c'][$id][] = $Result_color;
       }
-//----------------------------size_detail-----------------------------------------
+  //----------------------------size_detail-----------------------------------------
       $Sql_size = "SELECT
                       multicolor.itemsize
                     FROM
@@ -129,7 +155,7 @@ $count_i=0;
           $count_size++;
         }
         $return['size'][$id][] = $itemsize;
-//---------------------------------------------------------------------
+  //---------------------------------------------------------------------
 
     $return['item'][] = $Result;
     $count_i++;
@@ -634,7 +660,30 @@ function showimg($conn)
             itemcatalog.imageThree
           FROM
             itemcatalog
-            WHERE itemcatalog.id='$id' ";
+            WHERE itemcatalog.id='$id' 
+          ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_banner($conn)
+{
+  $id = $_POST["id"];
+
+  $count = 0;
+  $Sql = "SELECT
+            banner.bannerOne, 
+            banner.bannerTwo, 
+            banner.bannerThree
+          FROM banner
+          ORDER BY banner.row ASC LIMIT 1";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
@@ -850,3 +899,510 @@ function showColorDetail_size($conn)
   unset($conn);
   die;
 }
+
+
+function save_banner($conn)
+{
+
+  $data_bannerOne = $_POST['data_bannerOne'];
+  $data_bannerTwo = $_POST['data_bannerTwo'];
+  $data_bannerThree = $_POST['data_bannerThree'];
+
+  $Sql = "SELECT 
+            banner.row,
+            ROUND((37384 - 1231 * RAND()), 0) AS random_new,
+            banner.bannerOne,
+            banner.bannerTwo,
+            banner.bannerThree
+          FROM banner
+          ORDER BY banner.row ASC LIMIT 1
+          ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  $Result = mysqli_fetch_assoc($meQuery);
+  $bannerId = $Result['row'];
+  $random_new = $Result['random_new'];
+  $bannerOne = $Result['bannerOne']==null?"":$Result['bannerOne'];
+  $bannerTwo = $Result['bannerTwo']==null?"":$Result['bannerTwo'];
+  $bannerThree = $Result['bannerThree']==null?"":$Result['bannerThree'];
+
+
+  $banner1 = $bannerId . "-1" .".jpg";
+  $banner2 = $bannerId . "-2" .".jpg";
+  $banner3 = $bannerId . "-3" .".jpg";
+
+  $banner1_now = $bannerId . "-1_" . $random_new. ".jpg";
+  $banner2_now = $bannerId . "-2_" . $random_new. ".jpg";
+  $banner3_now = $bannerId . "-3_" . $random_new. ".jpg";
+
+
+
+  $banner1 = $bannerId . "-1". ".jpg";
+  $banner2 = $bannerId . "-2". ".jpg";
+  $banner3 = $bannerId . "-3". ".jpg";
+
+  include("gen_thumbnail.php");
+
+  if ($_FILES['bannerOne'] != "") {
+    if($bannerOne != ""){
+      unlink('../profile/banner/' . $bannerOne);
+    }
+    copy($_FILES['bannerOne']['tmp_name'], '../profile/banner/' . $banner1_now);
+
+    $Sql = "UPDATE banner SET banner.bannerOne='$banner1_now'  WHERE banner.row = '$bannerId';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/banner/" . $banner1_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/banner/" . $banner1_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 1900,         //  กำหนดความกว้างรูปใหม่
+      "height" => 600,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_bannerOne == "default") {
+
+      if($bannerOne != ""){
+        unlink('../profile/banner/' . $bannerOne);
+      }
+
+      $Sql = "UPDATE banner SET banner.bannerOne=null  WHERE banner.row = '$bannerId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
+
+  if ($_FILES['bannerTwo'] != "") {
+   if($bannerTwo != ""){
+      unlink('../profile/banner/' . $bannerTwo);
+    }
+    copy($_FILES['bannerTwo']['tmp_name'], '../profile/banner/' . $banner2_now);
+
+    $Sql = "UPDATE banner SET banner.bannerTwo='$banner2_now' WHERE banner.row = '$bannerId';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/banner/" . $banner2_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/banner/" . $banner2_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 1900,         //  กำหนดความกว้างรูปใหม่
+      "height" => 600,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_bannerTwo == "default") {
+
+      if($bannerTwo != ""){
+        unlink('../profile/banner/' . $bannerTwo);
+      }
+      
+      $Sql = "UPDATE banner SET banner.bannerTwo=null  WHERE banner.row = '$bannerId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
+
+  if ($_FILES['bannerThree'] != "") {
+    if($bannerThree != ""){
+      unlink('../profile/banner/' . $bannerThree);
+    }
+    copy($_FILES['bannerThree']['tmp_name'], '../profile/banner/' . $banner3_now);
+
+    $Sql = "UPDATE banner SET banner.bannerThree='$banner3_now' WHERE banner.row = '$bannerId';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/banner/" . $banner3_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/banner/" . $banner3_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 1900,         //  กำหนดความกว้างรูปใหม่
+      "height" => 600,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_bannerThree == "default") {
+      if($bannerThree != ""){
+        unlink('../profile/banner/' . $bannerThree);
+      }
+
+      $Sql = "UPDATE banner SET banner.bannerThree=null  WHERE banner.row = '$bannerId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
+
+  $return[] = $bannerId;
+  echo json_encode($return);
+  mysqli_close($conn);
+}
+
+function showData_htp($conn)
+{
+  $txtSearch_htp = $_POST["txtSearch_htp"];
+  $lang = $_SESSION['lang'];
+  
+ 
+
+  if($lang == "en"){
+    $name = "site.HptName AS HptName";
+  }else{
+    $name = "site.HptNameTH  AS HptName";
+  }
+
+  $Sql = "SELECT
+              store_location.id,
+              store_location.HptCode,
+              store_location.phone,
+              store_location.IsActive,
+              store_location.address,
+              $name
+            FROM
+              store_location
+              INNER JOIN site ON store_location.HptCode = site.HptCode
+              WHERE (site.HptName LIKE '$txtSearch_htp%' OR site.HptNameTH LIKE '$txtSearch_htp%')
+          ";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_htp($conn){
+
+  $lang = $_SESSION['lang'];
+
+  if($lang == "en"){
+    $name = "site.HptName AS name";
+    // $name2 = "site.HptName";
+  }else{
+    $name = "site.HptNameTH  AS name";
+    // $name2 = "site.HptNameTH";
+  }
+  $count=0;
+  $Sql_htpstore = "SELECT
+                    store_location.HptCode
+                   FROM
+                    store_location
+                    GROUP BY store_location.HptCode
+                  ";
+  $meQuery_htpstore = mysqli_query($conn, $Sql_htpstore);
+  $HptCode="";
+  while ($Result_htpstore = mysqli_fetch_assoc($meQuery_htpstore)) {
+    
+    if($count==0){
+      $t="";
+    }else{
+      $t=",";
+    }
+
+    $HptCode .= $t."'".$Result_htpstore['HptCode']."'";
+    $count++;
+  }
+
+    $Sql = "SELECT
+                site.HptCode, 
+                $name
+              FROM
+                site
+              WHERE site.HptCode NOT IN ($HptCode)
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+ 
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_htpDetail($conn){
+
+  $htpcode = $_POST["htpcode"];
+  $lang = $_SESSION['lang'];
+
+  if($lang == "en"){
+    $name = "site.HptName AS name";
+  }else{
+    $name = "site.HptNameTH  AS name";
+  }
+
+      $Sql = "SELECT
+                site.HptCode, 
+                $name
+              FROM
+                site
+              WHERE site.HptCode ='$htpcode'
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_storeDetail($conn){
+
+  $id = $_POST["id"];
+
+    $Sql = "SELECT
+              store_location.phone,
+              store_location.HptCode,
+              store_location.IsActive,
+              store_location.image_htp,
+              store_location.address,
+              store_location.address_En
+            FROM
+              store_location
+              INNER JOIN site ON store_location.HptCode = site.HptCode
+              WHERE store_location.id ='$id'
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function saveData_storeDetail($conn)
+{
+  $id_store = $_POST['id_store'];
+  $htp_select = $_POST['htp_select'];
+  $txtaddress = $_POST['txtaddress'];
+  $txtaddress_EN = $_POST['txtaddress_EN'];
+  $txtphone = $_POST['txtphone'];
+  $active_htp = $_POST['active_htp'];
+  $Userid= $_SESSION['Userid']; 
+  $data_imag_htp = $_POST['data_imag_htp'];
+
+  if ($id_store == "") {
+    $Sql = "INSERT INTO store_location SET HptCode = '$htp_select' , phone = '$txtphone' , create_date = DATE(NOW()) , create_user = '$Userid' , IsActive = '$active_htp'
+    , address = '$txtaddress', address_En = '$txtaddress_EN' ";
+  } else {
+    $Sql = "UPDATE store_location SET HptCode = '$htp_select' , phone = '$txtphone' , IsActive = '$active_htp' , create_user = '$Userid' , address = '$txtaddress', address_En = '$txtaddress_EN' WHERE store_location.id = '$id_store' ";
+  }
+  
+
+  mysqli_query($conn, $Sql);
+
+  $Sql = "SELECT 
+            store_location.id,
+            ROUND((37384 - 1231 * RAND()), 0) AS random_new,
+            store_location.image_htp
+          FROM 
+          store_location
+          WHERE store_location.HptCode = '$htp_select' ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  $Result = mysqli_fetch_assoc($meQuery);
+  $txtstoreId = $Result['id'];
+  $random_new = $Result['random_new'];
+  $imageOne = $Result['image_htp']==null?"":$Result['image_htp'];
+
+
+
+  $iamge1 = $txtstoreId . "-1" .".png";
+
+  $iamge1_now = $txtstoreId . "-1_" . $random_new. ".png";
+
+  $iamge1 = $txtstoreId . "-1". ".png";
+
+  include("gen_thumbnail.php");
+
+  if ($_FILES['imag_htp'] != "") {
+    if($imageOne != ""){
+      unlink('../profile/img_store/' . $imageOne);
+    }
+    copy($_FILES['imag_htp']['tmp_name'], '../profile/img_store/' . $iamge1_now);
+
+    $Sql = "UPDATE store_location SET store_location.image_htp='$iamge1_now'  WHERE store_location.id = '$txtstoreId';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+      "source" => "../profile/img_store/" . $iamge1_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+      "destination" => "../profile/img_store/" . $iamge1_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+      "width" => 350,         //  กำหนดความกว้างรูปใหม่
+      "height" => 450,       //  กำหนดความสูงรูปใหม่
+      "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+      "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+      "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+      "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+      $cfg_thumb->source,
+      $cfg_thumb->destination,
+      $cfg_thumb->width,
+      $cfg_thumb->height,
+      $cfg_thumb->background,
+      $cfg_thumb->output,
+      $cfg_thumb->show,
+      $cfg_thumb->crop
+    );
+  } else {
+    if ($data_imag_htp == "default") {
+
+      if($imageOne != ""){
+        unlink('../profile/img_store/' . $imageOne);
+      }
+
+      $Sql = "UPDATE store_location SET store_location.image_htp=null  WHERE store_location.id = '$txtstoreId';";
+      mysqli_query($conn, $Sql);
+    }
+  }
+
+  
+
+  $return[] = $txtstoreId;
+  echo json_encode($return);
+  mysqli_close($conn);
+}
+
+function save_Timestoce($conn)
+{
+  $id_store = $_POST["id_store"];
+  $txtTimestoce = $_POST["txtTimestoce"];
+
+    $Sql = "INSERT INTO office_hours SET id_storc_location = '$id_store' ,  office_hours = '$txtTimestoce' ";
+    mysqli_query($conn, $Sql);
+
+    $return[] = $id_store;
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_Timestoce($conn)
+{
+  $id_store = $_POST["id_store"];
+
+  $Sql = "SELECT
+            office_hours.id,
+            office_hours.office_hours 
+          FROM
+            office_hours 
+          WHERE
+            office_hours.id_storc_location = '$id_store'";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function show_edit_time($conn)
+{
+  $id_Timestoce = $_POST["id_Timestoce"];
+
+  $Sql = "SELECT
+            office_hours.id,
+            office_hours.office_hours 
+          FROM
+            office_hours 
+          WHERE
+            office_hours.id = '$id_Timestoce'";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function save_Timestoce_edit($conn)
+{
+  $id_Timestoce = $_POST["id_Timestoce"];
+  $txtTimestoce_edit = $_POST["txtTimestoce_edit"];
+
+    $Sql = "UPDATE office_hours SET   office_hours = '$txtTimestoce_edit' WHERE office_hours.id = '$id_Timestoce' ";
+    mysqli_query($conn, $Sql);
+
+    $return[] = $id_Timestoce;
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function delete_time($conn)
+{
+  $id_Timestoce = $_POST["id_Timestoce"];
+
+    $Sql = "DELETE FROM  office_hours  WHERE office_hours.id = '$id_Timestoce' ";
+    mysqli_query($conn, $Sql);
+
+    $return[] = $id_Timestoce;
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function delete_storeDetail($conn)
+{
+  $id_store = $_POST["id_store"];
+
+    $Sql = "DELETE FROM  store_location  WHERE store_location.id = '$id_store' ";
+    mysqli_query($conn, $Sql);
+
+    $return[] = $id_store;
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
