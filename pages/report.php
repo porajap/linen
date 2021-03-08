@@ -2335,10 +2335,10 @@ $array2 = json_decode($json2, TRUE);
 															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=37><?php echo "22. " . $array['r' . 3][$language]; ?></option>
 															<option <?php if($PmID != 6 && $PmID  != 1){ echo "hidden" ; } ?> value=38><?php echo "23. " . 'Usage Detail New' 		        ?></option>
 															<option value=39><?php echo "20. " . 'Extra Delivery Report' 		        ?></option>
-															<option value=40><?php echo "21. " . 'รายงานสรุปการปรับแก้ไขยอด Par' 		        ?></option>
+															<!-- <option value=40><?php echo "21. " . 'รายงานสรุปการปรับแก้ไขยอด Par' 		        ?></option>
 															<option value=41><?php echo "22. " . 'รายงานสรุปสรุปประวัติการร้องขอเมนูเรียกเก็บผ้าเปื้อน' 		        ?></option>
 															<option value=42><?php echo "23. " . 'รายงานสรุปสรุปประวัติการร้องขอเมนูย้ายแผนก' 		        ?></option>
-															<option value=43><?php echo "24. " . 'รายงานสรุปสรุปประวัติการร้องขอเมนูการร้องขออื่นๆ' 		        ?></option>
+															<option value=43><?php echo "24. " . 'รายงานสรุปสรุปประวัติการร้องขอเมนูการร้องขออื่นๆ' 		        ?></option> -->
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>

@@ -36,6 +36,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     openModalSite($conn);
   } else if ($_POST['FUNC_NAME'] == 'getTypeLinen') {
     getTypeLinen($conn);
+  } else if ($_POST['FUNC_NAME'] == 'showSize') {
+    showSize($conn);
   }
 }
 
@@ -76,6 +78,23 @@ function showSite($conn)
           FROM
             site";
 
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function showSize($conn)
+{
+  $Sql = "SELECT
+            item_size.SizeCode,
+            item_size.SizeName 
+          FROM
+            item_size";
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
     $return[] = $row;
@@ -365,9 +384,9 @@ function saveData($conn)
 
 
   if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , discriptionEn = '$txtDiscriptionEn' , itemCategoryName = '$txtItemName' ";
+    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , discription_EN = '$txtDiscriptionEn' , itemCategoryName = '$txtItemName' ";
   } else {
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , discriptionEn = '$txtDiscriptionEn' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , discription_EN = '$txtDiscriptionEn' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
   }
   mysqli_query($conn, $Sql);
 
@@ -384,18 +403,18 @@ function saveData($conn)
   $Result = mysqli_fetch_assoc($meQuery);
   $txtItemId = $Result['id'];
   $random_new = $Result['random_new'];
-  $imageOne = $Result['imageOne']==null?"":$Result['imageOne'];
-  $imageTwo = $Result['imageTwo']==null?"":$Result['imageTwo'];
-  $imageThree = $Result['imageThree']==null?"":$Result['imageThree'];
+  $imageOne = $Result['imageOne'] == null ? "" : $Result['imageOne'];
+  $imageTwo = $Result['imageTwo'] == null ? "" : $Result['imageTwo'];
+  $imageThree = $Result['imageThree'] == null ? "" : $Result['imageThree'];
 
 
-  $iamge1 = $txtItemId . "-1" .".png";
-  $iamge2 = $txtItemId . "-2" .".png";
-  $iamge3 = $txtItemId . "-3" .".png";
+  $iamge1 = $txtItemId . "-1" . ".png";
+  $iamge2 = $txtItemId . "-2" . ".png";
+  $iamge3 = $txtItemId . "-3" . ".png";
 
-  $iamge1_now = $txtItemId . "-1_" . $random_new. ".png";
-  $iamge2_now = $txtItemId . "-2_" . $random_new. ".png";
-  $iamge3_now = $txtItemId . "-3_" . $random_new. ".png";
+  $iamge1_now = $txtItemId . "-1_" . $random_new . ".png";
+  $iamge2_now = $txtItemId . "-2_" . $random_new . ".png";
+  $iamge3_now = $txtItemId . "-3_" . $random_new . ".png";
 
   // $iamge1_old = $txtItemId . "-1_" . $ramdom_old. ".png";
   // $iamge2_old = $txtItemId . "-2_" . $ramdom_old. ".png";
@@ -403,7 +422,7 @@ function saveData($conn)
 
   include("gen_thumbnail.php");
   if ($_FILES['imageOne'] != "") {
-    if($imageOne != ""){
+    if ($imageOne != "") {
       unlink('../profile/catalog/' . $imageOne);
     }
     copy($_FILES['imageOne']['tmp_name'], '../profile/catalog/' . $iamge1_now);
@@ -434,7 +453,7 @@ function saveData($conn)
   } else {
     if ($data_imageOne == "default") {
 
-      if($imageOne != ""){
+      if ($imageOne != "") {
         unlink('../profile/catalog/' . $imageOne);
       }
 
@@ -444,7 +463,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageTwo'] != "") {
-    if($imageTwo != ""){
+    if ($imageTwo != "") {
       unlink('../profile/catalog/' . $imageTwo);
     }
     copy($_FILES['imageTwo']['tmp_name'], '../profile/catalog/' . $iamge2_now);
@@ -474,7 +493,7 @@ function saveData($conn)
     );
   } else {
     if ($data_imageTwo == "default") {
-      if($imageTwo != ""){
+      if ($imageTwo != "") {
         unlink('../profile/catalog/' . $imageTwo);
       }
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageTwo=null  WHERE itemcatalog.id = '$txtItemId';";
@@ -483,7 +502,7 @@ function saveData($conn)
   }
 
   if ($_FILES['imageThree'] != "") {
-    if($imageThree != ""){
+    if ($imageThree != "") {
       unlink('../profile/catalog/' . $imageThree);
     }
     copy($_FILES['imageThree']['tmp_name'], '../profile/catalog/' . $iamge3_now);
@@ -513,7 +532,7 @@ function saveData($conn)
     );
   } else {
     if ($data_imageThree == "default") {
-      if($imageThree != ""){
+      if ($imageThree != "") {
         unlink('../profile/catalog/' . $imageThree);
       }
       $Sql = "UPDATE itemcatalog SET itemcatalog.imageThree=null  WHERE itemcatalog.id = '$txtItemId';";
@@ -536,7 +555,7 @@ function showDetail($conn)
             itemcatalog.itemCategoryName,
             itemcatalog.itemCategoryNameEn,
             itemcatalog.discription,
-            itemcatalog.discriptionEn,
+            itemcatalog.discription_EN AS discriptionEn,
             itemcatalog.typeLinen,
             itemcatalog.imageOne,
             itemcatalog.imageTwo,
@@ -555,13 +574,18 @@ function showDetail($conn)
 
 function showData($conn)
 {
-  // $selectSite = $_POST["selectSite"];
+  $selectcategory = $_POST["selectcategory"];
   $txtSearch = $_POST["txtSearch"];
   $lang = $_SESSION["lang"];
   if ($lang == 'en') {
     $typelinen = 'typelinen.name_En AS nameType';
   } else {
     $typelinen = 'typelinen.name_Th AS nameType';
+  }
+  if ($selectcategory == '0') {
+    $wherecategory = "";
+  } else {
+    $wherecategory = "AND itemcatalog.typeLinen = '$selectcategory' ";
   }
   $Sql = "SELECT
             itemcatalog.id,
@@ -572,8 +596,8 @@ function showData($conn)
           FROM
           itemcatalog
           INNER JOIN typelinen ON itemcatalog.typeLinen = typelinen.id 
-          WHERE  itemcatalog.itemCategoryName LIKE '%$txtSearch%' LIMIT 50";
-
+          WHERE  ( itemcatalog.itemCategoryName LIKE '%$txtSearch%' OR  itemcatalog.itemCategoryNameEn LIKE '%$txtSearch%' ) $wherecategory LIMIT 50";
+  
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     // $Result['discription'] ==null?'':$Result['discription'];

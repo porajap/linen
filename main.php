@@ -64,7 +64,7 @@ switch ($PmID) {
     $dp2_s2 = 1;
     $dp2_s3 = 1;
     $dp2_s4 = 1;
-    $dp2_s5 = 1;
+    $dp2_s5 = 0;
     $dp2_s6 = 1;
     //account
     $ac_head = 1;
@@ -147,7 +147,7 @@ switch ($PmID) {
     $dp2_s2 = 1;
     $dp2_s3 = 1;
     $dp2_s4 = 1;
-    $dp2_s5 = 1;
+    $dp2_s5 = 0;
     $dp2_s6 = 1;
 
     //account
@@ -220,7 +220,7 @@ switch ($PmID) {
     $dp2_s2 = 1;
     $dp2_s3 = 1;
     $dp2_s4 = 1;
-    $dp2_s5 = 1;
+    $dp2_s5 = 0;
     $dp2_s6 = 1;
     //account
     $ac_head = 1;
@@ -353,7 +353,7 @@ switch ($PmID) {
     $dp2_s2 = 1;
     $dp2_s3 = 1;
     $dp2_s4 = 1;
-    $dp2_s5 = 1;
+    $dp2_s5 = 0;
     $dp2_s6 = 1;
 
 
@@ -436,7 +436,7 @@ switch ($PmID) {
     $dp2_s2 = 1;
     $dp2_s3 = 1;
     $dp2_s4 = 1;
-    $dp2_s5 = 1;
+    $dp2_s5 = 0;
     $dp2_s6 = 1;
     //account
     $ac_head = 1;
@@ -517,7 +517,7 @@ switch ($PmID) {
     $dp2_s2 = 1;
     $dp2_s3 = 1;
     $dp2_s4 = 1;
-    $dp2_s5 = 1;
+    $dp2_s5 = 0;
     $dp2_s6 = 1;
     //account
     $ac_head = 1;

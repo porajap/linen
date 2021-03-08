@@ -29,6 +29,8 @@
 <timedep><en>time</en><th>เวลาเรียกเก็บ</th></timedep>
 <userReply><en>user Reply</en><th>ผู้ตอบรับ</th></userReply>
 <userLinen><en>user Linen</en><th>ห้องผ้าตอบรับ</th></userLinen>
+<cancellation><en>Reason for cancellation</en><th>เหตุผลการยกเลิก</th></cancellation>
+
 <depRequest><en>Request</en><th>คำร้องขอ</th></depRequest>
 <depchat><en>Chat topic</en><th>หัวข้อแชท</th></depchat>
 <deprequester><en>Requester</en><th>ลงชื่อผู้ขอเบิก</th></deprequester>

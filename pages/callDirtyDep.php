@@ -93,7 +93,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-12">
                 <div class='form-group row'>
                   <label class="col-sm-4 col-form-label">
@@ -102,8 +102,8 @@ $array2 = json_decode($json2, TRUE);
                   <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7" id="txtRemark" placeholder="<?php echo $array['remask'][$language]; ?>">
                 </div>
               </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <div class="row" id="btn_save">
               <div class="col-md-12 d-flex justify-content-end pr-5">
                 <div class="menuMini mhee1">
                   <div class="circle4 d-flex justify-content-start">
@@ -186,8 +186,8 @@ $array2 = json_decode($json2, TRUE);
               <th nowrap style="width:10%;"><?php echo $array['userReply'][$language]; ?></th>
               <th nowrap style="width:10%;"><?php echo $array['userLinen'][$language]; ?></th>
               <th nowrap style="width:10%;"><?php echo $array['status'][$language]; ?></th>
-              <th nowrap style="width:5%;"><?php echo $array['save'][$language]; ?></th>
-              <th nowrap style="width:5%;"><?php echo $array['isno'][$language]; ?></th>
+              <!-- <th nowrap style="width:5%;"><?php echo $array['save'][$language]; ?></th> -->
+              <th nowrap style="width:10%;"><?php echo $array['isno'][$language]; ?></th>
 
             </tr>
           </thead>
@@ -270,6 +270,9 @@ $array2 = json_decode($json2, TRUE);
         $("#txtPhoneNumber").attr('disabled', true);
         $("#txtName").attr('disabled', true);
         $("#txtRemark").attr('disabled', true);
+
+        $("#btn_save").attr('hidden', true);
+        
       }
 
       GetSite();
@@ -535,17 +538,17 @@ $array2 = json_decode($json2, TRUE);
 
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td  style='width:15%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DocDate + "'>" + value.DocDate + "</td>" +
-                "<td class='text-center'  style='width:2%;'> <i class='fas fa-envelope text-left' style='cursor: pointer;'onclick='showRemark(\"" + value.remark + "\")'></i></td>" +
+                // "<td class='text-center'  style='width:2%;'> <i class='fas fa-envelope text-left' style='cursor: pointer;'onclick='showRemark(\"" + value.remark + "\")'></i></td>" +
                 "<td   style='width:13%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DocDate + "'>" + value.DocNo + "</td>" +
-                "<td class='text-center'  style='width:2%;'> <i class='fas fa-phone-square text-left' style='cursor: pointer;'onclick='showPhone(\"" + value.phoneNumber + "\")'></i></td>" +
+                "<td class='text-center'  style='width:4%;'> <i class='fas fa-phone-square text-left' style='cursor: pointer;'onclick='showPhone(\"" + value.phoneNumber + "\")'></i></td>" +
                 "<td  style='width:8%;overflow: hidden; text-overflow: ellipsis;'  nowrap title='" + value.revealName + "'> " + value.revealName + " </td>" +
                 "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.DepName + "'>" + value.DepName + "</td>" +
                 "<td style='width:10%;overflow: hidden; text-overflow: ellipsis;'  nowrap title='" + value.revealDate + "'>" + value.revealDate + "</td>" +
                 "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.approveName + "'>" + value.approveName + "</td>" +
                 "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;' nowrap title='" + value.approveDate + "'>" + value.approveDate + "</td>" +
                 "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;"+ txtStyle + "' nowrap title='" + value.IsStatus + "'>" + value.IsStatus + "</td>" +
-                "<td  style='width:5%;overflow: hidden; text-overflow: ellipsis;'  nowrap  >" + btnSave + "</td>" +
-                "<td  style='width:5%;overflow: hidden; text-overflow: ellipsis;'  nowrap  >" + btn + "</td>" +
+                // "<td  style='width:5%;overflow: hidden; text-overflow: ellipsis;'  nowrap  >" + btnSave + "</td>" +
+                "<td  style='width:10%;overflow: hidden; text-overflow: ellipsis;'  nowrap  >" + btn + "</td>" +
                 "</tr>";
             });
             $('#tableDocument tbody').html(StrTR);

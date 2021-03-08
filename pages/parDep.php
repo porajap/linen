@@ -332,16 +332,16 @@ $array2 = json_decode($json2, TRUE);
                     <center><?php echo $array['time'][$language]; ?></center>
                   </th>
                   <th nowrap style="width:10%;">
-                    <center>ผู้ตอบรับ</center>
+                    <center><?php echo $array['userReply'][$language]; ?></center>
                   </th>
                   <th nowrap style="width:10%;">
-                    <center>ห้องผ้าตอบรับ</center>
+                    <center><?php echo $array['userLinen'][$language]; ?></center>
                   </th>
                   <th nowrap style="width:10%;">
                     <center><?php echo $array['status'][$language]; ?></center>
                   </th>
                   <th nowrap style="width:10%;">
-                    <center>เหตุผลการยกเลิก</center>
+                    <center><?php echo $array['cancellation'][$language]; ?></center>
                   </th>
                 </tr>
               </thead>

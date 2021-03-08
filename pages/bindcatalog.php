@@ -33,9 +33,9 @@ $array2 = json_decode($json2, TRUE);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
-  <meta http-equiv="Pragma" content="no-cache"> 
-  <meta http-equiv="Expires" content="0"> 
+  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta http-equiv="refresh" content="300">
   <title>
     bindcatalog
@@ -61,8 +61,7 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-8 off-set-10">
                   <div class="row" style="margin-left:5px;">
-                    <!-- <select class="form-control col-md-4 " id="selectSite" style="font-size:22px;" onchange="changeSite('top')">
-                    </select> -->
+                    <select class="form-control col-md-4 " id="selectCategoryTop" style="font-size:22px;" onchange="changeCategory('top')"></select>
                     <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
                     <div class="search_custom col-md-2">
                       <div class="search_1 d-flex justify-content-start">
@@ -83,10 +82,10 @@ $array2 = json_decode($json2, TRUE);
                       <tr role="row" id='tr_1'>
                         <th nowrap style="width:10%"><br></th>
                         <th nowrap style="width:10%">ลำดับ</th>
-                        <th nowrap style="width:18.3%">รายการไทย</th>
-                        <th nowrap style="width:18.3%">รายการอังกฤษ</th>
+                        <th nowrap style="width:29.13%">รายการไทย</th>
+                        <th nowrap style="width:29.13%">รายการอังกฤษ</th>
                         <th nowrap style="width:21.65%">ประเภท</th>
-                        <th nowrap style="width:21.65%">รายละเอียด</th>
+                        <!-- <th nowrap style="width:21.65%">รายละเอียด</th> -->
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -146,7 +145,7 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-md-4">
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">ประเภท</label>
-                    <select id="selectcategory" class="form-control col-sm-7" style="font-size:22px;">
+                    <select id="selectcategory" class="form-control col-sm-7" style="font-size:22px;" onchange="changeCategory()">
                       <!-- <option value="P">Patient Shirt</option>
                       <option value="S">Staff Uniform</option>
                       <option value="F">Flat Sheet</option>
@@ -158,7 +157,7 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <div class="col-md-4">
-                <div class='form-group row'>
+                  <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">รายการไทย</label>
                     <input id="txtItemName" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                     <input hidden id="txtItemId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
@@ -166,9 +165,9 @@ $array2 = json_decode($json2, TRUE);
                   </div>
                 </div>
                 <div class="col-md-4">
-                <div class='form-group row'>
+                  <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">รายละเอียดไทย</label>
-                    <input id="txtDiscription" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                    <input id="txtDiscription" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                     <label id="alert_txtDiscription" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
@@ -178,7 +177,6 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-md-4">
 
                 </div>
-
                 <div class="col-md-4">
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">รายการอังกฤษ</label>
@@ -188,9 +186,9 @@ $array2 = json_decode($json2, TRUE);
                 </div>
 
                 <div class="col-md-4">
-                <div class='form-group row'>
+                  <div class='form-group row'>
                     <label class="col-sm-3 col-form-label ">รายละเอียดอังกฤษ</label>
-                    <input id="txtDiscriptionEn" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                    <input id="txtDiscriptionEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
                     <label id="alert_txtDiscriptionEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
@@ -243,45 +241,8 @@ $array2 = json_decode($json2, TRUE);
   <div class="modal fade" id="modal_color" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <div class="form-check form-check-inline mt-3" style="align-items: end;">
-            <!-- <label class='radio '> -->
-            <input type='checkbox' name='radio_size' id="size_s" value="S" class="form-check-input loopsize" onclick="openMasterColor('S');">
-            <!-- <span class='checkmark'></span>
-            </label> -->
-            <label class="form-check-label ml-2" for="size_s">S</label>
-          </div>
-
-          <div class="form-check form-check-inline mt-3" style="align-items: end;">
-            <!-- <label class='radio '> -->
-            <input type='checkbox' name='radio_size' id="size_m" value="M" class="form-check-input loopsize" onclick="openMasterColor('M');">
-            <!-- <span class='checkmark'></span>
-            </label> -->
-            <label class="form-check-label ml-2" for="size_m">M</label>
-          </div>
-
-          <div class="form-check form-check-inline mt-3" style="align-items: end;">
-            <!-- <label class='radio '> -->
-            <input type='checkbox' name='radio_size' id="size_l" value="L" class="form-check-input loopsize" onclick="openMasterColor('L');">
-            <!-- <span class='checkmark'></span>
-            </label> -->
-            <label class="form-check-label ml-2" for="size_l">L</label>
-          </div>
-
-          <div class="form-check form-check-inline mt-3" style="align-items: end;">
-            <!-- <label class='radio '> -->
-            <input type='checkbox' name='radio_size' id="size_xl" value="XL" class="form-check-input loopsize" onclick="openMasterColor('XL');">
-            <!-- <span class='checkmark'></span>
-            </label> -->
-            <label class="form-check-label ml-2" for="size_xl">XL</label>
-          </div>
-
-          <div class="form-check form-check-inline mt-3" style="align-items: end;">
-            <!-- <label class='radio '> -->
-            <input type='checkbox' name='radio_size' id="size_xxl" value="XXL" class="form-check-input loopsize" onclick="openMasterColor('XXL');">
-            <!-- <span class='checkmark'></span>
-            </label> -->
-            <label class="form-check-label ml-2" for="size_xxl">XXL</label>
+        <div class="modal-header" >
+          <div class="row px-3" id="modalColor_Header">
           </div>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -407,12 +368,17 @@ $array2 = json_decode($json2, TRUE);
 
 
       setTimeout(() => {
-        showData();
         showMasterColor();
         showSupplier();
         showSite();
+        showSize();
         getTypeLinen();
       }, 200);
+
+      setTimeout(() => {
+        showData();
+      }, 400);
+
 
 
       $('.numonly').on('input', function() {
@@ -425,6 +391,12 @@ $array2 = json_decode($json2, TRUE);
 
       $('.thonly').on('input', function() {
         this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9. ]/g, ''); //<-- replace all other than given set of values
+      });
+
+      $('#txtSearch').keyup(function(e) {
+        if (e.keyCode == 13) {
+          showData();
+        }
       });
 
 
@@ -450,9 +422,23 @@ $array2 = json_decode($json2, TRUE);
       $('#imageThree').data("value", "default");
     });
 
+    function changeCategory(text) {
+      var categoryTop = $("#selectCategoryTop").val();
+      var categoryLow = $("#selectcategory").val();
+
+      if (text == 'top') {
+        $("#selectcategory").val(categoryTop);
+        showData();
+      } else {
+        $("#selectCategoryTop").val(categoryLow);
+        showData();
+      }
+    }
+
     function cleartxt() {
       $("#txtItemName").val("");
       $("#selectcategory").val("0");
+      $("#selectCategoryTop").val("0");
       $("#txtDiscription").val("");
       $("#txtDiscriptionEn").val("");
       $("#txtItemId").val("");
@@ -494,6 +480,33 @@ $array2 = json_decode($json2, TRUE);
           }
 
           $("#selectcategory").html(option);
+          $("#selectCategoryTop").html(option);
+
+
+        }
+      });
+    }
+
+    function showSize() {
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'showSize',
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          var data = "";
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              data += `<div class="form-check form-check-inline mt-3" style="align-items: end;">` +
+                `<input type='checkbox' name='radio_size' id="size_${value.SizeName}" value="${value.SizeName}" class="form-check-input loopsize" onclick="openMasterColor('${value.SizeName}');">` +
+                `<label class="form-check-label ml-2" for="size_${value.SizeName}">${value.SizeName}</label>` +
+                `</div>`;
+            });
+          }
+
+          $("#modalColor_Header").html(data);
 
 
         }
@@ -501,7 +514,7 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function showData() {
-      // var selectSite = $("#selectSite").val();
+      var selectcategory = $("#selectcategory").val();
       var txtSearch = $("#txtSearch").val();
 
       $.ajax({
@@ -509,9 +522,8 @@ $array2 = json_decode($json2, TRUE);
         type: 'POST',
         data: {
           'FUNC_NAME': 'showData',
-          // 'selectSite': selectSite,
+          'selectcategory': selectcategory,
           'txtSearch': txtSearch,
-
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
@@ -528,10 +540,10 @@ $array2 = json_decode($json2, TRUE);
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td style='width:10%;'>" + chkDoc + "</td>" +
                 "<td style='width:10%;'>" + (key + 1) + "</td>" +
-                "<td style='width:18.3%;'>" + value.itemCategoryName + "</td>" +
-                "<td style='width:18.3%;'>" + value.itemCategoryNameEn + "</td>" +
+                "<td style='width:29.13%;'>" + value.itemCategoryName + "</td>" +
+                "<td style='width:29.13%;'>" + value.itemCategoryNameEn + "</td>" +
                 "<td style='width:21.65%;'> " + value.nameType + " </td>" +
-                "<td style='width:21.65%;'> " + value.discription + " </td>" +
+                // "<td style='width:21.65%;'> " + value.discription + " </td>" +
                 "</tr>";
             });
           }
@@ -643,7 +655,7 @@ $array2 = json_decode($json2, TRUE);
                 $("#txtDiscriptionEn").val(value.discriptionEn);
                 $("#txtItemName").val(value.itemCategoryName);
                 $("#txtItemNameEn").val(value.itemCategoryNameEn);
-                
+
                 $("#txtItemId").val(value.id);
 
                 var imageOne = `${"../profile/catalog/"+value.imageOne}`;
@@ -724,7 +736,22 @@ $array2 = json_decode($json2, TRUE);
       var txtItemId = $("#txtItemId").val();
       var txtItemNameEn = $("#txtItemNameEn").val();
       var txtDiscriptionEn = $("#txtDiscriptionEn").val();
-      
+
+
+      if (selectcategory == "0") {
+        swal({
+          title: '',
+          text: 'กรุณาระบุประเภท',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#selectcategory").addClass("border-danger");
+        $("#alert_selectcategory").show();
+        return;
+      }
+
       if (txtItemNameEn == "") {
         swal({
           title: '',
@@ -855,6 +882,7 @@ $array2 = json_decode($json2, TRUE);
 
     function openModalColor() {
       $('input[name="radio_size"]').prop('checked', false);
+      $("#row_color").empty();
       $("#modalSelect_colorMaster").val("0");
       $("#modalSelect_colorMaster").attr("disabled", true);
       $("#modal_color").modal('show');
@@ -1029,6 +1057,7 @@ $array2 = json_decode($json2, TRUE);
           });
 
           setTimeout(() => {
+            $("#modal_color").modal('hide');
             $('#txtColorId').val("");
             openMasterColor(radioSize);
           }, 1700);
@@ -1141,6 +1170,27 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function switchSupplier() {
+      var select_all = document.getElementById('checkallSupplier'); //select all checkbox
+      var checkboxes = document.getElementsByClassName("mySupplier"); //checkbox items
+
+      //select all checkboxes
+      select_all.addEventListener("change", function(e) {
+        for (i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = select_all.checked;
+        }
+      });
+
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function(e) {
+          if (this.checked == false) {
+            select_all.checked = false;
+          }
+          if (document.querySelectorAll('.mySupplier:checked').length == checkboxes.length) {
+            select_all.checked = true;
+          }
+        });
+      }
       // var count = 0;
       // $(".mySupplier:checked").each(function() {
       //   count++;
@@ -1175,6 +1225,10 @@ $array2 = json_decode($json2, TRUE);
             showConfirmButton: false,
             timer: 1500,
           });
+
+          setTimeout(() => {
+            $("#modal_supplier").modal('hide');
+          }, 1500);
         }
       });
 
@@ -1202,15 +1256,6 @@ $array2 = json_decode($json2, TRUE);
           }
         });
       }
-
-      // var numRow = $("#countbtnSupplier").val();
-      // if (numRow == i) {
-      //   $("#countbtnSupplier").val(0);
-      //   $('#btn_SaveSupplier').attr('disabled', true);
-      // } else {
-      //   $("#countbtnSupplier").val(i);
-      //   $('#btn_SaveSupplier').attr('disabled', false);
-      // }
     }
     //
 
@@ -1274,6 +1319,27 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function switchSite() {
+      var select_all = document.getElementById('checkallSite'); //select all checkbox
+      var checkboxes = document.getElementsByClassName("mySite"); //checkbox items
+
+      //select all checkboxes
+      select_all.addEventListener("change", function(e) {
+        for (i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = select_all.checked;
+        }
+      });
+
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function(e) {
+          if (this.checked == false) {
+            select_all.checked = false;
+          }
+          if (document.querySelectorAll('.mySite:checked').length == checkboxes.length) {
+            select_all.checked = true;
+          }
+        });
+      }
       // var count = 0;
       // $(".mySupplier:checked").each(function() {
       //   count++;
@@ -1308,6 +1374,9 @@ $array2 = json_decode($json2, TRUE);
             showConfirmButton: false,
             timer: 1500,
           });
+          setTimeout(() => {
+            $("#modal_site").modal('hide');
+          }, 1500);
         }
       });
 
