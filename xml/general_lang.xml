@@ -43,6 +43,7 @@
 
 
 <!--============================================================================== -->
+<selecttypelinen><en>Please Choose Typelinen</en><th>กรุณาเลือกประเภท</th></selecttypelinen>
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
 <selectenddate><en>Please Choose Enddate</en><th>กรุณาเลือกวันที่สิ้นสุดสัญญา</th></selectenddate>
@@ -383,6 +384,7 @@
 <adduserfacfailed><en>Cannot add more than 1 contacts</en><th>ไม่สามารถเพิ่มข้อมูลผู้ติดต่อได้เกิน 1 คน</th></adduserfacfailed>
 <editfailedmsg><en>editfailed</en><th>ไม่สามารถแก้ไขข้อมูลได้</th></editfailedmsg>
 <editfailDueedmsg><en>Cannot add information Due to the duplicate department</en><th>ไม่สามารถเพิ่มข้อมูลได้ เนื่องจากแผนกซ้ำ</th></editfailDueedmsg>
+<editfailcolor><en>Cannot add information Due to the duplicate code color</en><th>ไม่สามารถเพิ่มข้อมูลได้ เนื่องจากรหัสสีซ้ำ</th></editfailcolor>
 <editcenterfailedmsg><en>There are 1 central department</en><th>แผนกศูนย์กลางมีได้เพียง 1 แผนก</th></editcenterfailedmsg>
 <Repeatmsg><en>Repeat code number</en><th>เลขรหัสซํ้า</th></Repeatmsg>
 <sizeunit><en>Size</en><th>ขนาดไซต์</th></sizeunit>
