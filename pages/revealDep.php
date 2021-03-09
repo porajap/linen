@@ -937,6 +937,9 @@ $array2 = json_decode($json2, TRUE);
               if (value.TotalQty == "0.00") {
                 value.TotalQty = "";
               }
+              if (value.CcQty == "0") {
+                value.CcQty = "";
+              }
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
               var inputShelfcount = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.CcQty + "' placeholder='0' class='numonly form-control text-right w-50' id='CcQty_" + key + "'>";
               var inputissu = "<input type='text' disabled autocomplete='off' style='font-size:22px;' value='" + value.TotalQty + "' placeholder='0'  class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
