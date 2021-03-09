@@ -41,6 +41,7 @@
 
 
 <!--============================================================================== -->
+<selecttypelinen><en>Please Choose Typelinen</en><th>กรุณาเลือกประเภท</th></selecttypelinen>
 <selectpermission><en>Please Choose Permission</en><th>กรุณาเลือกสิทธิ์การเข้าถึง</th></selectpermission>
 <selectstartdate><en>Please Choose Startdate</en><th>กรุณาเลือกวันที่ทำสัญญา</th></selectstartdate>
 <selectenddate><en>Please Choose Enddate</en><th>กรุณาเลือกวันที่สิ้นสุดสัญญา</th></selectenddate>

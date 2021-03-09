@@ -93,6 +93,11 @@ function showData($conn)
   }else{
     $name = "typelinen.name_Th  AS typeLinen";
   }
+  if($input_typeline==00){
+    $where="";
+  }else{
+    $where="itemcatalog.typeLinen = '$input_typeline' AND";
+  }
 
   $Sql = "SELECT
             itemcatalog.id, 
@@ -106,8 +111,8 @@ function showData($conn)
             ON 
               itemcatalog.typeLinen = typelinen.id
           WHERE
-            itemcatalog.typeLinen = '$input_typeline' AND
-            itemcatalog.itemCategoryName LIKE '$txtSearch%'
+          $where
+             itemcatalog.itemCategoryName LIKE '$txtSearch%'
          
           ";
   $count_i=0;

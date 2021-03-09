@@ -266,7 +266,7 @@ $array2 = json_decode($json2, TRUE);
                   <div class="card" style="min-height: 600px;">
                     <div class="card-body">
                       <h3>
-                        Product Informailon
+                        Product Information
                       </h3>
                       <div class="form-group row" id="div_nameTH">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Product Name TH :</label>
@@ -293,14 +293,14 @@ $array2 = json_decode($json2, TRUE);
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-9">
                           <!-- <select type="text" class="form-control"></select> -->
                           <ul class="tag-inner v_size" id="ul_size"></ul>
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-9 row" id="div_color" style="margin-left: 0%">
                           <!-- <select type="text" class="form-control"></select> -->
                         </div>
@@ -312,7 +312,7 @@ $array2 = json_decode($json2, TRUE);
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-9">
                           <select type="text" class="form-control f_size" id="supplier_detail"></select>
                         </div>
@@ -324,7 +324,7 @@ $array2 = json_decode($json2, TRUE);
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">:</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label"></label>
                         <div class="col-sm-9">
                           <select type="text" class="form-control f_size" id="site_detail"></select>
                         </div>
@@ -1010,13 +1010,20 @@ $array2 = json_decode($json2, TRUE);
               if (!$.isEmptyObject(ObjData)) {
                 // var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
                 var Str = "";
+                Str += "<option value='00' ><?php echo $array['selecttypelinen'][$language]; ?></option>";
                 $.each(ObjData, function(key, value) {
                   Str += "<option value=" + value.id + " >" + value.name + "</option>";
+                });
+
+                var Str2 = "";
+                
+                $.each(ObjData, function(key, value) {
+                  Str2 += "<option value=" + value.id + " >" + value.name + "</option>";
                 });
               }
 
               $("#input_typeline").append(Str);
-              $("#typelinen_detail").append(Str);
+              $("#typelinen_detail").append(Str2);
             }
           });
         }
@@ -1042,11 +1049,11 @@ $array2 = json_decode($json2, TRUE);
                 " <th style='width: 8%;text-align: center;' nowrap>ON.</th>" +
                 " <th style='width: 25%;text-align: left;' nowrap>NAME</th>" +
                 "<th style='width: 9%;text-align: center;' nowrap>Typelinen</th>" +
-                "<th style='width: 11%;text-align: center;' nowrap>SIZE</th>" +
-                "<th style='width: 15%;text-align: center;' nowrap>COLOR</th>" +
-                "<th style='width: 9%;text-align: center;' nowrap>SUPPLIER</th>" +
-                "<th style='width: 9%;text-align: center;' nowrap>SITE</th>" +
-                "<th style='width: 14%;text-align: center;' nowrap>ACTIVE</th>" +
+                "<th class='nn' style='width: 11%;text-align: center;' nowrap>SIZE</th>" +
+                "<th class='nn' style='width: 15%;text-align: center;' nowrap>COLOR</th>" +
+                "<th class='nn' style='width: 9%;text-align: center;' nowrap>SUPPLIER</th>" +
+                "<th class='nn' style='width: 9%;text-align: center;' nowrap>SITE</th>" +
+                "<th class='nn' style='width: 14%;text-align: center;' nowrap>ACTIVE</th>" +
                 "</tr>" +
                 "</thead>" +
                 "<tbody id='tbody' class='nicescrolled' style='font-size:24px;height:500px;'>";
@@ -1056,7 +1063,7 @@ $array2 = json_decode($json2, TRUE);
                   var color = ""
                   if (!$.isEmptyObject(ObjData.color_c)) {
                     $.each(ObjData.color_c[value.id], function(key2, value2) {
-                      color += "<div class='px-3 ml-1'  style='background-color: " + value2.color_detail + "; border-radius: 70%;  height: 35px; border: 2px solid; width:2%;'></div>";
+                      color += "<div class='px-3 ml-1'  style='background-color: " + value2.color_detail + "; border-radius: 70%;  height: 35px; border: 0px solid; width:35px;margin-bottom: 5px;'></div>";
                     });
                   }
                   //------------------size----------------------------
@@ -1104,9 +1111,15 @@ $array2 = json_decode($json2, TRUE);
 
         function table_date() {
           $('#TableItem').DataTable({
-            "bFilter": false
+            "bFilter": false,
+                columnDefs: [{
+                    orderable: false,
+                    targets: [3,4,5,6,7]
+                }, ]
+             
           });
           $(".dataTables_length").hide();
+
         }
 
         function show_supplier(id) {
@@ -1217,7 +1230,7 @@ $array2 = json_decode($json2, TRUE);
                   show_supplierDetail(value.id,num_lang);
                   show_siteDetail(value.id,num_lang);
                   showimg(value.id);
-                  $("#id_img1").prop("checked", true);
+                 
 
 
 
@@ -1335,6 +1348,7 @@ $array2 = json_decode($json2, TRUE);
         }
 
         function show_siteDetail(id,num_lang) {
+          // alert(num_lang);
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -1684,6 +1698,7 @@ $array2 = json_decode($json2, TRUE);
               });
 
               show_supplierDetail(txtItemId,num_lang);
+              $("#modal_supplierAdd").modal('toggle');
             }
           });
 
@@ -1783,6 +1798,7 @@ $array2 = json_decode($json2, TRUE);
         }
 
         function checkSite() {
+          var num_lang = $("#num_lang").val();
           var SiteArray = [];
           var txtItemId = $("#txt_ID").val();
           $(".mySite:checked").each(function() {
@@ -1805,7 +1821,8 @@ $array2 = json_decode($json2, TRUE);
                 showConfirmButton: false,
                 timer: 1500,
               });
-              show_siteDetail(txtItemId);
+              show_siteDetail(txtItemId,num_lang);
+              $("#modal_siteAdd").modal('toggle');
             }
           });
 
@@ -1863,7 +1880,8 @@ $array2 = json_decode($json2, TRUE);
                   //--------------------------------------------------------------------------
 
 
-
+                  $("#id_img1").prop("checked", true);
+                 
                   //--------------------------------------------------------------------------
 
                   $(".dropify-clear").click();
@@ -1921,8 +1939,9 @@ $array2 = json_decode($json2, TRUE);
                     $('#imageOne').data("value", imageOne);
                     $('#imageTwo').data("value", imageTwo);
                     $('#imageThree').data("value", imageThree);
+                     
                   }, 300);
-
+                  currentDiv(1);
 
                 });
               }
