@@ -169,6 +169,8 @@ function getdetail($conn, $DATA)
     $return['ThName'] = $Result['ThName'];
     $return['ThLName'] = $Result['ThLName'];
     $return['remask'] = $Result['remask'];
+    $HptCode = $Result['HptCode'];
+
   }
 
   $count = 0;
@@ -192,7 +194,7 @@ function getdetail($conn, $DATA)
   $return['EmpCnt'] = $count;
 
   $count = 0;
-  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE IsStatus = 0";
+  $Sql = "SELECT department.DepCode,department.DepName FROM department WHERE IsStatus = 0 AND HptCode = '$HptCode'";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return['dep' . $count]['xDepCode']  = $Result['DepCode'];
@@ -402,12 +404,12 @@ function getDepartment2($conn, $DATA)
   $HptCode1 = $_SESSION['HptCode'];
   $PmID = $_SESSION['PmID'];
   $Permission = $DATA['Permission'];
-  if ($PmID == 3 || $PmID == 7 || $PmID == 5) {
+  if ($PmID == 3 || $PmID == 7 || $PmID == 5 ) {
     $Hotp = $DATA["Hotp"] == null ? $_SESSION['HptCode'] : $DATA["Hotp"];
     $whereDep = "AND department.IsDefault = 1";
   } else {
     $Hotp = $DATA["Hotp"];
-    if ($Permission == 8) {
+    if ($Permission == 8  || $Permission == 9) {
       $whereDep = "";
     } else {
       $whereDep = "AND department.IsDefault = 1";

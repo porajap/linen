@@ -155,18 +155,18 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-4 col-form-label">
-                      ลงชื่อผู้ขอเบิก
+                    <?php echo $array['deprequester'][$language]; ?>
                     </label>
-                    <input type="text" autocomplete="off" id="txtName" style="font-size:22px;" class="form-control col-sm-7 " placeholder="ลงชื่อผู้ขอเบิก">
+                    <input type="text" autocomplete="off" id="txtName" style="font-size:22px;" class="form-control col-sm-7 " placeholder="<?php echo $array['deprequester'][$language]; ?>">
                     <label id="alert_txtName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-4 col-form-label">
-                      เบอร์โทรศัพท์
+                    <?php echo $array['phone'][$language]; ?>
                     </label>
-                    <input type="text" autocomplete="off" id="txtPhoneNumber" style="font-size:22px;" class="form-control col-sm-7 numonly" placeholder="เบอร์โทรศัพท์" maxlength="10">
+                    <input type="text" autocomplete="off" id="txtPhoneNumber" style="font-size:22px;" class="form-control col-sm-7 numonly" placeholder="<?php echo $array['phone'][$language]; ?>" maxlength="10">
                     <label id="alert_txtPhoneNumber" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>

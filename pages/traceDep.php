@@ -165,9 +165,9 @@ $array2 = json_decode($json2, TRUE);
     $(document).ready(function(e) {
       $(".select2").select2();
       var PmID = '<?php echo $PmID; ?>';
-      if (PmID == 8) {
+      // if (PmID == 8) {
         $("#colDep").attr('hidden', true);
-      }
+      // }
 
       showDocument();
       GetDep();

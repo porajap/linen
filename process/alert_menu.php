@@ -326,7 +326,7 @@ function blinkcallDirtyDep($conn)
   $DocNo = $_POST["DocNo"];
   $userid   = $_SESSION["Userid"];
 
-  $Sql = "UPDATE call_dirty SET IsStatus = 1 , approveName = '$userid' ,  approveDate = NOW()   WHERE DocNo = '$DocNo' ";
+  $Sql = "UPDATE call_dirty SET IsStatus = 2 , approveName = '$userid' ,  approveDate = NOW()   WHERE DocNo = '$DocNo' ";
   if (mysqli_query($conn, $Sql)) {
     echo "1";
   }
@@ -341,7 +341,7 @@ function blinkmoveDepartment($conn)
   $DocNo = $_POST["DocNo"];
   $userid   = $_SESSION["Userid"];
 
-  $Sql = "UPDATE move_department SET IsStatus = 1 , approveName = '$userid' ,  approveDate = NOW()   WHERE DocNo = '$DocNo' ";
+  $Sql = "UPDATE move_department SET IsStatus = 2 , approveName = '$userid' ,  approveDate = NOW()   WHERE DocNo = '$DocNo' ";
   if (mysqli_query($conn, $Sql)) {
     echo "1";
   }
@@ -356,7 +356,7 @@ function blinkotherDepartment($conn)
   $DocNo = $_POST["DocNo"];
   $userid   = $_SESSION["Userid"];
 
-  $Sql = "UPDATE other_department SET IsStatus = 1 , approveName = '$userid' ,  approveDate = NOW()    WHERE DocNo = '$DocNo' ";
+  $Sql = "UPDATE other_department SET IsStatus = 2 , approveName = '$userid' ,  approveDate = NOW()    WHERE DocNo = '$DocNo' ";
   if (mysqli_query($conn, $Sql)) {
     echo "1";
   }
@@ -409,7 +409,9 @@ function showDetailParDocument($conn)
           FROM
           request_par_detail
             INNER JOIN item ON request_par_detail.ItemCode = item.ItemCode
-          WHERE request_par_detail.DocNo = '$DocNo' AND request_par_detail.Qty != 0 ";
+          WHERE request_par_detail.DocNo = '$DocNo'";
+
+// AND request_par_detail.Qty != 0 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[] = $Result;

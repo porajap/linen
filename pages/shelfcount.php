@@ -1680,21 +1680,21 @@ $array2 = json_decode($json2, TRUE);
       if (NewQty <= 0) {
         var Qty = 1;
       } else if (NewQty > Max) {
-        if(ScTime == "0"){
-          var Qty = NewQty;
-        }else{
+        // if(ScTime == "0"){
+        //   var Qty = NewQty;
+        // }else{
           var Qty = Max;
-        }
+        // }
       } else {
         var Qty = NewQty;
       }
       $('#qty1_' + i).val(Qty);
 
-      if(ScTime == "0"){
-        var Max = Number($('#qty1_' + i).val());
-      }else{
+      // if(ScTime == "0"){
+      //   var Max = Number($('#qty1_' + i).val());
+      // }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      }
+      // }
       $('#Max_' + i).val(Max);
 
       if (Issue != 0) {
@@ -1762,20 +1762,20 @@ $array2 = json_decode($json2, TRUE);
       if (NewQty <= 0) {
         var Qty = 0;
       } else if (NewQty > Max) {
-        if(ScTime == "0"){
-          var Qty = NewQty;
-        }else{
+        // if(ScTime == "0"){
+        //   var Qty = NewQty;
+        // }else{
           var Qty = Max;
-        }
+        // }
       } else {
         var Qty = NewQty;
       }
       $('#qty1_' + i).val(Qty);
-      if(ScTime == "0"){
-        var Max = Number($('#qty1_' + i).val());
-      }else{
+      // if(ScTime == "0"){
+      //   var Max = Number($('#qty1_' + i).val());
+      // }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      }
+      // }
       $('#Max_' + i).val(Max);
 
       if (Issue != 0) {
@@ -1850,11 +1850,11 @@ $array2 = json_decode($json2, TRUE);
         var Qty = NewQty;
         $('#qty1_' + i).val(Qty);
       }
-      if(ScTime == "0"){
-        var Max = Number($('#qty1_' + i).val());
-      }else{
+      // if(ScTime == "0"){
+      //   var Max = Number($('#qty1_' + i).val());
+      // }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      }
+      // }
       $('#Max_' + i).val(Max);
 
       if (Issue != 0) {
@@ -1903,11 +1903,11 @@ $array2 = json_decode($json2, TRUE);
       var NewQty = Number($('#qty1_' + i).val());
       var Max = Number($('#Max_' + i).val());
       var Issue = Number($('#Issue_' + i).val());
-      if(ScTime == "0"){
-        var Max = Number($('#qty1_' + i).val());
-      }else{
+      // if(ScTime == "0"){
+      //   var Max = Number($('#qty1_' + i).val());
+      // }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      }
+      // }
       var Result = 0;
       var Weightitem = 0;
       var Weight2 = Number($('#Weight2_' + i).val());
@@ -1979,11 +1979,11 @@ $array2 = json_decode($json2, TRUE);
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
         var sc = Number($('#qty1_' + i).val());
         
-        if(ScTime == "0"){
-          $('#Max_' + i).val(sc);
-        }else{
+        // if(ScTime == "0"){
+        //   $('#Max_' + i).val(sc);
+        // }else{
           $('#Max_' + i).val(Max);
-        }
+        // }
       }
     }
 

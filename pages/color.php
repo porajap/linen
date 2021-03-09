@@ -36,7 +36,7 @@ $array2 = json_decode($json2, TRUE);
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.css">
 
-  
+
   <title>
     color
   </title>
@@ -71,11 +71,11 @@ $array2 = json_decode($json2, TRUE);
                   <table class="table table-fixed table-condensed table-striped mt-3" id="table_color" width="100%" cellspacing="0" role="grid">
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row" id='tr_1'>
-                        <th  style="width:8%"><br></th>
-                        <th  style="width:20%">ลำดับสี</th>
-                        <th  style="width:22%">กลุ่มสี</th>
-                        <th  style="width:20%;text-align: center;">สี</th>
-                        <th  style="width:30%">รหัสสี</th>
+                        <th style="width:8%"><br></th>
+                        <th style="width:20%">ลำดับสี</th>
+                        <th style="width:22%">กลุ่มสี</th>
+                        <th style="width:20%;text-align: center;">สี</th>
+                        <th style="width:30%">รหัสสี</th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -97,7 +97,7 @@ $array2 = json_decode($json2, TRUE);
                     </div>
                   </div>
                 </div>
-                <div class="menu mhee"  id="div_bt_edit">
+                <div class="menu mhee" id="div_bt_edit">
                   <div class="d-flex justify-content-center">
                     <div class="circle4 d-flex justify-content-center">
                       <button class="btn" onclick="save_edit_color();" id="bSave">
@@ -146,20 +146,20 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-2 col-form-label ">กลุ่มสี</label>
-                    <select class="form-control col-md-7 " id="select_color_master2" style="font-size:22px;"  onchange="chk_color_master();">
+                    <select class="form-control col-md-7 " id="select_color_master2" style="font-size:22px;" onchange="chk_color_master();">
                     </select>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-2 col-form-label ">รหัสสี</label>
-                    <input  class='form-control mt-2 ' id="color-picker" style="font-size:22px;" />
-                    <input  class='form-control mt-2 ' id="text_id_color_detail" style="font-size:22px;" hidden />
+                    <input class='form-control mt-2 ' id="color-picker" style="font-size:22px;" />
+                    <input class='form-control mt-2 ' id="text_id_color_detail" style="font-size:22px;" hidden />
                     <label id="alert_txtColor" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
               </div>
-            
+
             </div>
           </div>
         </div>
@@ -174,9 +174,9 @@ $array2 = json_decode($json2, TRUE);
   <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(e) {
-    
+
       $('#color-picker').spectrum({
-                type: "component"
+        type: "component"
       });
 
       $('#div_bt_edit').hide();
@@ -212,9 +212,9 @@ $array2 = json_decode($json2, TRUE);
     function save_add_color() {
       var color_master = $("#select_color_master2").val();
       var color_code = $("#color-picker").val();
-      
 
-   
+
+
       if (color_master == "0") {
         swal({
           title: '',
@@ -242,7 +242,7 @@ $array2 = json_decode($json2, TRUE);
           var ObjData = JSON.parse(result);
           $("#select_color_master2").val("0");
           $("#color-picker").spectrum({
-              color: "transparent"
+            color: "transparent"
           });
 
           $('#bCancel').attr('disabled', true);
@@ -274,7 +274,7 @@ $array2 = json_decode($json2, TRUE);
       var color_master = $("#select_color_master2").val();
       var color_code = $("#color-picker").val();
       var text_id_color_detail = $('#text_id_color_detail').val();
-      
+
       if (color_master == "0") {
         swal({
           title: '',
@@ -297,13 +297,13 @@ $array2 = json_decode($json2, TRUE);
           'FUNC_NAME': 'save_edit_color',
           'color_master': color_master,
           'color_code': color_code,
-          'text_id_color_detail':text_id_color_detail
+          'text_id_color_detail': text_id_color_detail
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
           $("#select_color_master2").val("0");
           $("#color-picker").spectrum({
-              color: "transparent"
+            color: "transparent"
           });
 
           $('#bCancel').attr('disabled', true);
@@ -334,7 +334,7 @@ $array2 = json_decode($json2, TRUE);
     function cleartxt() {
       $("#select_color_master2").val("0");
       $("#color-picker").spectrum({
-              color: "transparent"
+        color: "transparent"
       });
       $(".classSupplier").prop("checked", false);
       $('#bCancel').attr('disabled', true);
@@ -366,7 +366,7 @@ $array2 = json_decode($json2, TRUE);
                 "<td style='width:8%'>" + chkDoc + "</td>" +
                 "<td style='width:20%'>" + (key + 1) + "</td>" +
                 "<td style='width:22%'>" + value.color_master_name + "</td>" +
-                "<td style='width:20%;'><center><div style='width:50%;background-color:"+value.color_code_detail+";padding:20px;margin:0px;'> </div></center></td>" +
+                "<td style='width:20%;'><center><div style='width:50%;background-color:" + value.color_code_detail + ";padding:20px;margin:0px;'> </div></center></td>" +
                 "<td style='width:30%'> " + value.color_code_detail + " </td>" +
                 "</tr>";
             });
@@ -375,7 +375,7 @@ $array2 = json_decode($json2, TRUE);
 
           $("#select_color_master2").val("0");
           $("#color-picker").spectrum({
-                  color: "transparent"
+            color: "transparent"
           });
           $('#bCancel').attr('disabled', true);
           $('#text_id_color_detail').val("");
@@ -494,101 +494,101 @@ $array2 = json_decode($json2, TRUE);
       }
     }
 
-    function get_color_master(){
+    function get_color_master() {
       $.ajax({
-            url: "../process/color.php",
-            type: 'POST',
-            data: {
-              'FUNC_NAME': 'get_color_master'
-            },
-            success: function(result) {
+        url: "../process/color.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'get_color_master'
+        },
+        success: function(result) {
 
-              var ObjData = JSON.parse(result);
-              var StrTR = "";
+          var ObjData = JSON.parse(result);
+          var StrTR = "";
 
 
-              if (!$.isEmptyObject(ObjData)) {
-                var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
-                $.each(ObjData, function(key, value) {
-                  Str += "<option value=" + value.ID + " >" + value.color_master_name + "</option>";
-                });
-              }
+          if (!$.isEmptyObject(ObjData)) {
+            var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+            $.each(ObjData, function(key, value) {
+              Str += "<option value=" + value.ID + " >" + value.color_master_name + "</option>";
+            });
+          }
 
-              $("#select_color_master").append(Str);
-              $("#select_color_master2").append(Str);
+          $("#select_color_master").append(Str);
+          $("#select_color_master2").append(Str);
 
-            }
-          });
+        }
+      });
     }
 
-    function chk_color_master(){
+    function chk_color_master() {
       var id_color_master = $('#select_color_master2').val();
       $.ajax({
-            url: "../process/color.php",
-            type: 'POST',
-            data: {
-              'FUNC_NAME': 'chk_color_master',
-              'id_color_master': id_color_master
-            },
-            success: function(result) {
+        url: "../process/color.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'chk_color_master',
+          'id_color_master': id_color_master
+        },
+        success: function(result) {
 
-              var ObjData = JSON.parse(result);
-              var StrTR = "";
+          var ObjData = JSON.parse(result);
+          var StrTR = "";
 
 
-              if (!$.isEmptyObject(ObjData)) {
-                var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
-                $.each(ObjData, function(key, value) {
-                  // $('#color-picker').val(value.color_master_code);
-                  $("#color-picker").spectrum({
-                        color: value.color_master_code,
-                        palette: [
-                              [value.color_master_code]
-                          ]
-                    });
-                });
-              }
+          if (!$.isEmptyObject(ObjData)) {
+            var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+            $.each(ObjData, function(key, value) {
+              // $('#color-picker').val(value.color_master_code);
+              $("#color-picker").spectrum({
+                color: value.color_master_code,
+                palette: [
+                  [value.color_master_code]
+                ]
+              });
+            });
+          }
 
-              
 
-            }
-          });
+
+        }
+      });
     }
 
-    function getDetail_color(id){
+    function getDetail_color(id) {
       $.ajax({
-            url: "../process/color.php",
-            type: 'POST',
-            data: {
-              'FUNC_NAME': 'getDetail_color',
-              'id_color_detail': id
-            },
-            success: function(result) {
+        url: "../process/color.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'getDetail_color',
+          'id_color_detail': id
+        },
+        success: function(result) {
 
-              var ObjData = JSON.parse(result);
-              var StrTR = "";
+          var ObjData = JSON.parse(result);
+          var StrTR = "";
 
 
-              if (!$.isEmptyObject(ObjData)) {
-                $.each(ObjData, function(key, value) {
-                  $('#select_color_master2').val(value.ID_color_master);
-                  $('#text_id_color_detail').val(value.ID);
-                  
-                  $("#color-picker").spectrum({
-                        color: value.color_code_detail,
-                        palette: [
-                              [value.color_master_code]
-                          ]
-                    });
-                });
-              }
-              $('#bCancel').attr('disabled', false);
-              // $("#bCancel").removeClass('opacity');
-              $('#cancelIcon').removeClass('opacity');
-              $('#div_bt_edit').show();
-              $('#div_bt_add').hide();
-            }
-          });
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(key, value) {
+              $('#select_color_master2').val(value.ID_color_master);
+              $('#text_id_color_detail').val(value.ID);
+
+              $("#color-picker").spectrum({
+                color: value.color_code_detail,
+                palette: [
+                  [value.color_master_code]
+                ]
+              });
+            });
+          }
+          $('#bCancel').attr('disabled', false);
+          // $("#bCancel").removeClass('opacity');
+          $('#cancelIcon').removeClass('opacity');
+          $('#div_bt_edit').show();
+          $('#div_bt_add').hide();
+        }
+      });
     }
   </script>
 

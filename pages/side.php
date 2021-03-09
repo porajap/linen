@@ -122,6 +122,14 @@ $array2 = json_decode($json2, TRUE);
         }
       });
 
+      $('#alertTime').keyup(function(e) {
+        if($(this).val() > 59){
+          $(this).val(59);
+        }
+      });
+
+      
+
       $('.editable').click(function() {
         alert('hi');
       });
@@ -1690,9 +1698,9 @@ $array2 = json_decode($json2, TRUE);
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class='form-group row' id="form2">
+                    <div class='form-group row' id="form2"></div>
                       <label class="col-sm-4 col-form-label ">เวลา</label>
-                      <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank" id="alertTime" placeholder="เวลา">
+                      <input type="text" onkeyup="resetinput()" autocomplete="off" class="form-control col-sm-7 checkblank charonlyTH charonly" id="alertTime" placeholder="เวลา">
                       <label id="rem11" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk"></i> </label>
                     </div>
                   </div>

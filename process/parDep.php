@@ -426,7 +426,8 @@ function showDetailDocument($conn)
   if($IsStatus == 0){
     $whereQty = "";
   }else{
-    $whereQty = "AND request_par_detail.Qty != 0";
+    // $whereQty = "AND request_par_detail.Qty != 0";
+    $whereQty = "";
   }
 
   $Sql = "SELECT
