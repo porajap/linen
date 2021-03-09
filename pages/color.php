@@ -88,7 +88,7 @@ $array2 = json_decode($json2, TRUE);
                 <div class="menu mhee" id="div_bt_add">
                   <div class="d-flex justify-content-center">
                     <div class="circle4 d-flex justify-content-center">
-                      <button class="btn" onclick="save_add_color();" id="bSave">
+                      <button class="btn" onclick="chk_color();" id="bSave">
                         <i class="fas fa-save"></i>
                         <div>
                           <?php echo $array['save'][$language]; ?>
@@ -208,6 +208,39 @@ $array2 = json_decode($json2, TRUE);
       parent.afk();
     });
 
+    function chk_color() {   
+      var color_code = $("#color-picker").val();
+ 
+      $.ajax({
+        url: "../process/color.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'chk_color',
+          'color_code': color_code
+        },
+        success: function(result) {
+
+          var ObjData = JSON.parse(result);
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(key, value) {
+              if(value.num==0){
+                save_add_color();
+              }else{
+                swal({
+                  title: '',
+                  text: '<?php echo $array['editfailcolor'][$language]; ?>',
+                  type: 'warning',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+              }
+            });
+          }
+        }
+      });
+ 
+    }
 
     function save_add_color() {
       var color_master = $("#select_color_master2").val();

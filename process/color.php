@@ -22,6 +22,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     getDetail_color($conn);
   }else  if ($_POST['FUNC_NAME'] == 'save_edit_color') {
     save_edit_color($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'chk_color') {
+    chk_color($conn);
   }
 }
 
@@ -59,6 +61,23 @@ function saveData($conn)
 
 
   mysqli_query($conn, $Sql);
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+function chk_color($conn)
+{
+  $color_code = $_POST["color_code"];
+  $Sql = "SELECT
+            COUNT(color_detail.color_code_detail)  AS num
+          FROM  color_detail
+          INNER JOIN color_master  ON  color_detail.ID_color_master = color_master.ID
+          WHERE color_detail.color_code_detail='$color_code'";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+  }
   echo json_encode($return);
   mysqli_close($conn);
   die;

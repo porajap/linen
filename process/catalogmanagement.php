@@ -76,10 +76,29 @@ if (!empty($_POST['FUNC_NAME'])) {
     delete_time($conn);
   }else  if ($_POST['FUNC_NAME'] == 'delete_storeDetail') {
     delete_storeDetail($conn);
+  } else if ($_POST['FUNC_NAME'] == 'showSize') {
+    showSize($conn);
   }
   
 }
 
+
+function showSize($conn)
+{
+  $Sql = "SELECT
+            item_size.SizeCode,
+            item_size.SizeName 
+          FROM
+            item_size";
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
 
 function showData($conn)
 {
@@ -419,6 +438,13 @@ function openMasterColor($conn)
   $count    = 0;
   $size     = $_POST["size"];
   $txtItemId = $_POST["txtItemId"];
+  $sizeArray = $_POST["sizeArray"];
+  $wheresize = "";
+  foreach ($sizeArray as $key => $value) {
+    $wheresize .= "'" . $value . "',";
+  }
+  $wheresize = rtrim($wheresize, ',');
+
 
   $Sql = "SELECT
             multicolor.itemCategoryId,
@@ -428,12 +454,13 @@ function openMasterColor($conn)
             multicolor.id 
           FROM
             multicolor
-          WHERE multicolor.itemCategoryId = '$txtItemId' AND  multicolor.itemsize = '$size' ";
+          WHERE multicolor.itemCategoryId = '$txtItemId' AND  multicolor.itemsize IN( $wheresize ) GROUP BY multicolor.color_detail";
+  // echo $Sql;
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
     $return[] = $row;
   }
-
+  $return[] = $Sql;
   echo json_encode($return);
   mysqli_close($conn);
   die;
@@ -485,11 +512,17 @@ function deleteColor($conn)
 {
   $count    = 0;
   $txtColorId = $_POST["txtColorId"];
+  $txtItemId = $_POST["txtItemId"];
+  $sizeArray = $_POST["sizeArray"];
   $return = array();
+  foreach ($sizeArray as $key => $value) {
+    $Sql = "DELETE FROM multicolor 
+                   WHERE multicolor.color_detail = '$txtColorId' 
+                   AND itemCategoryId = '$txtItemId'
+                   AND multicolor.itemsize = '$value'";
+    mysqli_query($conn, $Sql);
+  }
 
-  $Sql = "DELETE FROM multicolor WHERE id = '$txtColorId' ";
-
-  mysqli_query($conn, $Sql);
   echo "1";
   mysqli_close($conn);
   die;
@@ -503,20 +536,44 @@ function saveColor($conn)
   $colorDetail = $_POST["colorDetail"];
   $colorMaster = $_POST["colorMaster"];
   $txtColorId = $_POST["txtColorId"];
+  $sizeArray = $_POST["sizeArray"];
   $return = array();
-  if ($txtColorId == "") {
-    $Sql = "INSERT INTO multicolor SET  itemCategoryId = '$txtItemId',
-                                        itemsize = '$radioSize',
+  foreach ($sizeArray as $key => $value) {
+    $Sql = "SELECT
+              COUNT( multicolor.id ) AS count_id 
+            FROM
+              multicolor 
+            WHERE
+              multicolor.itemsize = '$value'
+            AND multicolor.itemCategoryId = '$txtItemId' 
+            AND multicolor.color_detail  = '$txtColorId' ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($row = mysqli_fetch_assoc($meQuery)) {
+      $count_id = $row['count_id'];
+
+      if ($count_id == 0) {
+        $Sql_ = "INSERT INTO multicolor SET  itemCategoryId = '$txtItemId',
+                                        itemsize = '$value',
                                         color_master = '$colorMaster',
                                         color_detail = '$colorDetail'    ";
-  } else {
-    $Sql = "UPDATE multicolor SET itemsize = '$radioSize',
-                                  color_master = '$colorMaster',
-                                  color_detail = '$colorDetail'  
-            WHERE multicolor.id = '$txtColorId'  ";
+      } else {
+        $Sql_ = "UPDATE multicolor 
+                SET itemsize = '$value',
+                color_master = '$colorMaster',
+                color_detail = '$colorDetail' 
+                WHERE
+                  multicolor.color_detail = '$txtColorId' 
+                  AND itemCategoryId = '$txtItemId'
+                  AND multicolor.itemsize = '$value'";
+      }
+      mysqli_query($conn, $Sql_);
+    }
   }
 
-  mysqli_query($conn, $Sql);
+
+
+
   echo "1";
   mysqli_close($conn);
   die;
@@ -1317,8 +1374,9 @@ function save_Timestoce($conn)
 {
   $id_store = $_POST["id_store"];
   $txtTimestoce = $_POST["txtTimestoce"];
+  $txtTimestoce_EN = $_POST["txtTimestoce_EN"];
 
-    $Sql = "INSERT INTO office_hours SET id_storc_location = '$id_store' ,  office_hours = '$txtTimestoce' ";
+    $Sql = "INSERT INTO office_hours SET id_storc_location = '$id_store' ,  office_hours = '$txtTimestoce',  office_hours_EN = '$txtTimestoce_EN' ";
     mysqli_query($conn, $Sql);
 
     $return[] = $id_store;
@@ -1331,9 +1389,17 @@ function show_Timestoce($conn)
 {
   $id_store = $_POST["id_store"];
 
+  $lang = $_SESSION['lang'];
+
+  if($lang == "en"){
+    $name = "office_hours.office_hours_EN AS name";
+  }else{
+    $name = "office_hours.office_hours  AS name";
+  }
+
   $Sql = "SELECT
             office_hours.id,
-            office_hours.office_hours 
+            $name 
           FROM
             office_hours 
           WHERE
@@ -1355,7 +1421,8 @@ function show_edit_time($conn)
 
   $Sql = "SELECT
             office_hours.id,
-            office_hours.office_hours 
+            office_hours.office_hours,
+            office_hours.office_hours_EN  
           FROM
             office_hours 
           WHERE
@@ -1375,8 +1442,9 @@ function save_Timestoce_edit($conn)
 {
   $id_Timestoce = $_POST["id_Timestoce"];
   $txtTimestoce_edit = $_POST["txtTimestoce_edit"];
-
-    $Sql = "UPDATE office_hours SET   office_hours = '$txtTimestoce_edit' WHERE office_hours.id = '$id_Timestoce' ";
+  $txtTimestoce_edit_EN = $_POST["txtTimestoce_edit_EN"];
+  
+    $Sql = "UPDATE office_hours SET   office_hours = '$txtTimestoce_edit',office_hours_EN = '$txtTimestoce_edit_EN' WHERE office_hours.id = '$id_Timestoce' ";
     mysqli_query($conn, $Sql);
 
     $return[] = $id_Timestoce;

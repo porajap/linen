@@ -546,7 +546,7 @@ $array2 = json_decode($json2, TRUE);
                             <div class="col-12">
                               <div class='form-group row'>
                                 <label class="col-sm-3 col-form-label "><?php echo $array['phone'][$language]; ?></label>
-                                <input id="txtphone" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
+                                <input id="txtphone" type="text" autocomplete="off" class="form-control col-sm-7 numonly" style="font-size:22px;">
                                 <label id="alert_txtphone" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                             
                                 <label class="col-sm-3 col-form-label ">Active</label>
@@ -637,45 +637,8 @@ $array2 = json_decode($json2, TRUE);
       <div class="modal fade" id="modal_color" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header">
-              <div class="form-check form-check-inline">
-                <label class='radio '>
-                  <input type='radio' name='radio_size' id="size_s" value="S" class="form-check-input" onclick="openMasterColor('S');">
-                  <span class='checkmark'></span>
-                </label>
-                <label class="form-check-label ml-2" for="size_s">S</label>
-              </div>
-
-              <div class="form-check form-check-inline">
-                <label class='radio '>
-                  <input type='radio' name='radio_size' id="size_m" value="M" class="form-check-input" onclick="openMasterColor('M');">
-                  <span class='checkmark'></span>
-                </label>
-                <label class="form-check-label ml-2" for="size_m">M</label>
-              </div>
-
-              <div class="form-check form-check-inline">
-                <label class='radio '>
-                  <input type='radio' name='radio_size' id="size_l" value="L" class="form-check-input" onclick="openMasterColor('L');">
-                  <span class='checkmark'></span>
-                </label>
-                <label class="form-check-label ml-2" for="size_l">L</label>
-              </div>
-
-              <div class="form-check form-check-inline">
-                <label class='radio '>
-                  <input type='radio' name='radio_size' id="size_xl" value="XL" class="form-check-input" onclick="openMasterColor('XL');">
-                  <span class='checkmark'></span>
-                </label>
-                <label class="form-check-label ml-2" for="size_xl">XL</label>
-              </div>
-
-              <div class="form-check form-check-inline">
-                <label class='radio '>
-                  <input type='radio' name='radio_size' id="size_xxl" value="XXL" class="form-check-input" onclick="openMasterColor('XXL');">
-                  <span class='checkmark'></span>
-                </label>
-                <label class="form-check-label ml-2" for="size_xxl">XXL</label>
+            <div class="modal-header" >
+              <div class="row px-3" id="modalColor_Header">
               </div>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -695,10 +658,10 @@ $array2 = json_decode($json2, TRUE);
                   <input hidden id="txtColorId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
                   <div id="row_color" style="display: -webkit-box;">
                     <!-- <div class="px-3 ml-1" style="background-color:blueviolet;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:red;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:green;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:pink;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:yellow;border-radius: 70%;cursor: pointer;"><br></div> -->
+                    <div class="px-3 ml-1" style="background-color:red;border-radius: 70%;cursor: pointer;"><br></div>
+                    <div class="px-3 ml-1" style="background-color:green;border-radius: 70%;cursor: pointer;"><br></div>
+                    <div class="px-3 ml-1" style="background-color:pink;border-radius: 70%;cursor: pointer;"><br></div>
+                    <div class="px-3 ml-1" style="background-color:yellow;border-radius: 70%;cursor: pointer;"><br></div> -->
 
                   </div>
                 </div>
@@ -764,9 +727,21 @@ $array2 = json_decode($json2, TRUE);
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-             <span style="font-size:30px; " ><?php echo $array['officehours'][$language]; ?></span>
-             <input id="txtTimestoce_edit" type="text" autocomplete="off" class="form-control col-sm-9 " style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?>">
+            <div class="modal-body row">
+              <div class="col-12">
+                <div class='form-group row'>
+                  <label class="col-sm-3 col-form-label "><?php echo $array['officehours'][$language]; ?> TH :</label>
+                  <input id="txtTimestoce_edit" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?> TH">
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class='form-group row'>
+                  <label class="col-sm-3 col-form-label "><?php echo $array['officehours'][$language]; ?> EN :</label>
+                  <input id="txtTimestoce_edit_EN" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?> EN">
+                </div>
+              </div>
+      
              <input type="text" id="id_Timestoce" hidden>
             </div>
             <div class="modal-footer">
@@ -788,12 +763,18 @@ $array2 = json_decode($json2, TRUE);
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              <span style="font-size:30px; " class="ml-4 "><?php echo $array['officehours'][$language]; ?></span>
+            <div class="modal-body row">
               <div class="col-12">
-                <div class='form-group row ml-2'>
-                  <input id="txtTimestoce" type="text" autocomplete="off" class="form-control col-sm-9 " style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?>">
-                <div>
+                <div class='form-group row'>
+                  <label class="col-sm-3 col-form-label "><?php echo $array['officehours'][$language]; ?> TH :</label>
+                  <input id="txtTimestoce" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?> TH">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class='form-group row'>
+                  <label class="col-sm-3 col-form-label "><?php echo $array['officehours'][$language]; ?> EN :</label>
+                  <input id="txtTimestoce_EN" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;" placeholder=" <?php echo $array['officehours'][$language]; ?> EN" >
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -819,6 +800,11 @@ $array2 = json_decode($json2, TRUE);
           $('.dropify').dropify();
           $('#div_btSave').hide();
 
+
+          $('#modaltxt_colorDetail').spectrum({
+            type: "component"
+          });
+
           var drEvent = $('#imageOne').dropify();
           var drEventTwo = $('#imageTwo').dropify();
           var drEventThree = $('#imageThree').dropify();
@@ -840,7 +826,7 @@ $array2 = json_decode($json2, TRUE);
           });
 
           $('#div_bt_edit').hide();
-
+   
 
           get_typelinen(chklang);
           setTimeout(() => {
@@ -848,6 +834,7 @@ $array2 = json_decode($json2, TRUE);
             showMasterColor();
             showSupplierAdd(chklang);
             showSiteAdd(chklang);
+            showSize();
           }, 200);
 
           $("#detail-tab").click(function() {
@@ -1255,7 +1242,7 @@ $array2 = json_decode($json2, TRUE);
               var mycolor = "";
               if (!$.isEmptyObject(ObjData)) {
                 $.each(ObjData, function(kay, value) {
-                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 2px solid; width:2%;'></div>";
+                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 0px solid; width:35px;'></div>";
                 });
               } else {
 
@@ -1310,7 +1297,7 @@ $array2 = json_decode($json2, TRUE);
               var mycolor = "";
               if (!$.isEmptyObject(ObjData)) {
                 $.each(ObjData, function(kay, value) {
-                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 2px solid; width:2%;'></div>";
+                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 0px solid; width:35px;'></div>";
                 });
               }
               $("#div_color").html(mycolor);
@@ -1403,12 +1390,19 @@ $array2 = json_decode($json2, TRUE);
 
         function openModalColor() {
           $('input[name="radio_size"]').prop('checked', false);
+          $("#row_color").empty();
           $("#modalSelect_colorMaster").val("0");
           $("#modalSelect_colorMaster").attr("disabled", true);
           $("#modal_color").modal('show');
         }
 
         function openMasterColor(size) {
+          var sizeArray = [];
+
+          $(".loopsize:checked").each(function() {
+            sizeArray.push($(this).val());
+          });
+
           var txtItemId = $("#txt_ID").val();
           $('#modalColor_btnDelete').attr('disabled', true);
           $("#modalSelect_colorMaster").attr("disabled", false);
@@ -1418,6 +1412,8 @@ $array2 = json_decode($json2, TRUE);
           $("#modaltxt_colorDetail").spectrum({
             type: "component"
           });
+
+          $("#row_color").empty();
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -1425,10 +1421,10 @@ $array2 = json_decode($json2, TRUE);
               'FUNC_NAME': 'openMasterColor',
               'size': size,
               'txtItemId': txtItemId,
+              'sizeArray': sizeArray,
             },
             success: function(result) {
               var ObjData = JSON.parse(result);
-              $("#row_color").empty();
               if (!$.isEmptyObject(ObjData)) {
                 var option = ``;
                 $.each(ObjData, function(kay, value) {
@@ -1489,7 +1485,7 @@ $array2 = json_decode($json2, TRUE);
           $('#modalSelect_colorMaster').val(color_master);
           $(".classColorDetail").css('border', 'none');
           $("#colorDetail_" + id).css('border', '2px solid');
-          $('#txtColorId').val(id);
+          $('#txtColorId').val(color_detail);
           $('#modalColor_btnDelete').attr('disabled', false);
 
           setTimeout(() => {
@@ -1536,7 +1532,38 @@ $array2 = json_decode($json2, TRUE);
 
         }
 
+        function showSize() {
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'showSize',
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              var data = "";
+              if (!$.isEmptyObject(ObjData)) {
+                $.each(ObjData, function(kay, value) {
+                  data += `<div class="form-check form-check-inline mt-3" style="align-items: end;">` +
+                    `<input type='checkbox' name='radio_size' id="size_${value.SizeName}" value="${value.SizeName}" class="form-check-input loopsize" onclick="openMasterColor('${value.SizeName}');">` +
+                    `<label class="form-check-label ml-2" for="size_${value.SizeName}">${value.SizeName}</label>` +
+                    `</div>`;
+                });
+              }
+
+              $("#modalColor_Header").html(data);
+
+
+            }
+          });
+        }
+
+
         function saveColor() {
+          var sizeArray = [];
+          $(".loopsize:checked").each(function() {
+            sizeArray.push($(this).val());
+          });
           var colorMaster = $("#modalSelect_colorMaster").val();
           var colorDetail = $("#modaltxt_colorDetail").val();
           var txtItemId = $("#txt_ID").val();
@@ -1552,6 +1579,7 @@ $array2 = json_decode($json2, TRUE);
               'txtItemId': txtItemId,
               'radioSize': radioSize,
               'txtColorId': txtColorId,
+              'sizeArray': sizeArray,
             },
             success: function(result) {
               swal({
@@ -1564,6 +1592,7 @@ $array2 = json_decode($json2, TRUE);
               });
 
               setTimeout(() => {
+                $("#modal_color").modal('hide');
                 $('#txtColorId').val("");
                 openMasterColor(radioSize);
                 show_colorDetail(txtItemId);
@@ -1577,15 +1606,21 @@ $array2 = json_decode($json2, TRUE);
         }
 
         function deleteColor() {
+          var sizeArray = [];
+          $(".loopsize:checked").each(function() {
+            sizeArray.push($(this).val());
+          });
           var radioSize = $('input[name="radio_size"]:checked').val();
           var txtColorId = $('#txtColorId').val();
           var txtItemId = $("#txt_ID").val();
           $.ajax({
-            url: "../process/catalogmanagement.php",
+            url: "../process/bindcatalog.php",
             type: 'POST',
             data: {
               'FUNC_NAME': 'deleteColor',
               'txtColorId': txtColorId,
+              'txtItemId': txtItemId,
+              'sizeArray': sizeArray,
             },
             success: function(result) {
               swal({
@@ -1605,7 +1640,7 @@ $array2 = json_decode($json2, TRUE);
                 openMasterColor(radioSize);
                 show_colorDetail(txtItemId);
                 show_SizeDetail(txtItemId);
-              }, 1700);
+              }, 500);
 
 
             }
@@ -2578,12 +2613,14 @@ $array2 = json_decode($json2, TRUE);
           var id_store = $("id_store").val();
           $("#modal_Timestoce").modal('show');
            $("#txtTimestoce").val("");
-         
+           $("#txtTimestoce_EN").val("");
+           
       }
 
       function save_Timestoce() {
           var id_store = $("#id_store").val();
           var txtTimestoce = $("#txtTimestoce").val();
+          var txtTimestoce_EN = $("#txtTimestoce_EN").val();
 
           if (txtTimestoce == "") {
             swal({
@@ -2601,6 +2638,22 @@ $array2 = json_decode($json2, TRUE);
             $("#txtTimestoce").removeClass("border-danger");
           }
 
+          if (txtTimestoce_EN == "") {
+            swal({
+              title: '',
+              text: 'กรุณาระบุเวลาทำการ',
+              type: 'warning',
+              showCancelButton: false,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            $("#txtTimestoce_EN").addClass("border-danger");
+            // $("#alert_txtDiscription").show();
+            return;
+          } else {
+            $("#txtTimestoce_EN").removeClass("border-danger");
+          }
+
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -2608,6 +2661,7 @@ $array2 = json_decode($json2, TRUE);
               'FUNC_NAME': 'save_Timestoce',
               'id_store': id_store,
               'txtTimestoce': txtTimestoce,
+              'txtTimestoce_EN': txtTimestoce_EN,
             },
             success: function(result) {
               swal({
@@ -2643,7 +2697,7 @@ $array2 = json_decode($json2, TRUE);
                 $.each(ObjData, function(kay, value) {
                   var edit_time =" <a class='aButton ml-4' href='javascript:void(0)' onclick='show_edit_time(\"" + value.id + "\" );'><img src='../img/edit.png' style='width:20px;'></a>";
                   var delete_time =" <a class='aButton ml-3' href='javascript:void(0)' onclick='delete_time(\"" + value.id + "\" );'><img src='../img/icon/ic_cancel.png' style='width:20px;'></a>"
-                  var Timestoce = `<span  style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.office_hours}</span>`;
+                  var Timestoce = `<span  style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name}</span>`;
                   myDATA += "<div>" + Timestoce +edit_time+delete_time+ "</div>";
                 });
               }
@@ -2660,6 +2714,7 @@ $array2 = json_decode($json2, TRUE);
         $("#modal_edit_Timestoce").modal('toggle');
         $("#id_Timestoce").val(id);
         $("#txtTimestoce_edit").val("");
+        $("#txtTimestoce_edit_EN").val("");
         // alert(id);
 
         $.ajax({
@@ -2674,6 +2729,7 @@ $array2 = json_decode($json2, TRUE);
               if (!$.isEmptyObject(ObjData)) {
                 $.each(ObjData, function(kay, value) {
                   $("#txtTimestoce_edit").val(value.office_hours);
+                  $("#txtTimestoce_edit_EN").val(value.office_hours_EN);
                 });
               }
               
@@ -2684,6 +2740,7 @@ $array2 = json_decode($json2, TRUE);
       function save_Timestoce_edit() {
         var id_Timestoce = $("#id_Timestoce").val();
         var txtTimestoce_edit = $("#txtTimestoce_edit").val();
+        var txtTimestoce_edit_EN = $("#txtTimestoce_edit_EN").val();
 
         $.ajax({
             url: "../process/catalogmanagement.php",
@@ -2691,7 +2748,8 @@ $array2 = json_decode($json2, TRUE);
             data: {
               'FUNC_NAME': 'save_Timestoce_edit',
               'id_Timestoce': id_Timestoce,
-              'txtTimestoce_edit': txtTimestoce_edit
+              'txtTimestoce_edit': txtTimestoce_edit,
+              'txtTimestoce_edit_EN': txtTimestoce_edit_EN
             },
             success: function(result) {
               swal({
