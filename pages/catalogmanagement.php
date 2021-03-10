@@ -585,8 +585,6 @@ $array2 = json_decode($json2, TRUE);
         </div>
       </div>
 
-
-
       <!-- -----------------------------modal_supplier------------------------------------ -->
       <div class="modal fade" id="modal_supplier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -1050,7 +1048,7 @@ $array2 = json_decode($json2, TRUE);
                   var color = ""
                   if (!$.isEmptyObject(ObjData.color_c)) {
                     $.each(ObjData.color_c[value.id], function(key2, value2) {
-                      color += "<div class='px-3 ml-1'  style='background-color: " + value2.color_detail + "; border-radius: 70%;  height: 35px; border: 0px solid; width:35px;margin-bottom: 5px;'></div>";
+                      color += "<div class='px-3 ml-1'  style='background-color: " + value2.color_detail + "; border-radius: 70%;  height: 35px; border: 2px solid; width:35px;margin-bottom: 5px;border-color: lightgray;'></div>";
                     });
                   }
                   //------------------size----------------------------
@@ -1242,7 +1240,7 @@ $array2 = json_decode($json2, TRUE);
               var mycolor = "";
               if (!$.isEmptyObject(ObjData)) {
                 $.each(ObjData, function(kay, value) {
-                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 0px solid; width:35px;'></div>";
+                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 2px solid; width:35px;border-color: lightgray;'></div>";
                 });
               } else {
 
@@ -1297,7 +1295,7 @@ $array2 = json_decode($json2, TRUE);
               var mycolor = "";
               if (!$.isEmptyObject(ObjData)) {
                 $.each(ObjData, function(kay, value) {
-                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 0px solid; width:35px;'></div>";
+                  mycolor += "<div class='px-3 ml-1'  style='background-color: " + value.color_detail + "; border-radius: 70%;  height: 35px; border: 2px solid; width:35px;border-color: lightgray;'></div>";
                 });
               }
               $("#div_color").html(mycolor);
@@ -1913,9 +1911,9 @@ $array2 = json_decode($json2, TRUE);
                   var imageThree = `${"../profile/catalog/"+value.imageThree}`;
 
                   //--------------------------------------------------------------------------
+                
 
-
-                  $("#id_img1").prop("checked", true);
+                 
                  
                   //--------------------------------------------------------------------------
 
@@ -1976,7 +1974,21 @@ $array2 = json_decode($json2, TRUE);
                     $('#imageThree').data("value", imageThree);
                      
                   }, 300);
-                  currentDiv(1);
+
+                  if(value.imageOne==value.imageDefault){
+                    $("#id_img1").prop("checked", true);
+                    currentDiv(1);
+                  }else if(value.imageTwo==value.imageDefault){
+                    $("#id_img2").prop("checked", true);
+                    currentDiv(2);
+                  }else if(value.imageThree==value.imageDefault){
+                    $("#id_img3").prop("checked", true);
+                    currentDiv(3);
+                  }else{
+                    $("#id_img1").prop("checked", true);
+                    currentDiv(1);
+                  }
+                  
 
                 });
               }
@@ -2000,13 +2012,24 @@ $array2 = json_decode($json2, TRUE);
           var typelinen_detail = $("#typelinen_detail").val();
           var txtDiscription = $("#txt_Description_TH").val();
           var txtDiscription_EN = $("#txt_Description_EN").val();
-
+          
           var checkBox = document.getElementById("activecatalog");
+          var id_img1 = document.getElementById("id_img1");
+          var id_img2 = document.getElementById("id_img2");
+          var id_img3 = document.getElementById("id_img3");
 
           if (checkBox.checked == true) {
             var activecatalog = 1;
           } else {
             var activecatalog = 0;
+          }
+
+          if (id_img1.checked == true) {
+            var radio_img = 1;
+          } else if(id_img2.checked == true) {
+            var  radio_img = 2;
+          } else if(id_img3.checked == true){
+            var  radio_img = 3;
           }
 
 
@@ -2020,7 +2043,7 @@ $array2 = json_decode($json2, TRUE);
           if (txt_NameTh == "") {
             swal({
               title: '',
-              text: 'กรุณาระบุรายการไทย',
+              text: 'กรุณาระบุชื่อ ภาษาไทย',
               type: 'warning',
               showCancelButton: false,
               showConfirmButton: false,
@@ -2036,7 +2059,7 @@ $array2 = json_decode($json2, TRUE);
           if (txt_NameEn == "") {
             swal({
               title: '',
-              text: 'กรุณาระบุรายการอังกฤษ',
+              text: 'กรุณาระบุชื่อ ภาษาอังกฤษ',
               type: 'warning',
               showCancelButton: false,
               showConfirmButton: false,
@@ -2052,7 +2075,7 @@ $array2 = json_decode($json2, TRUE);
           if (txtDiscription == "") {
             swal({
               title: '',
-              text: 'กรุณาระบุรายการ',
+              text: 'กรุณาระบุ Discription ภาษาไทย',
               type: 'warning',
               showCancelButton: false,
               showConfirmButton: false,
@@ -2068,7 +2091,7 @@ $array2 = json_decode($json2, TRUE);
           if (txtDiscription_EN == "") {
             swal({
               title: '',
-              text: 'กรุณาระบุรายการ',
+              text: 'กรุณาระบุ Discription ภาษาอังกฤษ',
               type: 'warning',
               showCancelButton: false,
               showConfirmButton: false,
@@ -2097,8 +2120,9 @@ $array2 = json_decode($json2, TRUE);
           form_data.append('activecatalog', activecatalog);
           form_data.append('txtItemNameEn', txt_NameEn);
           form_data.append('txtDiscription_EN', txtDiscription_EN);
+          form_data.append('radio_img', radio_img);
           
-
+          
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',

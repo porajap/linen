@@ -719,7 +719,8 @@ function showimg($conn)
   $Sql = "SELECT
             itemcatalog.imageOne, 
             itemcatalog.imageTwo, 
-            itemcatalog.imageThree
+            itemcatalog.imageThree,
+            itemcatalog.imageDefault
           FROM
             itemcatalog
             WHERE itemcatalog.id='$id' 
@@ -771,7 +772,8 @@ function saveData_detail($conn)
   $data_imageOne = $_POST['data_imageOne'];
   $data_imageTwo = $_POST['data_imageTwo'];
   $data_imageThree = $_POST['data_imageThree'];
-
+  $radio_img = $_POST['radio_img'];
+  
     $Sql = "UPDATE itemcatalog SET typeLinen = '$typelinen_detail' , discription = '$txtDiscription' , discription_EN = '$txtDiscription_EN' , itemCategoryName = '$txtItemName', itemCategoryNameEn = '$txtItemNameEn', IsActive = '$activecatalog'  WHERE itemcatalog.id = '$txtItemId' ";
 
   mysqli_query($conn, $Sql);
@@ -933,6 +935,33 @@ function saveData_detail($conn)
       mysqli_query($conn, $Sql);
     }
   }
+
+
+  $Sql2 = "SELECT 
+            itemcatalog.id,
+            imageOne,
+            imageTwo,
+            imageThree
+          FROM 
+            itemcatalog
+          WHERE itemcatalog.id = '$txtItemId' ";
+
+  $meQuery2 = mysqli_query($conn, $Sql2);
+  $Result2 = mysqli_fetch_assoc($meQuery2);
+  $imageOne = $Result2['imageOne']==null?"":$Result2['imageOne'];
+  $imageTwo = $Result2['imageTwo']==null?"":$Result2['imageTwo'];
+  $imageThree = $Result2['imageThree']==null?"":$Result2['imageThree'];
+
+  if ($radio_img == 1) {
+    $imageDefault =  $imageOne;
+  } else if($radio_img == 2) {
+    $imageDefault =  $imageTwo;
+  } else if($radio_img == 3){
+    $imageDefault =  $imageThree;
+  }
+
+    $Sql_img_def = "UPDATE itemcatalog SET itemcatalog.imageDefault='$imageDefault'  WHERE itemcatalog.id = '$txtItemId';";
+    mysqli_query($conn, $Sql_img_def);
 
   $return[] = $txtItemId;
   echo json_encode($return);
