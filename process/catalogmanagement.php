@@ -78,6 +78,10 @@ if (!empty($_POST['FUNC_NAME'])) {
     delete_storeDetail($conn);
   } else if ($_POST['FUNC_NAME'] == 'showSize') {
     showSize($conn);
+  }else if ($_POST['FUNC_NAME'] == 'save_about') {
+    save_about($conn);
+  }else if ($_POST['FUNC_NAME'] == 'show_about') {
+    show_about($conn);
   }
   
 }
@@ -1508,3 +1512,104 @@ function delete_storeDetail($conn)
   die;
 }
 
+
+function save_about($conn)
+{
+  $html = $_POST["html"];
+  $data_imageabout = $_POST["data_imageabout"];
+
+  $Sql_ab = "SELECT
+              about.id,
+              ROUND((37384 - 1231 * RAND()), 0) AS random_new,
+              about.image_about
+            FROM
+              about
+              ORDER BY about.id DESC LIMIT 1";
+
+  $meQuery = mysqli_query($conn, $Sql_ab);
+  $row = mysqli_fetch_assoc($meQuery);
+  $id=$row['id'];
+  $random_new=$row['random_new'];
+  $image_about = $row['image_about']==null?"":$row['image_about'];
+    
+    $Sql = "UPDATE about SET   about = '$html' WHERE about.id = '$id' ";
+    mysqli_query($conn, $Sql);
+
+
+    $iamge1 = $id . "-1" .".png";
+
+    $iamge1_now = $id . "-1_" . $random_new. ".png";
+
+    $iamge1 = $id . "-1". ".png";
+
+    include("gen_thumbnail.php");
+
+    if ($_FILES['imageabout'] != "") {
+    if($image_about != ""){
+    unlink('../profile/about/' . $image_about);
+    }
+    copy($_FILES['imageabout']['tmp_name'], '../profile/about/' . $iamge1_now);
+
+    $Sql = "UPDATE about SET about.image_about='$iamge1_now'  WHERE about.id = '$id';";
+    mysqli_query($conn, $Sql);
+
+    $cfg_thumb =  (object) array(
+    "source" => "../profile/about/" . $iamge1_now,                // ตำแหน่งและชื่อไฟล์ต้นฉบับ
+    "destination" => "../profile/about/" . $iamge1_now,   // ตำแแหน่งและชื่อไฟล์ที่สร้างใหม่ ถ้าเลือกสร้างเป็นไฟล์ใหม่
+    "width" => 1900,         //  กำหนดความกว้างรูปใหม่
+    "height" => 600,       //  กำหนดความสูงรูปใหม่
+    "background" => "#fff",    // กำหนดสีพื้นหลังรูปใหม่ (#FF0000) ถ้าไม่กำหนดและ เป็น gif หรือ png จะแสดงเป็นโปร่งใส
+    "output" => "",        //  กำหนดนามสกุลไฟล์ใหม่ jpg | gif หรือ png ถ้าไม่กำหนด จะใช้ค่าเริ่มต้นจากต้นฉบับ
+    "show" => 0,           //  แสดงเป็นรูปภาพ หรือสร้างเป็นไฟล์ 0=สร้างเป็นไฟล์ | 1=แสดงเป็นรูปภาพ
+    "crop" => 1                //  กำหนด crop หรือ ไม่ 0=crop | 1=crop
+    );
+    createthumb(
+    $cfg_thumb->source,
+    $cfg_thumb->destination,
+    $cfg_thumb->width,
+    $cfg_thumb->height,
+    $cfg_thumb->background,
+    $cfg_thumb->output,
+    $cfg_thumb->show,
+    $cfg_thumb->crop
+    );
+    } else {
+      if ($data_imageabout == "default") {
+
+      if($image_about != ""){
+      unlink('../profile/about/' . $image_about);
+      }
+
+      $Sql = "UPDATE about SET about.image_about=null  WHERE about.id = '$id';";
+      mysqli_query($conn, $Sql);
+      }
+    }
+
+  $return[] = $id;
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+
+function show_about($conn){
+
+    $Sql = "SELECT
+              about.id,
+              about.image_about,
+              about.about
+            FROM
+              about
+              ORDER BY about.id DESC LIMIT 1
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
