@@ -78,10 +78,10 @@ $array2 = json_decode($json2, TRUE);
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row" id='tr_1'>
                         <th nowrap style="width:10%"><br></th>
-                        <th nowrap style="width:20%">ลำดับ</th>
-                        <th nowrap style="width:23.3%">ชื่อบริษัทภาษาอังกฤษ</th>
-                        <th nowrap style="width:23.3%">ชื่อบริษัทภาษาไทย</th>
-                        <th nowrap style="width:23.3%">เบอร์โทรศัพท์</th>
+                        <th nowrap style="width:20%"><?php echo $array['no'][$language]; ?></th>
+                        <th nowrap style="width:23.3%"><?php echo $array['supplier-companyen'][$language]; ?></th>
+                        <th nowrap style="width:23.3%"><?php echo $array['supplier-companyth'][$language]; ?></th>
+                        <th nowrap style="width:23.3%"><?php echo $array['phone'][$language]; ?></th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -139,13 +139,13 @@ $array2 = json_decode($json2, TRUE);
               <div class="row mt-4">
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">ลำดับ</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
                     <input id="txtNumber" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">เบอร์โทรศัพท์</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['phone'][$language]; ?></label>
                     <input id="txtPhoneNumber" type="text" autocomplete="off" class="form-control col-sm-7 numonly" style="font-size:22px;">
                     <label id="alert_txtPhoneNumber" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
@@ -162,14 +162,14 @@ $array2 = json_decode($json2, TRUE);
               <div class="row ">
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">ชื่อบริษัทภาษาอังกฤษ</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['supplier-companyen'][$language]; ?></label>
                     <input id="txtNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
                     <label id="alert_txtNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">ที่อยู่</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['address'][$language]; ?></label>
                     <input id="txtAddress" type="text" autocomplete="off" class="form-control col-sm-7 " style="font-size:22px;">
                     <label id="alert_txtAddress" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
@@ -179,7 +179,7 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">ชื่อบริษัทภาษาไทย</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['supplier-companyth'][$language]; ?></label>
                     <input id="txtNameTh" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                     <label id="alert_txtNameTh" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>

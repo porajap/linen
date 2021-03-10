@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang>
+
+<bind-selectCaregory><en>choose category</en><th>กรุณาเลือกประเภท</th></bind-selectCaregory>
+<bind-list_th><en>list(TH)</en><th>รายการไทย</th></bind-list_th>
+<bind-list_en><en>list(EN)</en><th>รายการอังกฤษ</th></bind-list_en>
+<bind-category><en>category</en><th>ประเภท</th></bind-category>
+<bind-thailist><en>Thai list</en><th>รายการไทย</th></bind-thailist>
+<bind-englishlist><en>English list</en><th>รายการอังกฤษ</th></bind-englishlist>
+<bind-thaidetail><en>Thai details</en><th>รายละเอียดไทย</th></bind-thaidetail>
+<bind-englishdetail><en>English detail</en><th>รายละเอียดอังกฤษ</th></bind-englishdetail>
+<bind-size_Color><en>size/color</en><th>ขนาด/สี</th></bind-size_Color>
+
+<supplier-companyth><en>Company Name(TH)</en><th>ชื่อบริษัทไทย</th></supplier-companyth>
+<supplier-companyen><en>Company Name(EN)</en><th>ชื่อบริษัทอังกฤษ</th></supplier-companyen>
+
+<color-group><en>colors group</en><th>กลุ่มสี</th></color-group>
+<color-color><en>colors</en><th>สี</th></color-color>
+<color-colorcode><en>colors code</en><th>รหัสสี</th></color-colorcode>
+<color-selectcolor><en>choose colors group</en><th>กรุณาเลือกกลุ่มสี</th></color-selectcolor>
+
+<linen-type_en><en>Category Name(EN)</en><th>ชื่อประเภทอังกฤษ</th></linen-type_en>
+<linen-type_th><en>Category Name(TH)</en><th>ชื่อประเภทไทย</th></linen-type_th>
+
      
 <Searchmeasurement><en>Search measurement</en><th>ค้นหา หน่วยนับ</th></Searchmeasurement>
 <Searchsubcategory><en>Search sub category</en><th>ค้นหา รายการรอง</th></Searchsubcategory>

@@ -81,10 +81,10 @@ $array2 = json_decode($json2, TRUE);
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row" id='tr_1'>
                         <th nowrap style="width:10%"><br></th>
-                        <th nowrap style="width:10%">ลำดับ</th>
-                        <th nowrap style="width:29.13%">รายการไทย</th>
-                        <th nowrap style="width:29.13%">รายการอังกฤษ</th>
-                        <th nowrap style="width:21.65%">ประเภท</th>
+                        <th nowrap style="width:10%"><?php echo $array['no'][$language]; ?></th>
+                        <th nowrap style="width:29.13%"><?php echo $array['bind-list_th'][$language]; ?></th>
+                        <th nowrap style="width:29.13%"><?php echo $array['bind-list_en'][$language]; ?></th>
+                        <th nowrap style="width:21.65%"><?php echo $array['bind-category'][$language]; ?></th>
                         <!-- <th nowrap style="width:21.65%">รายละเอียด</th> -->
                       </tr>
                     </thead>
@@ -144,7 +144,7 @@ $array2 = json_decode($json2, TRUE);
 
                 <div class="col-md-4">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">ประเภท</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['bind-category'][$language]; ?></label>
                     <select id="selectcategory" class="form-control col-sm-7" style="font-size:22px;" onchange="changeCategory()">
                       <!-- <option value="P">Patient Shirt</option>
                       <option value="S">Staff Uniform</option>
@@ -158,7 +158,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
                 <div class="col-md-4">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายการไทย</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['bind-thailist'][$language]; ?></label>
                     <input id="txtItemName" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                     <input hidden id="txtItemId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
                     <label id="alert_txtItemName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
@@ -166,7 +166,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
                 <div class="col-md-4">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายละเอียดไทย</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['bind-thaidetail'][$language]; ?></label>
                     <input id="txtDiscription" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
                     <label id="alert_txtDiscription" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
@@ -179,7 +179,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
                 <div class="col-md-4">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายการอังกฤษ</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['bind-englishlist'][$language]; ?></label>
                     <input id="txtItemNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
                     <label id="alert_txtItemNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
@@ -187,7 +187,7 @@ $array2 = json_decode($json2, TRUE);
 
                 <div class="col-md-4">
                   <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label ">รายละเอียดอังกฤษ</label>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['bind-englishdetail'][$language]; ?></label>
                     <input id="txtDiscriptionEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
                     <label id="alert_txtDiscriptionEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
@@ -211,10 +211,10 @@ $array2 = json_decode($json2, TRUE);
               <div class="row mt-3" id="row_DropDown">
                 <div class="col-4">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">ขนาด/สี</label>
+                    <label for="exampleInputEmail1"><?php echo $array['bind-size_Color'][$language]; ?></label>
                     <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
                   </div>
-
+                  
                 </div>
                 <div class="col-4">
                   <div class="form-group">
@@ -225,7 +225,7 @@ $array2 = json_decode($json2, TRUE);
 
                 <div class="col-4">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">สาขา</label>
+                    <label for="exampleInputEmail1"><?php echo $array['side'][$language]; ?></label>
                     <button style="background: none;border: none;" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
                   </div>
                 </div>
@@ -470,7 +470,7 @@ $array2 = json_decode($json2, TRUE);
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
-          var option = `<option value="0" selected>กรุณาเลือกประเภท</option>`;
+          var option = `<option value="0" selected><?php echo $array['bind-selectCaregory'][$language]; ?></option>`;
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(kay, value) {
               option += `<option value="${value.id}">${value.nametype}</option>`;

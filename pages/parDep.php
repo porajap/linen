@@ -995,7 +995,8 @@ $array2 = json_decode($json2, TRUE);
             if (Docnomenu != "")
             {
               queryUpdate += "UPDATE request_par SET isStatus = '3' , approveDate = NOW() , approveName = '" + txtNamePass + "'  WHERE  DocNo = '" + DocNo + "'; ";
-              if(itemQty != 0 || itemQty != ""){
+              if(itemQty != 0 && itemQty != ""){
+                console.log(itemQty);
                 queryUpdate += "UPDATE par_item_stock SET ParQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DepCode = '" + DepCode + "' AND HptCode= '" + Site + "' ; ";
                 queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
               }
@@ -1005,14 +1006,14 @@ $array2 = json_decode($json2, TRUE);
               if(PmID == 2 || PmID == 1 || PmID == 6)
               {
                 queryUpdate += "UPDATE request_par SET isStatus = '3' , approveDate = NOW() , approveName = '" + txtNamePass + "'  WHERE  DocNo = '" + DocNo + "'; ";
-                if(itemQty != 0 || itemQty != ""){
+                if(itemQty != 0 && itemQty != ""){
                   queryUpdate += "UPDATE par_item_stock SET ParQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DepCode = '" + DepCode + "' AND HptCode= '" + Site + "' ; ";
                   queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
                 }
               }
               else
               {
-                if(itemQty != 0 || itemQty != ""){
+                if(itemQty != 0 && itemQty != ""){
                   queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
                 }
                 queryUpdate += "UPDATE request_par SET isStatus = '1' WHERE  DocNo = '" + DocNo + "'; ";

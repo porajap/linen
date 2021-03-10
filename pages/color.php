@@ -72,10 +72,10 @@ $array2 = json_decode($json2, TRUE);
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row" id='tr_1'>
                         <th style="width:8%"><br></th>
-                        <th style="width:20%">ลำดับสี</th>
-                        <th style="width:22%">กลุ่มสี</th>
-                        <th style="width:20%;text-align: center;">สี</th>
-                        <th style="width:30%">รหัสสี</th>
+                        <th style="width:20%"><?php echo $array['no'][$language]; ?></th>
+                        <th style="width:22%"><?php echo $array['color-group'][$language]; ?></th>
+                        <th style="width:20%;text-align: center;"><?php echo $array['color-color'][$language]; ?></th>
+                        <th style="width:30%"><?php echo $array['color-colorcode'][$language]; ?></th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -145,14 +145,14 @@ $array2 = json_decode($json2, TRUE);
               <div class="row mt-4">
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-2 col-form-label ">กลุ่มสี</label>
+                    <label class="col-sm-2 col-form-label "><?php echo $array['color-group'][$language]; ?></label>
                     <select class="form-control col-md-7 " id="select_color_master2" style="font-size:22px;" onchange="chk_color_master();">
                     </select>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class='form-group row'>
-                    <label class="col-sm-2 col-form-label ">รหัสสี</label>
+                    <label class="col-sm-2 col-form-label "><?php echo $array['color-colorcode'][$language]; ?></label>
                     <input class='form-control mt-2 ' id="color-picker" style="font-size:22px;" />
                     <input class='form-control mt-2 ' id="text_id_color_detail" style="font-size:22px;" hidden />
                     <label id="alert_txtColor" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
@@ -541,7 +541,7 @@ $array2 = json_decode($json2, TRUE);
 
 
           if (!$.isEmptyObject(ObjData)) {
-            var Str = "<option value=0 >----- กรุณาเลือกกลุ่มสี -----</option>";
+            var Str = "<option value=0 ><?php echo $array['color-selectcolor'][$language]; ?></option>";
             $.each(ObjData, function(key, value) {
               Str += "<option value=" + value.ID + " >" + value.color_master_name + "</option>";
             });
