@@ -1057,7 +1057,7 @@ $array2 = json_decode($json2, TRUE);
           });
 
           setTimeout(() => {
-            $("#modal_color").modal('hide');
+            // $("#modal_color").modal('hide');
             $('#txtColorId').val("");
             openMasterColor(radioSize);
           }, 1700);
