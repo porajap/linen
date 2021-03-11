@@ -1516,6 +1516,7 @@ function delete_storeDetail($conn)
 function save_about($conn)
 {
   $html = $_POST["html"];
+  $html_EN = $_POST["html_EN"];
   $data_imageabout = $_POST["data_imageabout"];
 
   $Sql_ab = "SELECT
@@ -1532,7 +1533,7 @@ function save_about($conn)
   $random_new=$row['random_new'];
   $image_about = $row['image_about']==null?"":$row['image_about'];
     
-    $Sql = "UPDATE about SET   about = '$html' WHERE about.id = '$id' ";
+    $Sql = "UPDATE about SET   about = '$html',about_EN = '$html_EN' WHERE about.id = '$id' ";
     mysqli_query($conn, $Sql);
 
 
@@ -1597,7 +1598,8 @@ function show_about($conn){
     $Sql = "SELECT
               about.id,
               about.image_about,
-              about.about
+              about.about,
+              about.about_EN
             FROM
               about
               ORDER BY about.id DESC LIMIT 1

@@ -609,14 +609,18 @@ $array2 = json_decode($json2, TRUE);
                           <input type="file" id="about_Image" accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="350" >
                         </div>
                       </div>
-
-                      <div class="col-11" style="margin-top: 8%;width: 87.2%;margin-left: 4.5%;">
+                      <div style="float: right;margin-top: 4.5%;margin-bottom: 3%;margin-right: 10%;" >
+                          <input type="checkbox"  data-toggle="toggle" data-width="70" data-on="TH" data-off="EN" onchange="chk_lang_about();" id="chk_lang_about">
+                      </div>
+                      <div class="col-11" style="margin-top: 8%;width: 87.2%;margin-left: 4.5%;" id="div_editor">
                         <div id="toolbar"></div>
                         <div id="editor"></div>
-                        <!-- <div>HTML: </div>
-                          <button id="btn1" onClick="callMe()">Get HTML From Delta</button> -->
                       </div>
-
+                      
+                      <div class="col-11" style="margin-top: 8%;width: 87.2%;margin-left: 4.5%;" id="div_editor_EN">
+                        <div id="toolbar_EN"></div>
+                        <div id="editor_EN"></div>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -951,6 +955,18 @@ $array2 = json_decode($json2, TRUE);
           $("#about-tab").click(function() {
           
             show_about();
+
+            if(language=="th"){  
+              $('#div_editor_EN').hide();
+              $('#div_editor').show();
+              $('#chk_lang_about').prop('checked', true).change();
+            }else{
+              $('#div_editor_EN').show();
+              $('#div_editor').hide();
+              $('#chk_lang_about').prop('checked', false).change();
+            }
+            
+           
            
           });
 
@@ -2996,11 +3012,14 @@ $array2 = json_decode($json2, TRUE);
           theme: 'snow'
         };
         var editor = new Quill('#editor', options);
+        var editor_EN = new Quill('#editor_EN', options);
         // editor.insertText(0, 'About', 'bold', true);//set init value
 
         function save_about() //display current HTML
         {
           var html = editor.root.innerHTML;
+          var html_EN = editor_EN.root.innerHTML;
+
           var imageabout = $('#about_Image').prop('files')[0];
           var data_imageabout = $('#about_Image').data('value');
 
@@ -3009,7 +3028,8 @@ $array2 = json_decode($json2, TRUE);
           form_data.append('imageabout', imageabout);
           form_data.append('data_imageabout', data_imageabout);
           form_data.append('html', html);
-
+          form_data.append('html_EN', html_EN);
+          
           $.ajax({
             url: "../process/catalogmanagement.php",
             type: 'POST',
@@ -3070,7 +3090,8 @@ $array2 = json_decode($json2, TRUE);
                   } else {
                     // $(".dropify-clear").click();
                   }
-                  $('.ql-editor').html(value.about);
+                  $('#editor .ql-editor').html(value.about);
+                  $('#editor_EN .ql-editor').html(value.about_EN);
                 //  editor.insertText(0, value.about, 'bold', true);//set init value
                   setTimeout(() => {
                     $('#about_Image').data("value", imag_about);
@@ -3084,6 +3105,20 @@ $array2 = json_decode($json2, TRUE);
           }
         });
        }
+
+
+       function chk_lang_about(){
+          var chk_lang_about = $("#chk_lang_about").prop('checked');
+          
+          if(chk_lang_about == true){  
+              $('#div_editor_EN').hide();
+              $('#div_editor').show();
+            }else{
+              $('#div_editor_EN').show();
+              $('#div_editor').hide();
+            }
+
+        }
       </script>
 
 
