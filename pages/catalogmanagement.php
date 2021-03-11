@@ -43,6 +43,12 @@ $array2 = json_decode($json2, TRUE);
   <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 
 
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+
+  <!-- Theme included stylesheets -->
+  <link href="http://cdn.quilljs.com/1.2.0/quill.snow.css" rel="stylesheet">
+  <link href="http://cdn.quilljs.com/1.2.0/quill.bubble.css" rel="stylesheet">
+
   <title>
     Catalog Management
   </title>
@@ -163,7 +169,9 @@ $array2 = json_decode($json2, TRUE);
     .dropify-wrapper {
       height: 100%;
     }
-
+    .ql-editor{
+      min-height:250px;
+    }
   </style>
 </head>
 
@@ -193,6 +201,9 @@ $array2 = json_decode($json2, TRUE);
           </li>
           <li class="nav-item">
             <a class="nav-link" id="store_location-tab" data-toggle="tab" href="#store_location" role="tab" aria-controls="store_location" aria-selected="false">Store Location</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">About</a>
           </li>
         </ul>
         <div id="div_btSave" style="margin-top: -50px;float: right;">
@@ -581,8 +592,37 @@ $array2 = json_decode($json2, TRUE);
               </div>
             </div>
           </div>
+          </div>
 <!-- ==========================END Tab 4=========================================================================================================== -->
-        </div>
+          <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+            <div class="row mt-2">          
+              <div class="col">
+                <div class="card" style="min-height: 700px;">
+                  <div class="card-body">
+                    <div style="float: right;width: 165px;margin-right: 9%;margin-bottom: 19px;">
+                      <button type="button" id="btSave_about" style="width: 100%;height: 55px;"  class="btn btn-outline-success btn-lg"  onclick="save_about();"> <label class="radio" style="margin-top:1px;width: 10%;font-size:35px;padding-left: 52px;"><?php echo $array['save'][$language]; ?></label></button>
+                    </div>
+                    
+                    <h2 style="font-weight: bold;">about Image</h2>
+                      <div class="col-11" >
+                        <div style="margin-left:5%;height: 300px;">
+                          <input type="file" id="about_Image" accept="image/x-png,image/gif,image/jpeg" class="dropify" data-height="350" >
+                        </div>
+                      </div>
+
+                      <div class="col-11" style="margin-top: 8%;width: 87.2%;margin-left: 4.5%;">
+                        <div id="toolbar"></div>
+                        <div id="editor"></div>
+                        <!-- <div>HTML: </div>
+                          <button id="btn1" onClick="callMe()">Get HTML From Delta</button> -->
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- ==========================END Tab 5=========================================================================================================== -->
       </div>
 
       <!-- -----------------------------modal_supplier------------------------------------ -->
@@ -792,6 +832,8 @@ $array2 = json_decode($json2, TRUE);
       <?php include_once('../assets/import/js.php'); ?>
       <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+      <script src="http://cdn.quilljs.com/1.2.0/quill.js"></script>
+      <script src="http://cdn.quilljs.com/1.2.0/quill.min.js"></script>
       <script type="text/javascript">
         $(document).ready(function(e) {
 
@@ -906,6 +948,12 @@ $array2 = json_decode($json2, TRUE);
             cleartxt();
           });
 
+          $("#about-tab").click(function() {
+          
+            show_about();
+           
+          });
+
           
          
 
@@ -969,6 +1017,14 @@ $array2 = json_decode($json2, TRUE);
           drEventhtp.on('dropify.afterClear ', function(event, element) {
             $('#imag_htp').data("value", "default");
           });
+
+          var drEventabout = $('#about_Image').dropify();
+          drEventabout.on('dropify.afterClear ', function(event, element) {
+            $('#about_Image').data("value", "default");
+          });
+
+
+          
 
         }).click(function(e) {
           parent.afk();
@@ -2915,6 +2971,119 @@ $array2 = json_decode($json2, TRUE);
           x[slideIndex - 1].style.display = "block";
           dots[slideIndex - 1].className += " w3-opacity-off";
         }
+
+        var toolbarOptions = [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{ 'header': 1 }, { 'header': 2 }],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'script': 'sub' }, { 'script': 'super' }],
+          [{ 'indent': '-1' }, { 'indent': '+1' }],
+          [{ 'direction': 'rtl' }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          ['link', 'image', 'video', 'formula'],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'font': [] }],
+          [{ 'align': [] }]
+        ];
+        var options = {
+          debug: 'info',
+          modules: {
+            toolbar: toolbarOptions
+          },
+          placeholder: 'Text About',
+          readOnly: false,
+          theme: 'snow'
+        };
+        var editor = new Quill('#editor', options);
+        // editor.insertText(0, 'About', 'bold', true);//set init value
+
+        function save_about() //display current HTML
+        {
+          var html = editor.root.innerHTML;
+          var imageabout = $('#about_Image').prop('files')[0];
+          var data_imageabout = $('#about_Image').data('value');
+
+          var form_data = new FormData();
+          form_data.append('FUNC_NAME', 'save_about');
+          form_data.append('imageabout', imageabout);
+          form_data.append('data_imageabout', data_imageabout);
+          form_data.append('html', html);
+
+          $.ajax({
+            url: "../process/catalogmanagement.php",
+            type: 'POST',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+
+              swal({
+                title: '',
+                text: '<?php echo $array['savesuccess'][$language]; ?>',
+                type: 'success',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+                setTimeout(() => {
+                  show_about();
+                }, 500);
+
+            }
+          });
+     
+        }
+
+       function show_about(){
+        $.ajax({
+          url: "../process/catalogmanagement.php",
+          type: 'POST',
+          data: {
+            'FUNC_NAME': 'show_about'
+          },
+          success: function(result) {
+
+            var ObjData = JSON.parse(result);
+            var myDATA = "";
+            if (!$.isEmptyObject(ObjData)) {
+              $.each(ObjData, function(kay, value) {
+
+                  var imag_about = `${"../profile/about/"+value.image_about}`;
+
+                  $(".dropify-clear").click();
+                  if (imag_about != "../profile/about/null") {
+
+                    var drEvent = $('#about_Image').dropify({
+                      defaultFile: imag_about
+                    });
+                    drEvent = drEvent.data('dropify');
+                    drEvent.resetPreview();
+                    drEvent.clearElement();
+                    drEvent.settings.defaultFile = imag_about;
+                    drEvent.destroy();
+                    drEvent.init();
+                  } else {
+                    // $(".dropify-clear").click();
+                  }
+                  $('.ql-editor').html(value.about);
+                //  editor.insertText(0, value.about, 'bold', true);//set init value
+                  setTimeout(() => {
+                    $('#about_Image').data("value", imag_about);
+                  }, 300);
+
+              
+
+              });
+            }
+
+          }
+        });
+       }
       </script>
 
 
