@@ -1488,7 +1488,7 @@ $array2 = json_decode($json2, TRUE);
           $(".loopsize:checked").each(function() {
             sizeArray.push($(this).val());
           });
-
+          $('#txtColorId').val("");
           var txtItemId = $("#txt_ID").val();
           $('#modalColor_btnDelete').attr('disabled', true);
           $("#modalSelect_colorMaster").attr("disabled", false);
