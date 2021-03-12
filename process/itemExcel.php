@@ -62,7 +62,10 @@ for($chk = 1; $chk <= 13; $chk++)
                 LabSiteCode,
                 Signature,
                 SiteTest,
-                stock
+                stock,
+                alertTime,
+                par,
+                menu
             )
             VALUES
                 (
@@ -76,9 +79,12 @@ for($chk = 1; $chk <= 13; $chk++)
                     '".$resx['payerCode']."',
                     '".$resx['Site_Path']."',
                     '".$resx['LabSiteCode']."',
-                    '".$resx[' Signature ']."',
-                    '".$resx[' SiteTest ']."' ,
-                    '".$resx[' stock ']."' 
+                    '".$resx['Signature']."',
+                    '".$resx['SiteTest']."' ,
+                    '".$resx['stock']."' ,
+                    '".$resx['alertTime']."' ,
+                    '".$resx['par']."' ,
+                    '".$resx['menu']."' 
                 ) ";
             mysqli_query($conn, $query);
             //

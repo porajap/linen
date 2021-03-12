@@ -900,6 +900,7 @@ $array2 = json_decode($json2, TRUE);
       $("#modalSelect_colorMaster").attr("disabled", false);
       $("#modalSelect_colorMaster").val("0");
       $('#modaltxt_colorDetail').val("");
+      $('#txtColorId').val("");
       $("#modaltxt_colorDetail").attr("disabled", true);
       $("#modaltxt_colorDetail").spectrum({
         type: "component"
@@ -921,7 +922,7 @@ $array2 = json_decode($json2, TRUE);
             var option = ``;
             $.each(ObjData, function(kay, value) {
 
-              option += `<div class="px-3 ml-1 classColorDetail" id="colorDetail_` + value.id + `"  onclick="showColorDetail('${value.color_detail}','${value.color_master}','${value.id}')" style="background-color:${value.color_detail};border-radius: 70%;cursor: pointer;height: 35px;"><br></div>`;
+              option += `<div class="px-3 ml-1 classColorDetail" id="colorDetail_` + value.id + `"  onclick="showColorDetail('${value.color_detail}','${value.color_master}','${value.id}')" style="background-color:${value.color_detail};border-radius: 70%;cursor: pointer;height: 35px;    border: 2px solid gray;"><br></div>`;
 
             });
           }
@@ -975,7 +976,7 @@ $array2 = json_decode($json2, TRUE);
 
     function showColorDetail(color_detail, color_master, id) {
       $('#modalSelect_colorMaster').val(color_master);
-      $(".classColorDetail").css('border', 'none');
+      $(".classColorDetail").css('border', '2px solid gray');
       $("#colorDetail_" + id).css('border', '2px solid');
       $('#txtColorId').val(color_detail);
       $('#modalColor_btnDelete').attr('disabled', false);
