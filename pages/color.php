@@ -175,6 +175,8 @@ $array2 = json_decode($json2, TRUE);
   <script type="text/javascript">
     $(document).ready(function(e) {
 
+      $("#alert_txtColor").hide();
+
       $('#color-picker').spectrum({
         type: "component"
       });
@@ -257,7 +259,8 @@ $array2 = json_decode($json2, TRUE);
           showConfirmButton: false,
           timer: 1500,
         });
-
+        // $("#color-picker").addClass("border-danger");
+        //   $("#alert_txtColor").show();
         return;
       }
 

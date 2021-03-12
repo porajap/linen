@@ -849,6 +849,8 @@ $array2 = json_decode($json2, TRUE);
             type: "component"
           });
 
+
+        
           var drEvent = $('#imageOne').dropify();
           var drEventTwo = $('#imageTwo').dropify();
           var drEventThree = $('#imageThree').dropify();
@@ -947,6 +949,20 @@ $array2 = json_decode($json2, TRUE);
 
           $("#store_location-tab").click(function() {
             $('#div_btSave').hide();
+              //----------------------------------------------
+             
+                  $("#txtphone").removeClass("border-danger");
+                  $("#alert_txtphone").hide();
+            
+                  $("#txtaddress_EN").removeClass("border-danger");
+                  $("#alert_txtaddress_EN").hide();
+            
+                  $("#txtaddress").removeClass("border-danger");
+                  $("#alert_txtaddress").hide();
+         
+
+          //----------------------------------------------
+
             showData_htp();
             show_htp();
             cleartxt();
@@ -1498,8 +1514,7 @@ $array2 = json_decode($json2, TRUE);
               if (!$.isEmptyObject(ObjData)) {
                 var option = ``;
                 $.each(ObjData, function(kay, value) {
-
-                  option += `<div class="px-3 ml-1 classColorDetail" id="colorDetail_` + value.id + `"  onclick="showColorDetail('${value.color_detail}','${value.color_master}','${value.id}')" style="background-color:${value.color_detail};border-radius: 70%;cursor: pointer;height: 35px;"><br></div>`;
+                  option += `<div class="px-3 ml-1 classColorDetail" id="colorDetail_` + value.id + `"  onclick="showColorDetail('${value.color_detail}','${value.color_master}','${value.id}')" style="background-color:${value.color_detail};border-radius: 70%;cursor: pointer;height: 35px;border: 2px solid; width:35px;border-color: lightgray;"><br></div>`;
 
                 });
               }
@@ -1553,7 +1568,7 @@ $array2 = json_decode($json2, TRUE);
 
         function showColorDetail(color_detail, color_master, id) {
           $('#modalSelect_colorMaster').val(color_master);
-          $(".classColorDetail").css('border', 'none');
+          $(".classColorDetail").css('border-color', 'lightgray');
           $("#colorDetail_" + id).css('border', '2px solid');
           $('#txtColorId').val(color_detail);
           $('#modalColor_btnDelete').attr('disabled', false);
@@ -1662,7 +1677,7 @@ $array2 = json_decode($json2, TRUE);
               });
 
               setTimeout(() => {
-                $("#modal_color").modal('hide');
+                // $("#modal_color").modal('hide');
                 $('#txtColorId').val("");
                 openMasterColor(radioSize);
                 show_colorDetail(txtItemId);
@@ -2490,7 +2505,6 @@ $array2 = json_decode($json2, TRUE);
 
       function show_storeDetail(id,key) {
         
-       
         $.ajax({
           url: "../process/catalogmanagement.php",
           type: 'POST',
@@ -2604,7 +2618,9 @@ $array2 = json_decode($json2, TRUE);
         } else {
           var active_htp = 0;
         }
-
+       
+                 
+                 
         if (txtaddress == "") {
           swal({
             title: '',
@@ -2615,10 +2631,11 @@ $array2 = json_decode($json2, TRUE);
             timer: 1500,
           });
           $("#txtaddress").addClass("border-danger");
-          // $("#alert_txtItemNameEn").show();
+          $("#alert_txtaddress").show();
           return;
         } else {
           $("#txtaddress").removeClass("border-danger");
+          $("#alert_txtaddress").hide();
         }
 
         if (txtaddress_EN == "") {
@@ -2631,10 +2648,11 @@ $array2 = json_decode($json2, TRUE);
             timer: 1500,
           });
           $("#txtaddress_EN").addClass("border-danger");
-          // $("#alert_txtItemName").show();
+          $("#alert_txtaddress_EN").show();
           return;
         } else {
           $("#txtaddress_EN").removeClass("border-danger");
+          $("#alert_txtaddress_EN").hide();
         }
 
         if (txtphone == "") {
@@ -2647,10 +2665,11 @@ $array2 = json_decode($json2, TRUE);
             timer: 1500,
           });
           $("#txtphone").addClass("border-danger");
-          // $("#alert_txtDiscription").show();
+          $("#alert_txtphone").show();
           return;
         } else {
           $("#txtphone").removeClass("border-danger");
+          $("#alert_txtphone").hide();
         }
         
 
@@ -2687,8 +2706,14 @@ $array2 = json_decode($json2, TRUE);
 
             setTimeout(() => {
               if(id_store==""){
+               
+                // showData_htp();
+                // cleartxt();
+                show_storeDetail(ObjData[0]);
                 showData_htp();
-                cleartxt();
+                setTimeout(() => {
+                  $("#idhtp_0").prop("checked", true);
+                }, 200);
               }else{
                 show_storeDetail(id_store);
                 showData_htp();

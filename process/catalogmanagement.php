@@ -135,7 +135,7 @@ function showData($conn)
               itemcatalog.typeLinen = typelinen.id
           WHERE
           $where
-             itemcatalog.itemCategoryName LIKE '$txtSearch%'
+             itemcatalog.itemCategoryName LIKE '%$txtSearch%'
          
           ";
   $count_i=0;
@@ -464,7 +464,7 @@ function openMasterColor($conn)
   while ($row = mysqli_fetch_assoc($meQuery)) {
     $return[] = $row;
   }
-  $return[] = $Sql;
+  // $return[] = $Sql;
   echo json_encode($return);
   mysqli_close($conn);
   die;
@@ -1188,7 +1188,8 @@ function showData_htp($conn)
             FROM
               store_location
               INNER JOIN site ON store_location.HptCode = site.HptCode
-              WHERE (site.HptName LIKE '$txtSearch_htp%' OR site.HptNameTH LIKE '$txtSearch_htp%')
+              WHERE (site.HptName LIKE '%$txtSearch_htp%' OR site.HptNameTH LIKE '%$txtSearch_htp%')
+              ORDER BY store_location.id DESC
           ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
@@ -1303,7 +1304,7 @@ function show_storeDetail($conn){
     while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[] = $Result;
     }
-
+   
 
   echo json_encode($return);
   mysqli_close($conn);
