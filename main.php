@@ -652,10 +652,97 @@ switch ($PmID) {
     $cat_s4 = 0;
     $cat_s5 = 0;
     break;
+    case "10":
+      //genneral
+      $gen_head = 0;
+      $gen_s0 = 0;
+      $gen_s1 = 0;
+      $gen_s2 = 0;
+      $gen_s3 = 0;
+      $gen_s4 = 0;
+      $gen_s5 = 0;
+      $gen_s6 = 0;
+      $gen_s7 = 0;
+      $gen_s8 = 0;
+      $gen_s9 = 0;
+      $gen_s10 = 0;
+      $gen_s11 = 0;
+      $gen_s12 = 0;
+      $gen_s13 = 0;
+      $gen_s14 = 0;
+      $gen_s15 = 0;
+      $gen_s16 = 0;
+      $gen_s17 = 0;
+      $gen_s18 = 0;
+  
+      $dp2_head = 0;
+      $dp2_s1 = 0;
+      $dp2_s2 = 0;
+      $dp2_s3 = 0;
+      $dp2_s4 = 0;
+      $dp2_s5 = 0;
+      $dp2_s6 = 0;
+      //account
+      $ac_head = 0;
+      $ac_s1 = 0;
+      $ac_s2 = 0;
+      $ac_s3 = 0;
+      $ac_s4 = 0;
+      $ac_s5 = 0;
+      //factory
+      $fac_head = 0;
+      $fac_s1 = 0;
+      $fac_s2 = 0;
+      $fac_s3 = 0;
+      //report
+      $re_head = 1;
+      $re_s1 = 1;
+      $re_s2 = 0;
+      //system
+      $sys_head = 1;
+      $sys_s1 = 0;
+      $sys_s2 = 0;
+      $sys_s3 = 0;
+      $sys_s4 = 0;
+      $sys_s5 = 0;
+      $sys_s6 = 0;
+      $sys_s7 = 0;
+      $sys_s8 = 0;
+      $sys_s9 = 0;
+      $sys_s10 = 0;
+      $sys_s11 = 0;
+      $sys_s12 = 0;
+      $sys_s13 = 0;
+      $sys_s14 = 1;
+      $sys_s15 = 0;
+      $sys_s16 = 0;
+      $sys_s17 = 0;
+      $sys_s18 = 0;
+      $sys_s19 = 0;
+      $sys_s20 = 0;
+      $sys_s21 = 0;
+      $sys_s22 = 0;
+      $sys_s23 = 0;
+      $sys_s24 = 0;
+      $sys_s25 = 0;
+  
+  
+      $cat_head = 0;
+      $cat_s1 = 0;
+      $cat_s2 = 0;
+      $cat_s3 = 0;
+      $cat_s4 = 0;
+      $cat_s5 = 0;
+  
+      break;
 }
 
 if (empty($_SESSION['href'])) {
-  $src = "pages/menu.php?lang=<?php echo $language; ?>";
+  if($PmID == "10"){
+    $src = "pages/report.php?lang=<?php echo $language; ?>";
+  }else{
+    $src = "pages/menu.php?lang=<?php echo $language; ?>";
+  }
 } else {
   $src = $_SESSION['href'];
   $active_li = $_SESSION['active_li'];

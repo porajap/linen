@@ -59,7 +59,7 @@ $array2 = json_decode($json2, TRUE);
                   <div class="row" style="margin-left:5px;">
                     <!-- <select class="form-control col-md-4 " id="selectSite" style="font-size:22px;" onchange="changeSite('top')">
                     </select> -->
-                    <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;">
+                    <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
                     <div class="search_custom col-md-2">
                       <div class="search_1 d-flex justify-content-start">
                         <button class="btn" onclick="showData()" id="bSave">
