@@ -436,11 +436,11 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function cleartxt() {
+      $("#txtDiscriptionEn").val();
       $("#txtItemName").val("");
       $("#selectcategory").val("0");
       $("#selectCategoryTop").val("0");
       $("#txtDiscription").val("");
-      $("#txtDiscriptionEn").val("");
       $("#txtItemId").val("");
       $("#txtItemNameEn").val("");
       $("#txtItemNameEn").removeClass("border-danger");
@@ -625,6 +625,7 @@ $array2 = json_decode($json2, TRUE);
         $("#txtDiscription").val("");
         $("#txtItemId").val("");
         $("#txtItemNameEn").val("");
+        $("#txtDiscriptionEn").val("");
         $("#row_DropDown").hide(300);
         $(".dropify-clear").click();
       } else {
@@ -720,9 +721,6 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function saveData() {
-
-
-
       var form_data = new FormData();
       var imageOne = $('#imageOne').prop('files')[0];
       var imageTwo = $('#imageTwo').prop('files')[0];
@@ -884,6 +882,11 @@ $array2 = json_decode($json2, TRUE);
       $('input[name="radio_size"]').prop('checked', false);
       $("#row_color").empty();
       $("#modalSelect_colorMaster").val("0");
+      $('#modaltxt_colorDetail').val("");
+      $("#modaltxt_colorDetail").attr("disabled", true);
+      $("#modaltxt_colorDetail").spectrum({
+        type: "component"
+      });
       $("#modalSelect_colorMaster").attr("disabled", true);
       $("#modal_color").modal('show');
     }

@@ -486,12 +486,20 @@
         อัพโหลด Excel
       </th>
     </sub>
-        <sub>
+    <sub>
       <en>
         Document Control
       </en>
       <th>
         Document Control
+      </th>
+    </sub>
+    <sub>
+      <en>
+        Create item catalog
+      </en>
+      <th>
+        ผูกรายการ catalog
       </th>
     </sub>
   </system>

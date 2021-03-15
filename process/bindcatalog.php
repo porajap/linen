@@ -384,9 +384,9 @@ function saveData($conn)
 
 
   if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , discription_EN = '$txtDiscriptionEn' , itemCategoryName = '$txtItemName' ";
+    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' ";
   } else {
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = '$txtItemNameEn' , discription = '$txtDiscription' , discription_EN = '$txtDiscriptionEn' , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
   }
   mysqli_query($conn, $Sql);
 

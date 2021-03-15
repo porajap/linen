@@ -117,6 +117,7 @@ switch ($PmID) {
     $cat_s3 = 1;
     $cat_s4 = 1;
     $cat_s5 = 1;
+    $cat_s6 = 1;
 
     break;
   case "2":
@@ -191,6 +192,7 @@ switch ($PmID) {
     $cat_s3 = 0;
     $cat_s4 = 0;
     $cat_s5 = 0;
+    $cat_s6 = 0;
     break;
   case "3":
     //genneral
@@ -272,6 +274,7 @@ switch ($PmID) {
     $cat_s3 = 1;
     $cat_s4 = 1;
     $cat_s5 = 1;
+    $cat_s6 = 1;
     break;
   case "4":
     //genneral
@@ -407,6 +410,7 @@ switch ($PmID) {
     $cat_s3 = 1;
     $cat_s4 = 1;
     $cat_s5 = 1;
+    $cat_s6 = 1;
     break;
   case "6":
     //genneral
@@ -488,6 +492,7 @@ switch ($PmID) {
     $cat_s3 = 1;
     $cat_s4 = 1;
     $cat_s5 = 1;
+    $cat_s6 = 1;
     break;
   case "7":
     //genneral
@@ -569,6 +574,7 @@ switch ($PmID) {
     $cat_s3 = 1;
     $cat_s4 = 1;
     $cat_s5 = 1;
+    $cat_s6 = 1;
     break;
   case "8":
     //genneral
@@ -651,6 +657,7 @@ switch ($PmID) {
     $cat_s3 = 0;
     $cat_s4 = 0;
     $cat_s5 = 0;
+    $cat_s6 = 0;
     break;
     case "10":
       //genneral
@@ -733,6 +740,7 @@ switch ($PmID) {
       $cat_s3 = 0;
       $cat_s4 = 0;
       $cat_s5 = 0;
+      $cat_s6 = 0;
   
       break;
 }
@@ -1850,7 +1858,7 @@ if (empty($_SESSION['href'])) {
           <ul class="sub-menu">
             <?php if ($cat_s1 == 1) { ?>
               <li><a style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/bindcatalog.php?lang=<?php echo $language; ?>" id="act47" class="current_page" onclick="return loadIframe('ifrm', this.href)">
-                  <em></em>ผูกรายการ catalog</a>
+                  <em></em><?php echo $array['menu']['system']['sub'][23][$language]; ?></a>
               </li>
             <?php } ?>
             <?php if ($cat_s2 == 1) { ?>
@@ -1871,6 +1879,11 @@ if (empty($_SESSION['href'])) {
             <?php if ($cat_s5 == 1) { ?>
               <li><a id="act51" style="font-family: 'DB Helvethaica X'; font-size:20px;" href="pages/typelinen.php?lang=<?php echo $language; ?>" class="current_page" onclick="return loadIframe('ifrm', this.href)">
                   <em></em>type linen</a>
+              </li>
+            <?php } ?>
+            <?php if ($cat_s6 == 1) { ?>
+              <li><a id="act51" style="font-family: 'DB Helvethaica X'; font-size:20px;" target="_blank" href="http://119.59.116.26:8181/linen-catalog/index.php?page=main" class="current_page" >
+                  <em></em>go to categories</a>
               </li>
             <?php } ?>
           </ul>
