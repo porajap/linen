@@ -992,15 +992,15 @@ $array2 = json_decode($json2, TRUE);
 
 
           $('.numonly').on('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, ''); //<-- replace all other than given set of values
+            this.value = this.value.replace(/[^0-9-]/g, ''); //<-- replace all other than given set of values
           });
 
           $('.enonly').on('input', function() {
-            this.value = this.value.replace(/[^a-zA-Z0-9-. ]/g, ''); //<-- replace all other than given set of values
+            this.value = this.value.replace(/[^a-zA-Z0-9-/. ]/g, ''); //<-- replace all other than given set of values
           });
 
           $('.thonly').on('input', function() {
-            this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9-. ]/g, ''); //<-- replace all other than given set of values
+            this.value = this.value.replace(/[^ก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ0-9-/. ]/g, ''); //<-- replace all other than given set of values
           });
 
 
