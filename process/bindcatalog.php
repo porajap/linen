@@ -373,6 +373,7 @@ function saveData($conn)
   $txtItemNameEn = $_POST['txtItemNameEn'];
   $selectcategory = $_POST['selectcategory'];
   $txtItemId = $_POST['txtItemId'];
+  $Userid = $_SESSION['Userid'];
 
   $data_imageOne = $_POST['data_imageOne'];
   $data_imageTwo = $_POST['data_imageTwo'];
@@ -384,7 +385,7 @@ function saveData($conn)
 
 
   if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' ";
+    $Sql = "INSERT INTO itemcatalog SET create_user = '$Userid' , create_date = NOW() , typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' ";
   } else {
     $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
   }
@@ -596,7 +597,7 @@ function showData($conn)
           FROM
           itemcatalog
           INNER JOIN typelinen ON itemcatalog.typeLinen = typelinen.id 
-          WHERE  ( itemcatalog.itemCategoryName LIKE '%$txtSearch%' OR  itemcatalog.itemCategoryNameEn LIKE '%$txtSearch%' ) $wherecategory LIMIT 50";
+          WHERE itemcatalog.IsStatus = 0 AND ( itemcatalog.itemCategoryName LIKE '%$txtSearch%' OR  itemcatalog.itemCategoryNameEn LIKE '%$txtSearch%' ) $wherecategory LIMIT 50";
   
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
@@ -610,17 +611,18 @@ function showData($conn)
 
 function deleteData($conn)
 {
+  $Userid = $_SESSION['Userid'];
   $txtItemId = $_POST["txtItemId"];
   $return = array();
 
-  $Sql = "DELETE FROM itemcatalog WHERE itemcatalog.id = $txtItemId ";
+  $Sql = "UPDATE itemcatalog SET IsStatus = '1' , cancel_user =  $Userid WHERE itemcatalog.id = $txtItemId ";
   mysqli_query($conn, $Sql);
-  $Sql = "DELETE FROM multicolor WHERE multicolor.itemCategoryId = $txtItemId ";
-  mysqli_query($conn, $Sql);
-  $Sql = "DELETE FROM multisite WHERE multisite.itemCategoryId = $txtItemId ";
-  mysqli_query($conn, $Sql);
-  $Sql = "DELETE FROM multisupplier WHERE multisupplier.itemCategoryId = $txtItemId ";
-  mysqli_query($conn, $Sql);
+  // $Sql = "DELETE FROM multicolor WHERE multicolor.itemCategoryId = $txtItemId ";
+  // mysqli_query($conn, $Sql);
+  // $Sql = "DELETE FROM multisite WHERE multisite.itemCategoryId = $txtItemId ";
+  // mysqli_query($conn, $Sql);
+  // $Sql = "DELETE FROM multisupplier WHERE multisupplier.itemCategoryId = $txtItemId ";
+  // mysqli_query($conn, $Sql);
 
   echo json_encode($return);
   mysqli_close($conn);

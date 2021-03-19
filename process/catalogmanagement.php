@@ -135,7 +135,7 @@ function showData($conn)
               itemcatalog.typeLinen = typelinen.id
           WHERE
           $where
-             itemcatalog.itemCategoryName LIKE '%$txtSearch%'
+             itemcatalog.itemCategoryName LIKE '%$txtSearch%' AND itemcatalog.IsStatus = 0
          
           ";
   $count_i=0;
