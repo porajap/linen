@@ -454,33 +454,18 @@ $array2 = json_decode($json2, TRUE);
 			var DepCode = $('#department').val();
 			var hotpital = $('#hotpital').val();
 			var typereport = $('#typereport').val();
-			var radioFormat = $('input[name=radioFormat]:checked').val();
-			var formatDay = $('input[name=formatDay]:checked').val();
-			var oneday = $('#oneday').val();
-			var someday = $('#someday').val();
-			var onemonth = $('#onemonth').val();
 			if (typereport == '29' || typereport == '30' || typereport == '34') {
 				$('#item').attr('disabled', false);
-
-				if (DepCode == null) {
-					DepCode = 'ALL';
-				}
-				$("#item").empty();
-				// alert(radioFormat);
-				// alert(formatDay);
-				var data = {
-					'STATUS': 'find_item',
-					'DepCode': DepCode,
-					'hotpital': hotpital,
-					'radioFormat': radioFormat,
-					'formatDay': formatDay,
-					'oneday': oneday,
-					'someday': someday,
-					'onemonth': onemonth,
-				};
-				senddata(JSON.stringify(data));
 			}
-
+			if (DepCode == null) {
+				DepCode = 'ALL';
+			}
+			var data = {
+				'STATUS': 'find_item',
+				'DepCode': DepCode,
+				'hotpital': hotpital
+			};
+			senddata(JSON.stringify(data));
 		}
 
 		function blank_report() {
@@ -523,14 +508,14 @@ $array2 = json_decode($json2, TRUE);
 			$('#rem11').hide();
 		}
 
-		// function show_item() {
-		// 	var DepCode = $('#department').val();
-		// 	if (DepCode == ALL) {
-		// 		$('#item').attr('disabled', false);
-		// 	} else {
-		// 		$('#item').attr('disabled', true);
-		// 	}
-		// }
+		function show_item() {
+			var DepCode = $('#department').val();
+			if (DepCode == ALL) {
+				$('#item').attr('disabled', FALSE);
+			} else {
+				$('#item').attr('disabled', TRUE);
+			}
+		}
 
 		function search_fillter() {
 			swal({
@@ -840,7 +825,6 @@ $array2 = json_decode($json2, TRUE);
 					}
 
 				}
-
 				var data = {
 					'STATUS': 'find_report',
 					'factory': factory,
@@ -973,7 +957,12 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$("#hotpital").append(hot);
 							$("#hotpital").val(HptCode);
+
 							$("#department").empty();
+
+							// var depValue0 = '-';
+							// var dep1 = "<option value='0'>" + depValue0 + "</option>";
+							// dep1 += "<option value='all'>" + 'ทั้งหมด' + "</option>";
 							var depValue0 = '<?php echo $array['department'][$language]; ?>';
 							var depValueAlldep = '<?php echo $array['Alldep'][$language]; ?>';
 							var dep1 = "<option value='ALL'>" + depValueAlldep + "</option>";
@@ -1042,10 +1031,7 @@ $array2 = json_decode($json2, TRUE);
 							}
 							$("#factory").append(fac);
 							var DocDate = temp[i]['DocDate'];
-
-							// setTimeout(() => {
-							// 	blank_dep();
-							// }, 1000);
+							blank_dep();
 						} else if (temp["form"] == 'Fac') {
 							swal.close();
 							var hot = $("#hotpital option:selected").text();
@@ -1479,19 +1465,6 @@ $array2 = json_decode($json2, TRUE);
 							for (var i = 0; i < temp['count_item_sc']; i++) {
 								item += "<option value=" + temp[i]['itemcode'] + ">" + temp[i]['itemname'] + "</option>";
 							}
-							if (temp['count_item_sc'] == 0) {
-								swal({
-									title: '',
-									text: 'กรุณาเลือกวันที่ หรือ ไม่พบรายการ',
-									type: 'warning',
-									showCancelButton: false,
-									confirmButtonColor: '#3085d6',
-									cancelButtonColor: '#d33',
-									showConfirmButton: false,
-									timer: 2000,
-									confirmButtonText: 'Ok'
-								});
-							}
 							$("#item").append(item);
 						}
 					} else if (temp['status'] == "notfound") {
@@ -1715,7 +1688,7 @@ $array2 = json_decode($json2, TRUE);
 				$('#time_dirty').val(0);
 				$('#hidden_usage_detail').attr('hidden', true);
 				$('#time_express').attr('disabled', true);
-			} else if (typeReport == 9) {
+			} else if (typeReport == 9 || typeReport == 39 || typeReport == 40 || typeReport == 41 || typeReport == 42 || typeReport == 43) {
 				$('#factory').attr('disabled', true);
 				$('#department').attr('disabled', false);
 				$('#category').attr('disabled', true);
@@ -2356,18 +2329,23 @@ $array2 = json_decode($json2, TRUE);
 															<option value=33><?php echo "18. " . 'Monitoring SAP' 		        ?></option>
 															<option value=34><?php echo "19. " . 'Usage Detail New' 		        ?></option>
 
-															<option <?php if ($PmID != 99) {
+															<option <?php if ($PmID != 6 && $PmID  != 1) {
 																				echo "hidden";
 																			} ?> value=35><?php echo "20. " . $array['r' . 31][$language]; ?></option>
-															<option <?php if ($PmID != 99) {
+															<option <?php if ($PmID != 6 && $PmID  != 1) {
 																				echo "hidden";
 																			} ?> value=36><?php echo "21. " . $array['r' . 1][$language]; ?></option>
-															<option <?php if ($PmID != 99) {
+															<option <?php if ($PmID != 6 && $PmID  != 1) {
 																				echo "hidden";
 																			} ?> value=37><?php echo "22. " . $array['r' . 3][$language]; ?></option>
-															<option <?php if ($PmID != 99) {
+															<option <?php if ($PmID != 6 && $PmID  != 1) {
 																				echo "hidden";
 																			} ?> value=38><?php echo "23. " . 'Usage Detail New' 		        ?></option>
+															<option value=39><?php echo "21. " . 'Extra Delivery Report' 		        ?></option>
+															<option value=40><?php echo "22. " . 'รายงานสรุปการปรับแก้ไขยอด Par' 		        ?></option>
+															<option value=41><?php echo "23. " . 'รายงานสรุปสรุปประวัติการร้องขอเมนูเรียกเก็บผ้าเปื้อน' 		        ?></option>
+															<option value=42><?php echo "25. " . 'รายงานสรุปสรุปประวัติการร้องขอเมนูย้ายแผนก' 		        ?></option>
+															<option value=43><?php echo "26. " . 'รายงานสรุปสรุปประวัติการร้องขอเมนูการร้องขออื่นๆ' 		        ?></option>
 														</select>
 														<label id="rem1" style="margin-top: -8%;margin-bottom: -13%;margin-left: 94%;font-size:180%"> * </label>
 													</div>
@@ -2475,7 +2453,6 @@ $array2 = json_decode($json2, TRUE);
 													</div>
 												</div>
 												<div class="col-md-6">
-
 													<div class='form-group row ' id="showday">
 														<label class="col-sm-3	 col-form-label text-left" style=""><?php echo $array['formatdate'][$language]; ?></label>
 														<div style="margin-top : 7px;">
@@ -2540,7 +2517,6 @@ $array2 = json_decode($json2, TRUE);
 													$('#oneday').datepicker({
 														onSelect: function(fd, date) {
 															someday.update('minDate', date)
-															blank_dep();
 														}
 													})
 
@@ -2548,7 +2524,6 @@ $array2 = json_decode($json2, TRUE);
 														onSelect: function(dateText) {
 															$('#oneday').removeClass('border-danger');
 															$('#rem7').hide();
-															blank_dep();
 														}
 													});
 
@@ -2556,7 +2531,6 @@ $array2 = json_decode($json2, TRUE);
 														onSelect: function(dateText) {
 															$('#someday').removeClass('border-danger');
 															$('#rem8').hide();
-															blank_dep();
 														}
 													});
 
@@ -2564,7 +2538,6 @@ $array2 = json_decode($json2, TRUE);
 														onSelect: function(dateText) {
 															$('#onemonth').removeClass('border-danger');
 															$('#rem9').hide();
-															blank_dep();
 														}
 													});
 
@@ -2572,7 +2545,6 @@ $array2 = json_decode($json2, TRUE);
 														onSelect: function(dateText) {
 															$('#somemonth').removeClass('border-danger');
 															$('#rem10').hide();
-															blank_dep();
 														}
 													});
 

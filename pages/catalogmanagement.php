@@ -46,8 +46,8 @@ $array2 = json_decode($json2, TRUE);
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
 
   <!-- Theme included stylesheets -->
-  <link href="http://cdn.quilljs.com/1.2.0/quill.snow.css" rel="stylesheet">
-  <link href="http://cdn.quilljs.com/1.2.0/quill.bubble.css" rel="stylesheet">
+  <!-- <link href="http://cdn.quilljs.com/1.2.0/quill.snow.css" rel="stylesheet">
+  <link href="http://cdn.quilljs.com/1.2.0/quill.bubble.css" rel="stylesheet"> -->
 
   <title>
     Catalog Management
@@ -836,8 +836,8 @@ $array2 = json_decode($json2, TRUE);
       <?php include_once('../assets/import/js.php'); ?>
       <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/spectrum-colorpicker2/dist/spectrum.min.js"></script>
-      <script src="http://cdn.quilljs.com/1.2.0/quill.js"></script>
-      <script src="http://cdn.quilljs.com/1.2.0/quill.min.js"></script>
+      <!-- <script src="http://cdn.quilljs.com/1.2.0/quill.js"></script>
+      <script src="http://cdn.quilljs.com/1.2.0/quill.min.js"></script> -->
       <script type="text/javascript">
         $(document).ready(function(e) {
 

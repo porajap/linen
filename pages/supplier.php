@@ -325,20 +325,6 @@ $array2 = json_decode($json2, TRUE);
       var txtAddress = $("#txtAddress").val();
       var txtPhoneNumber = $("#txtPhoneNumber").val();
 
-      // if (selectSiteLow == "0") {
-      //   swal({
-      //     title: '',
-      //     text: 'กรุณาเลือกโรงพยาบาล',
-      //     type: 'warning',
-      //     showCancelButton: false,
-      //     showConfirmButton: false,
-      //     timer: 1500,
-      //   });
-      //   $("#selectSiteLow").addClass("border-danger");
-      //   $("#alert_selectSiteLow").show();
-      //   return;
-      // }
-
       if (txtNameEn == "") {
         swal({
           title: '',
@@ -395,46 +381,79 @@ $array2 = json_decode($json2, TRUE);
         return;
       }
 
-
-
       $.ajax({
         url: "../process/supplier.php",
         type: 'POST',
         data: {
-          'FUNC_NAME': 'saveData',
-          'txtNumber': txtNumber,
-          // 'selectSiteLow': selectSiteLow,
+          'FUNC_NAME': 'checkName',
           'txtNameEn': txtNameEn,
           'txtNameTh': txtNameTh,
-          'txtAddress': txtAddress,
-          'txtPhoneNumber': txtPhoneNumber,
+          'txtNumber': txtNumber,
         },
         success: function(result) {
-          var ObjData = JSON.parse(result);
-          $("#txtNumber").val("");
-          $("#txtNameEn").val("");
-          $("#txtNameTh").val("");
-          $("#txtAddress").val("");
-          $("#txtPhoneNumber").val("");
-          $('#bCancel').attr('disabled', true);
-          $('#cancelIcon').addClass('opacity');
 
-          swal({
-            title: '',
-            text: '<?php echo $array['savesuccess'][$language]; ?>',
-            type: 'success',
-            showCancelButton: false,
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          if (result == 'repeat') {
+            swal({
+              title: '',
+              text: '<?php echo $array['Duplicatename'][$language]; ?>',
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            })
+          } else {
+            $.ajax({
+              url: "../process/supplier.php",
+              type: 'POST',
+              data: {
+                'FUNC_NAME': 'saveData',
+                'txtNumber': txtNumber,
+                // 'selectSiteLow': selectSiteLow,
+                'txtNameEn': txtNameEn,
+                'txtNameTh': txtNameTh,
+                'txtAddress': txtAddress,
+                'txtPhoneNumber': txtPhoneNumber,
+              },
+              success: function(result) {
+                var ObjData = JSON.parse(result);
+                $("#txtNumber").val("");
+                $("#txtNameEn").val("");
+                $("#txtNameTh").val("");
+                $("#txtAddress").val("");
+                $("#txtPhoneNumber").val("");
+                $('#bCancel').attr('disabled', true);
+                $('#cancelIcon').addClass('opacity');
 
-          setTimeout(() => {
-            showData();
-          }, 1700);
+                swal({
+                  title: '',
+                  text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+
+                setTimeout(() => {
+                  showData();
+                }, 1700);
+
+
+              }
+            });
+          }
+
+
+
+
+
 
 
         }
       });
+
 
     }
 

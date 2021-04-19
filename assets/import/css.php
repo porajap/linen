@@ -7,6 +7,8 @@
 <link href="../css/xfont.css" rel="stylesheet">
 <link href="../assets-sign/css/jquery.signature.css" rel="stylesheet">
 <link href="../css/menu_custom.css" rel="stylesheet">
+<link href="../css/quill.snow.css" rel="stylesheet">
+<link href="../css/quill.bubble.css" rel="stylesheet">
 <link href="../dist/css/sweetalert2.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/signature-pad2.css">
 <link href="../css/responsive.css" rel="stylesheet">

@@ -34,3 +34,6 @@
 <script src="../assets-sign/js/jquery.signature.js"></script>
 <script src="../select2/dist/js/select2.full.min.js" type="text/javascript"></script>
 <script src="../dropify/dist/js/dropify.min.js"></script>
+
+<script src="../js/quill.js"></script>
+

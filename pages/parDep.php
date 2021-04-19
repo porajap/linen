@@ -588,18 +588,6 @@ $array2 = json_decode($json2, TRUE);
               },
               success: function(result) {
 
-
-
-
-                // swal({
-                //   title: '',
-                //   text: '<?php echo $array['savesuccess'][$language]; ?>',
-                //   type: 'success',
-                //   showCancelButton: false,
-                //   showConfirmButton: false,
-                //   timer: 1500,
-                // });
-
                 var ObjData = JSON.parse(result);
                 ObjData = ObjData[0];
 

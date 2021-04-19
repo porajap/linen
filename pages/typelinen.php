@@ -249,36 +249,69 @@ $array2 = json_decode($json2, TRUE);
         url: "../process/typelinen.php",
         type: 'POST',
         data: {
-          'FUNC_NAME': 'saveData',
-          'txtNumber': txtNumber,
-          // 'selectSiteLow': selectSiteLow,
+          'FUNC_NAME': 'checkTypelinen',
           'txtNameEn': txtNameEn,
           'txtNameTh': txtNameTh,
+          'txtNumber': txtNumber,
         },
         success: function(result) {
-          var ObjData = JSON.parse(result);
-          $("#txtNumber").val("");
-          $("#txtNameEn").val("");
-          $("#txtNameTh").val("");
-          $('#bCancel').attr('disabled', true);
-          $('#cancelIcon').addClass('opacity');
 
-          swal({
-            title: '',
-            text: '<?php echo $array['savesuccess'][$language]; ?>',
-            type: 'success',
-            showCancelButton: false,
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          if (result == 'repeat') {
+            swal({
+              title: '',
+              text: '<?php echo $array['Duplicatetype'][$language]; ?>',
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            })
+          } else {
+            $.ajax({
+              url: "../process/typelinen.php",
+              type: 'POST',
+              data: {
+                'FUNC_NAME': 'saveData',
+                'txtNumber': txtNumber,
+                // 'selectSiteLow': selectSiteLow,
+                'txtNameEn': txtNameEn,
+                'txtNameTh': txtNameTh,
+              },
+              success: function(result) {
+                var ObjData = JSON.parse(result);
+                $("#txtNumber").val("");
+                $("#txtNameEn").val("");
+                $("#txtNameTh").val("");
+                $('#bCancel').attr('disabled', true);
+                $('#cancelIcon').addClass('opacity');
 
-          setTimeout(() => {
-            showData();
-          }, 1700);
+                swal({
+                  title: '',
+                  text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+
+                setTimeout(() => {
+                  showData();
+                }, 1700);
+
+
+              }
+            });
+          }
+
 
 
         }
       });
+
+
+
 
     }
 

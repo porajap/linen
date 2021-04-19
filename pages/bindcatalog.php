@@ -214,7 +214,7 @@ $array2 = json_decode($json2, TRUE);
                     <label for="exampleInputEmail1"><?php echo $array['bind-size_Color'][$language]; ?></label>
                     <button style="background: none;border: none;" data-toggle="modal" onclick="openModalColor();"><i class="fas fa-plus-square text-info"></i></button>
                   </div>
-                  
+
                 </div>
                 <div class="col-4">
                   <div class="form-group">
@@ -241,7 +241,7 @@ $array2 = json_decode($json2, TRUE);
   <div class="modal fade" id="modal_color" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header" >
+        <div class="modal-header">
           <div class="row px-3" id="modalColor_Header">
           </div>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -436,11 +436,11 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function cleartxt() {
-      $("#txtDiscriptionEn").val();
       $("#txtItemName").val("");
       $("#selectcategory").val("0");
       $("#selectCategoryTop").val("0");
       $("#txtDiscription").val("");
+      $("#txtDiscriptionEn").val("");
       $("#txtItemId").val("");
       $("#txtItemNameEn").val("");
       $("#txtItemNameEn").removeClass("border-danger");
@@ -452,6 +452,8 @@ $array2 = json_decode($json2, TRUE);
       $("#row_DropDown").hide(300);
       $("#txtDiscription").removeClass("border-danger");
       $("#alert_txtDiscription").hide();
+      $("#txtDiscriptionEn").removeClass("border-danger");
+      $("#alert_txtDiscriptionEn").hide();
       $("#txtItemName").removeClass("border-danger");
       $("#alert_txtItemName").hide();
     }
@@ -721,6 +723,14 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function saveData() {
+
+
+      swal({
+        title: '<?php echo $array['pleasewait'][$language]; ?>',
+        text: '<?php echo $array['processing'][$language]; ?>',
+        allowOutsideClick: false
+      })
+      swal.showLoading();
       var form_data = new FormData();
       var imageOne = $('#imageOne').prop('files')[0];
       var imageTwo = $('#imageTwo').prop('files')[0];
@@ -819,42 +829,67 @@ $array2 = json_decode($json2, TRUE);
       form_data.append('txtItemId', txtItemId);
       form_data.append('txtItemNameEn', txtItemNameEn);
       form_data.append('txtDiscriptionEn', txtDiscriptionEn);
-
-
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
-        dataType: 'text',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: form_data,
+        data: {
+          'FUNC_NAME': 'checkName',
+          'txtItemName': txtItemName,
+          'txtItemNameEn': txtItemNameEn,
+          'txtItemId': txtItemId,
+        },
         success: function(result) {
-          var ObjData = JSON.parse(result);
-          $("#txtItemId").val(ObjData);
-          swal({
-            title: '',
-            text: '<?php echo $array['savesuccess'][$language]; ?>',
-            type: 'success',
-            showCancelButton: false,
-            showConfirmButton: false,
-            timer: 1500,
-          });
 
-          setTimeout(() => {
-            $("#row_DropDown").show(300);
-            // cleartxt();
-            showData();
-          }, 1700);
+          if (result == 'repeat') {
+            swal({
+              title: '',
+              text: '<?php echo $array['Duplicatename'][$language]; ?>',
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            })
+          } else {
+            $.ajax({
+              url: "../process/bindcatalog.php",
+              type: 'POST',
+              dataType: 'text',
+              cache: false,
+              contentType: false,
+              processData: false,
+              data: form_data,
+              success: function(result) {
+                var ObjData = JSON.parse(result);
+                $("#txtItemId").val(ObjData);
+                swal({
+                  title: '',
+                  text: '<?php echo $array['savesuccess'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+
+                setTimeout(() => {
+                  $("#row_DropDown").show(300);
+                  // cleartxt();
+                  showData();
+                }, 1700);
+
+              }
+            });
+          }
 
         }
       });
 
+
     }
 
-
     // color
-
     function showMasterColor() {
       $.ajax({
         url: "../process/bindcatalog.php",

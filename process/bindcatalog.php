@@ -38,7 +38,42 @@ if (!empty($_POST['FUNC_NAME'])) {
     getTypeLinen($conn);
   } else if ($_POST['FUNC_NAME'] == 'showSize') {
     showSize($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'checkName') {
+    checkName($conn);
   }
+}
+
+function checkName($conn)
+{
+  $txtItemName = $_POST["txtItemName"];
+  $txtItemNameEn = $_POST["txtItemNameEn"];
+  $txtItemId = $_POST["txtItemId"];
+
+  if ($txtItemId == "") {
+    $Sql = "SELECT
+    COUNT( itemcatalog.id ) AS count_name
+  FROM
+  itemcatalog 
+  WHERE
+    (itemCategoryName = '$txtItemName' OR itemCategoryNameEn = '$txtItemNameEn') AND itemcatalog.IsStatus = 0 ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $count_name = $Result['count_name'];
+    }
+  }else{
+    $count_name = 0;
+  }
+
+
+  if ($count_name > 0) {
+    echo "repeat";
+  } else {
+    echo "no repeat";
+  }
+
+  mysqli_close($conn);
+  die;
 }
 
 function getTypeLinen($conn)
@@ -597,8 +632,8 @@ function showData($conn)
           FROM
           itemcatalog
           INNER JOIN typelinen ON itemcatalog.typeLinen = typelinen.id 
-          WHERE itemcatalog.IsStatus = 0 AND ( itemcatalog.itemCategoryName LIKE '%$txtSearch%' OR  itemcatalog.itemCategoryNameEn LIKE '%$txtSearch%' ) $wherecategory LIMIT 50";
-  
+          WHERE itemcatalog.IsStatus = 0 AND ( itemcatalog.itemCategoryName LIKE '%$txtSearch%' OR  itemcatalog.itemCategoryNameEn LIKE '%$txtSearch%' ) $wherecategory";
+
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
     // $Result['discription'] ==null?'':$Result['discription'];

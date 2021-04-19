@@ -760,35 +760,46 @@ $array2 = json_decode($json2, TRUE);
                             $("#group2").append(StrTr);
                         } else if ((temp["form"] == 'confirmdep')) {
                             swal({
-                                title: "ยืนยันการบันทึก",
-                                text: "รหัสแผนกซํ้า : " + temp['DepCode'] + "  ",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonClass: "btn-success",
-                                confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-                                cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-                                confirmButtonColor: '#6fc864',
-                                cancelButtonColor: '#3085d6',
-                                closeOnConfirm: false,
-                                closeOnCancel: false,
-                                showCancelButton: true
-                            }).then(result => {
-                                if (result.value) {
-                                    var data = {
-                                        'STATUS': 'AddItemConfirm',
-                                        'HptCode': temp['HptCode'],
-                                        'DepName': temp['DepName'],
-                                        'DepCode': temp['DepCode'],
-                                        'IsActive': temp['IsActive'],
-                                        'group2': temp['group2'],
-                                        'shipto': temp['shipto']
-
-                                    };
-                                    senddata(JSON.stringify(data));
-                                } else if (result.dismiss === 'cancel') {
-                                    swal.close();
-                                }
+                            title: '',
+                            text: "รหัสแผนกซํ้า : " + temp['DepCode'] + "  ",
+                            type: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            confirmButtonText: 'Ok'
                             })
+                            // swal({
+                            //     title: "ยืนยันการบันทึก",
+                            //     text: "รหัสแผนกซํ้า : " + temp['DepCode'] + "  ",
+                            //     type: "warning",
+                            //     showCancelButton: true,
+                            //     confirmButtonClass: "btn-success",
+                            //     confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+                            //     cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+                            //     confirmButtonColor: '#6fc864',
+                            //     cancelButtonColor: '#3085d6',
+                            //     closeOnConfirm: false,
+                            //     closeOnCancel: false,
+                            //     showCancelButton: true
+                            // }).then(result => {
+                            //     if (result.value) {
+                            //         var data = {
+                            //             'STATUS': 'AddItemConfirm',
+                            //             'HptCode': temp['HptCode'],
+                            //             'DepName': temp['DepName'],
+                            //             'DepCode': temp['DepCode'],
+                            //             'IsActive': temp['IsActive'],
+                            //             'group2': temp['group2'],
+                            //             'shipto': temp['shipto']
+
+                            //         };
+                            //         senddata(JSON.stringify(data));
+                            //     } else if (result.dismiss === 'cancel') {
+                            //         swal.close();
+                            //     }
+                            // })
                         }
 
                     } else if (temp['status'] == "failed") {

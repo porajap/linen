@@ -390,6 +390,7 @@ if ($type == 'Existing') {
     }
     $start_row = 9;
     $r = 2;
+    // ถึงตรงนี้
     for ($q = 0; $q < $countitem; $q++) {
 
       $cnt = 0;

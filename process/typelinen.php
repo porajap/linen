@@ -12,6 +12,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     showDetail($conn);
   } else  if ($_POST['FUNC_NAME'] == 'deleteData') {
     deleteData($conn);
+  } else  if ($_POST['FUNC_NAME'] == 'checkTypelinen') {
+    checkTypelinen($conn);
   }
 }
 
@@ -97,6 +99,39 @@ function deleteData($conn)
 
   mysqli_query($conn, $Sql);
   echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function checkTypelinen($conn)
+{
+  $txtNameEn = $_POST["txtNameEn"];
+  $txtNameTh = $_POST["txtNameTh"];
+  $txtNumber = $_POST["txtNumber"];
+
+  if ($txtNumber == "") {
+    $Sql = "SELECT
+    COUNT( typelinen.id ) AS count_name
+  FROM
+    typelinen 
+  WHERE
+    (name_Th = '$txtNameTh' OR name_En = '$txtNameEn') ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+      $count_name = $Result['count_name'];
+    }
+  } else {
+    $count_name = 0;
+  }
+
+
+  if ($count_name > 0) {
+    echo "repeat";
+  } else {
+    echo "no repeat";
+  }
+
   mysqli_close($conn);
   die;
 }
