@@ -218,12 +218,12 @@ switch ($PmID) {
     $gen_s18 = 1;
 
     $dp2_head = $dp2_number;;
-    $dp2_s1 = 1;
-    $dp2_s2 = 1;
-    $dp2_s3 = 1;
-    $dp2_s4 = 1;
+    $dp2_s1 = 0;
+    $dp2_s2 = 0;
+    $dp2_s3 = 0;
+    $dp2_s4 = 0;
     $dp2_s5 = 0;
-    $dp2_s6 = 1;
+    $dp2_s6 = 0;
     //account
     $ac_head = 1;
     $ac_s1 = 0;
@@ -352,12 +352,12 @@ switch ($PmID) {
     $gen_s18 = 1;
 
     $dp2_head = $dp2_number;;
-    $dp2_s1 = 1;
-    $dp2_s2 = 1;
-    $dp2_s3 = 1;
-    $dp2_s4 = 1;
+    $dp2_s1 = 0;
+    $dp2_s2 = 0;
+    $dp2_s3 = 0;
+    $dp2_s4 = 0;
     $dp2_s5 = 0;
-    $dp2_s6 = 1;
+    $dp2_s6 = 0;
 
 
     //account
@@ -518,12 +518,12 @@ switch ($PmID) {
     $gen_s18 = 1;
 
     $dp2_head = $dp2_number;;
-    $dp2_s1 = 1;
-    $dp2_s2 = 1;
-    $dp2_s3 = 1;
-    $dp2_s4 = 1;
+    $dp2_s1 = 0;
+    $dp2_s2 = 0;
+    $dp2_s3 = 0;
+    $dp2_s4 = 0;
     $dp2_s5 = 0;
-    $dp2_s6 = 1;
+    $dp2_s6 = 0;
     //account
     $ac_head = 1;
     $ac_s1 = 0;
@@ -603,12 +603,12 @@ switch ($PmID) {
     $dp_s1 = 1;
 
     $dp2_head = $dp2_number;;
-    $dp2_s1 = 1;
-    $dp2_s2 = 1;
-    $dp2_s3 = 1;
-    $dp2_s4 = 1;
-    $dp2_s5 = 1;
-    $dp2_s6 = 1;
+    $dp2_s1 = 0;
+    $dp2_s2 = 0;
+    $dp2_s3 = 0;
+    $dp2_s4 = 0;
+    $dp2_s5 = 0;
+    $dp2_s6 = 0;
 
 
     //account

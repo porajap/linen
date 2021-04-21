@@ -407,6 +407,7 @@ function saveData($conn)
   $txtItemName = $_POST['txtItemName'];
   $txtItemNameEn = $_POST['txtItemNameEn'];
   $selectcategory = $_POST['selectcategory'];
+  $selectmaincategory = $_POST['selectmaincategory'];
   $txtItemId = $_POST['txtItemId'];
   $Userid = $_SESSION['Userid'];
 
@@ -420,9 +421,9 @@ function saveData($conn)
 
 
   if ($txtItemId == "") {
-    $Sql = "INSERT INTO itemcatalog SET create_user = '$Userid' , create_date = NOW() , typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' ";
+    $Sql = "INSERT INTO itemcatalog SET mainCategory = '$selectmaincategory' , create_user = '$Userid' , create_date = NOW() , typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' ";
   } else {
-    $Sql = "UPDATE itemcatalog SET typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
+    $Sql = "UPDATE itemcatalog SET mainCategory = '$selectmaincategory' , typeLinen = '$selectcategory' , itemCategoryNameEn = trim('$txtItemNameEn') , discription = '$txtDiscription' , discription_EN = trim('$txtDiscriptionEn') , itemCategoryName = '$txtItemName' WHERE itemcatalog.id = '$txtItemId' ";
   }
   mysqli_query($conn, $Sql);
 
@@ -593,6 +594,7 @@ function showDetail($conn)
             itemcatalog.discription,
             itemcatalog.discription_EN AS discriptionEn,
             itemcatalog.typeLinen,
+            itemcatalog.mainCategory,
             itemcatalog.imageOne,
             itemcatalog.imageTwo,
             itemcatalog.imageThree  
@@ -611,6 +613,7 @@ function showDetail($conn)
 function showData($conn)
 {
   $selectcategory = $_POST["selectcategory"];
+  $selectmaincategory = $_POST["selectmaincategory"];
   $txtSearch = $_POST["txtSearch"];
   $lang = $_SESSION["lang"];
   if ($lang == 'en') {
@@ -623,6 +626,11 @@ function showData($conn)
   } else {
     $wherecategory = "AND itemcatalog.typeLinen = '$selectcategory' ";
   }
+  if ($selectmaincategory == '') {
+    $wheremaincategory = "";
+  } else {
+    $wheremaincategory = "AND itemcatalog.mainCategory = '$selectmaincategory' ";
+  }
   $Sql = "SELECT
             itemcatalog.id,
             itemcatalog.itemCategoryName,
@@ -632,7 +640,7 @@ function showData($conn)
           FROM
           itemcatalog
           INNER JOIN typelinen ON itemcatalog.typeLinen = typelinen.id 
-          WHERE itemcatalog.IsStatus = 0 AND ( itemcatalog.itemCategoryName LIKE '%$txtSearch%' OR  itemcatalog.itemCategoryNameEn LIKE '%$txtSearch%' ) $wherecategory";
+          WHERE   itemcatalog.IsStatus = 0 AND ( itemcatalog.itemCategoryName LIKE '%$txtSearch%' OR  itemcatalog.itemCategoryNameEn LIKE '%$txtSearch%' ) $wherecategory  $wheremaincategory";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {

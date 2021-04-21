@@ -735,7 +735,6 @@ $array2 = json_decode($json2, TRUE);
     function CreateDocument() {
       var userid = '<?php echo $Userid; ?>';
       var hotpCode = $('#hotpital option:selected').attr("value");
-      var deptCode = $('#department option:selected').attr("value");
 
       $('#TableDetail tbody').empty();
       if (hotpCode == '') {
@@ -752,38 +751,58 @@ $array2 = json_decode($json2, TRUE);
           confirmButtonText: 'Ok'
         });
       } else {
-        swal({
-          title: "<?php echo $array['confirmdoc'][$language]; ?>",
-          text: "<?php echo $array['side'][$language]; ?> : " + $('#hotpital option:selected').text() + " <?php echo $array['department'][$language]; ?> : " + $('#department option:selected').text(),
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonClass: "btn-danger",
-          confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
-          cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          closeOnConfirm: false,
-          closeOnCancel: false,
-          showCancelButton: true
-        }).then(result => {
-          if (result.value) {
-            var data = {
-              'STATUS': 'CreateDocument',
-              'hotpCode': hotpCode,
-              'deptCode': deptCode,
-              'userid': userid
-            };
-            senddata(JSON.stringify(data));
-            $('#RefDocNo').attr('disabled', false);
-            $('#input_chk').val(0);
-            var word = '<?php echo $array['save'][$language]; ?>';
-            var changeBtn = "<i class='fa fa-save'></i>";
-            changeBtn += "<div>" + word + "</div>";
-            $('#icon_edit').html(changeBtn);
-          } else if (result.dismiss === 'cancel') {
-            swal.close();
+
+        setTimeout(() => {
+          var deptCode = $('#department option:selected').attr("value");
+          if (deptCode == "") {
+            swal({
+              title: '',
+              text: "สร้างเอกสารไม่ได้ เนื่องจากไม่มีการแสดงข้อมูลของแผนก",
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              showConfirmButton: false,
+              timer: 2000,
+              confirmButtonText: 'Ok'
+            });
+
+            return;
           }
-        })
+          swal({
+            title: "<?php echo $array['confirmdoc'][$language]; ?>",
+            text: "<?php echo $array['side'][$language]; ?> : " + $('#hotpital option:selected').text() + " <?php echo $array['department'][$language]; ?> : " + $('#department option:selected').text(),
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+            cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            showCancelButton: true
+          }).then(result => {
+            if (result.value) {
+              var data = {
+                'STATUS': 'CreateDocument',
+                'hotpCode': hotpCode,
+                'deptCode': deptCode,
+                'userid': userid
+              };
+              senddata(JSON.stringify(data));
+              $('#RefDocNo').attr('disabled', false);
+              $('#input_chk').val(0);
+              var word = '<?php echo $array['save'][$language]; ?>';
+              var changeBtn = "<i class='fa fa-save'></i>";
+              changeBtn += "<div>" + word + "</div>";
+              $('#icon_edit').html(changeBtn);
+            } else if (result.dismiss === 'cancel') {
+              swal.close();
+            }
+          })
+        }, 500);
+
       }
     }
 

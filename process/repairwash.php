@@ -155,54 +155,62 @@ function CreateDocument($conn, $DATA)
   }
 
   if ($count == 1) {
-    $Sql = "INSERT INTO repair_wash (
-              DocNo,
-              HptCode,
-              DocDate,
-              DepCode,
-              RefDocNo,
-              Total,
-              repair_wash.Modify_Code,
-              repair_wash.Modify_Date
-            )
-            VALUES
-              (
-                '$DocNo',
-                '$hotpCode',
-                DATE(NOW()),
-                '$deptCode',
-                '',
-                0,
-                $userid,
-                NOW()
-              ) ";
-      mysqli_query($conn, $Sql);
 
-      //var_dump($Sql);
-      $Sql = "INSERT INTO daily_request
-      (DocNo,DocDate,DepCode,Detail,Modify_Code,Modify_Date)
-      VALUES
-      ('$DocNo',NOW(),'$deptCode','repair_wash',$userid,DATE(NOW()))";
-
-      mysqli_query($conn, $Sql);
+    if ($deptCode == "") {
+      $boolean = false;
+    }else{
 
 
-      $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
-      FROM users
-      WHERE users.ID = $userid";
+      $Sql = "INSERT INTO repair_wash (
+                          DocNo,
+                          HptCode,
+                          DocDate,
+                          DepCode,
+                          RefDocNo,
+                          Total,
+                          repair_wash.Modify_Code,
+                          repair_wash.Modify_Date
+                        )
+                        VALUES
+                          (
+                            '$DocNo',
+                            '$hotpCode',
+                            DATE(NOW()),
+                            '$deptCode',
+                            '',
+                            0,
+                            $userid,
+                            NOW()
+                          ) ";
+                  mysqli_query($conn, $Sql);
 
-      $meQuery = mysqli_query($conn, $Sql);
-      while ($Result = mysqli_fetch_assoc($meQuery)) {
-        $DocNo = $Result['DocNo'];
-        $return[0]['Record']   = $Result['FName'];
-        if($lang == "en"){
-          $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
-        }else if($lang == "th"){
-          $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
-        }
-      }
+                  //var_dump($Sql);
+                  $Sql = "INSERT INTO daily_request
+                  (DocNo,DocDate,DepCode,Detail,Modify_Code,Modify_Date)
+                  VALUES
+                  ('$DocNo',NOW(),'$deptCode','repair_wash',$userid,DATE(NOW()))";
 
-      $boolean = true;
+                  mysqli_query($conn, $Sql);
+
+
+                  $Sql = "SELECT users.EngName , users.EngLName , users.ThName , users.ThLName , users.EngPerfix , users.ThPerfix
+                  FROM users
+                  WHERE users.ID = $userid";
+
+                  $meQuery = mysqli_query($conn, $Sql);
+                  while ($Result = mysqli_fetch_assoc($meQuery)) {
+                    $DocNo = $Result['DocNo'];
+                    $return[0]['Record']   = $Result['FName'];
+                    if($lang == "en"){
+                      $return[0]['Record']  = $Result['EngPerfix'].$Result['EngName'].'  '.$Result['EngLName'];
+                    }else if($lang == "th"){
+                      $return[0]['Record']  = $Result['ThPerfix'].' '.$Result['ThName'].'  '.$Result['ThLName'];
+                    }
+                  }
+
+                  $boolean = true;
+    }
+
     } else {
       $boolean = false;
     }

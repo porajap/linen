@@ -59,10 +59,15 @@ $array2 = json_decode($json2, TRUE);
           <div class="container-fluid">
             <div class="card-body" style="padding:0px; margin-top:-12px;">
               <div class="row">
-                <div class="col-md-8 off-set-10">
+                <div class="col-md-10">
                   <div class="row" style="margin-left:5px;">
-                    <select class="form-control col-md-4 " id="selectCategoryTop" style="font-size:22px;" onchange="changeCategory('top')"></select>
-                    <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-4 ml-2" style="font-size:22px;" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
+                    <select class="form-control col-md-3 ml-2" id="selectMainCategoryTop" style="font-size:22px;" onchange="changeMainCategory('top')">
+                      <option value="">กรุณาเลือกหมวดหมู่หลัก</option>
+                      <option value="ALL">ALL Category</option>
+                      <option value="DIS">DisPose</option>
+                    </select>
+                    <select class="form-control col-md-3 ml-2" id="selectCategoryTop" style="font-size:22px;" onchange="changeCategory('top')"></select>
+                    <input id="txtSearch" type="text" autocomplete="off" class="form-control col-md-3 ml-2" style="font-size:22px;" placeholder="<?php echo $array['Searchitem'][$language]; ?>">
                     <div class="search_custom col-md-2">
                       <div class="search_1 d-flex justify-content-start">
                         <button class="btn" onclick="showData()" id="bSave">
@@ -174,8 +179,16 @@ $array2 = json_decode($json2, TRUE);
               </div>
 
               <div class="row mt-1">
-                <div class="col-md-4">
-
+              <div class="col-md-4">
+                  <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['bind-category'][$language]; ?></label>
+                    <select id="selectmaincategory" class="form-control col-sm-7" style="font-size:22px;" onchange="changeMainCategory()">
+                    <option value="">กรุณาเลือกหมวดหมู่หลัก</option>
+                      <option value="ALL">ALL Category</option>
+                      <option value="DIS">DisPose</option>
+                    </select>
+                    <label id="alert_selectmaincategory" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
                 </div>
                 <div class="col-md-4">
                   <div class='form-group row'>
@@ -327,6 +340,7 @@ $array2 = json_decode($json2, TRUE);
       $("#row_DropDown").hide();
       $("#alert_txtItemName").hide();
       $("#alert_selectcategory").hide();
+      $("#alert_selectmaincategory").hide();
       $("#alert_txtDiscription").hide();
       $("#alert_txtItemNameEn").hide();
       $("#alert_txtDiscriptionEn").hide();
@@ -435,10 +449,25 @@ $array2 = json_decode($json2, TRUE);
       }
     }
 
+    function changeMainCategory(text){
+      var categoryMainTop = $("#selectMainCategoryTop").val();
+      var categoryMainLow = $("#selectmaincategory").val();
+
+      if (text == 'top') {
+        $("#selectmaincategory").val(categoryMainTop);
+        showData();
+      } else {
+        $("#selectMainCategoryTop").val(categoryMainLow);
+        showData();
+      }
+    }
+
     function cleartxt() {
       $("#txtItemName").val("");
       $("#selectcategory").val("0");
       $("#selectCategoryTop").val("0");
+      $("#selectmaincategory").val("");
+      $("#selectMainCategoryTop").val("");
       $("#txtDiscription").val("");
       $("#txtDiscriptionEn").val("");
       $("#txtItemId").val("");
@@ -518,6 +547,7 @@ $array2 = json_decode($json2, TRUE);
     function showData() {
       var selectcategory = $("#selectcategory").val();
       var txtSearch = $("#txtSearch").val();
+      var selectmaincategory = $("#selectmaincategory").val();
 
       $.ajax({
         url: "../process/bindcatalog.php",
@@ -525,6 +555,7 @@ $array2 = json_decode($json2, TRUE);
         data: {
           'FUNC_NAME': 'showData',
           'selectcategory': selectcategory,
+          'selectmaincategory': selectmaincategory,
           'txtSearch': txtSearch,
         },
         success: function(result) {
@@ -624,6 +655,7 @@ $array2 = json_decode($json2, TRUE);
         $('#cancelIcon').addClass('opacity');
         $("#txtItemName").val("");
         $("#selectcategory").val("0");
+        $("#selectmaincategory").val("");
         $("#txtDiscription").val("");
         $("#txtItemId").val("");
         $("#txtItemNameEn").val("");
@@ -654,6 +686,7 @@ $array2 = json_decode($json2, TRUE);
                   value.discriptionEn = "";
                 }
                 $("#selectcategory").val(value.typeLinen);
+                $("#selectmaincategory").val(value.mainCategory);
                 $("#txtDiscription").val(value.discription);
                 $("#txtDiscriptionEn").val(value.discriptionEn);
                 $("#txtItemName").val(value.itemCategoryName);
@@ -739,11 +772,14 @@ $array2 = json_decode($json2, TRUE);
       var data_imageTwo = $('#imageTwo').data('value');
       var data_imageThree = $('#imageThree').data('value');
       var selectcategory = $("#selectcategory").val();
+      var selectmaincategory = $("#selectmaincategory").val();
       var txtDiscription = $("#txtDiscription").val();
       var txtItemName = $("#txtItemName").val();
       var txtItemId = $("#txtItemId").val();
       var txtItemNameEn = $("#txtItemNameEn").val();
       var txtDiscriptionEn = $("#txtDiscriptionEn").val();
+      
+
 
 
       if (selectcategory == "0") {
@@ -788,6 +824,20 @@ $array2 = json_decode($json2, TRUE);
         return;
       }
 
+      if (selectmaincategory == "") {
+        swal({
+          title: '',
+          text: 'กรุณาระบุหมวดหมู่หลัก',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        $("#selectmaincategory").addClass("border-danger");
+        $("#alert_selectmaincategory").show();
+        return;
+      }
+
       if (txtDiscription == "") {
         swal({
           title: '',
@@ -824,6 +874,7 @@ $array2 = json_decode($json2, TRUE);
       form_data.append('data_imageTwo', data_imageTwo);
       form_data.append('data_imageThree', data_imageThree);
       form_data.append('selectcategory', selectcategory);
+      form_data.append('selectmaincategory', selectmaincategory);
       form_data.append('txtDiscription', txtDiscription);
       form_data.append('txtItemName', txtItemName);
       form_data.append('txtItemId', txtItemId);

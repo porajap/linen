@@ -3,14 +3,13 @@ session_start();
 $Userid = $_SESSION['Userid'];
 $TimeOut = $_SESSION['TimeOut'];
 if ($Userid == "") {
-   header("location:../index.html");
+    header("location:../index.html");
 }
 
-if(empty($_SESSION['lang'])){
-    $language ='th';
-}else{
-    $language =$_SESSION['lang'];
-
+if (empty($_SESSION['lang'])) {
+    $language = 'th';
+} else {
+    $language = $_SESSION['lang'];
 }
 require 'updatemouse.php';
 
@@ -102,8 +101,10 @@ $array = json_decode($json, true);
                 this.value = this.value.replace(/[^a-zA-Zก-ฮๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ. ]/g, ''); //<-- replace all other than given set of values
             });
 
-        }).click(function(e) { parent.last_move = new Date();;
-        }).keyup(function(e) { parent.last_move = new Date();;
+        }).click(function(e) {
+            parent.last_move = new Date();;
+        }).keyup(function(e) {
+            parent.last_move = new Date();;
         });
 
         dialog = jqui("#dialog").dialog({
@@ -200,11 +201,11 @@ $array = json_decode($json, true);
         }
 
         function getHotpital() {
-          var data = {
-              'STATUS': 'getHotpital'
-          };
-          // console.log(JSON.stringify(data));
-          senddata(JSON.stringify(data));
+            var data = {
+                'STATUS': 'getHotpital'
+            };
+            // console.log(JSON.stringify(data));
+            senddata(JSON.stringify(data));
         }
 
         function getSection() {
@@ -330,10 +331,10 @@ $array = json_decode($json, true);
             // console.log(HptSel+" : "+DepSel+" : "+EmpCode+" : "+EmpFName+" : "+EmpLName);
             // alert(HptSel+" : "+DepSel+" : "+EmpCode+" : "+EmpFName+" : "+EmpLName);
             var data = {
-                'STATUS'  : 'AddItem',
-                'HptSel'  : HptSel,
-                'DepSel'  : DepSel,
-                'EmpCode' : EmpCode,
+                'STATUS': 'AddItem',
+                'HptSel': HptSel,
+                'DepSel': DepSel,
+                'EmpCode': EmpCode,
                 'EmpFName': EmpFName,
                 'EmpLName': EmpLName
             };
@@ -368,13 +369,13 @@ $array = json_decode($json, true);
         }
 
         function Blankinput() {
-          $("#hptsel2").empty();
-          $("#depsel").empty();
-          $('#EmpCode').val('');
-          $('#EmpFName').val('')
-          $('#EmpLName').val('')
-          ShowItem();
-          getHotpital();
+            $("#hptsel2").empty();
+            $("#depsel").empty();
+            $('#EmpCode').val('');
+            $('#EmpFName').val('')
+            $('#EmpLName').val('')
+            ShowItem();
+            getHotpital();
         }
 
         function getdetail(EmpCode) {
@@ -523,10 +524,8 @@ $array = json_decode($json, true);
                 type: 'post',
                 beforeSend: function() {
                     swal({
-                        title: '<?php echo $array['
-                        pleasewait '][$language]; ?>',
-                        text: '<?php echo $array['
-                        processing '][$language]; ?>',
+                        title: '<?php echo $array['pleasewait '][$language]; ?>',
+                        text: '<?php echo $array['processing '][$language]; ?>',
                         allowOutsideClick: false
                     })
                     swal.showLoading();
@@ -540,7 +539,7 @@ $array = json_decode($json, true);
                     swal.close();
                     // alert("Status : "+temp["status"]);
                     if (temp["status"] == 'success') {
-                      // alert("Form : "+temp["form"]);
+                        // alert("Form : "+temp["form"]);
                         if ((temp["form"] == 'ShowItem')) {
                             $("#TableItem tbody").empty();
                             // console.log(temp);
@@ -575,22 +574,22 @@ $array = json_decode($json, true);
                                 var HptCode = temp['HptCode'];
                                 var DepCode = temp['DepCode'];
 
-                                var StrTr="";
+                                var StrTr = "";
                                 $("#hptsel2").empty();
                                 for (var i = 0; i < temp['HptCnt']; i++) {
-                                    if(temp['Hpt'+i]['HptCode']==HptCode){
-                                        StrTr = "<option selected value = '" + temp['Hpt'+i]['HptCode'] + "'> " + temp['Hpt'+i]['HptName'] + " </option>";
-                                    }else{
-                                        StrTr = "<option value = '" + temp['Hpt'+i]['HptCode'] + "'> " + temp['Hpt'+i]['HptName'] + " </option>";
+                                    if (temp['Hpt' + i]['HptCode'] == HptCode) {
+                                        StrTr = "<option selected value = '" + temp['Hpt' + i]['HptCode'] + "'> " + temp['Hpt' + i]['HptName'] + " </option>";
+                                    } else {
+                                        StrTr = "<option value = '" + temp['Hpt' + i]['HptCode'] + "'> " + temp['Hpt' + i]['HptName'] + " </option>";
                                     }
                                     $("#hptsel2").append(StrTr);
                                 }
                                 $("#depsel").empty();
                                 for (var i = 0; i < temp['DepCnt']; i++) {
-                                    if(temp['Dep'+i]['DepCode']==DepCode){
-                                        StrTr = "<option selected value = '" + temp['Dep'+i]['DepCode'] + "'> " + temp['Dep'+i]['DepName'] + " </option>";
-                                    }else{
-                                      StrTr = "<option value = '" + temp['Dep'+i]['DepCode'] + "'> " + temp['Dep'+i]['DepName'] + " </option>";
+                                    if (temp['Dep' + i]['DepCode'] == DepCode) {
+                                        StrTr = "<option selected value = '" + temp['Dep' + i]['DepCode'] + "'> " + temp['Dep' + i]['DepName'] + " </option>";
+                                    } else {
+                                        StrTr = "<option value = '" + temp['Dep' + i]['DepCode'] + "'> " + temp['Dep' + i]['DepName'] + " </option>";
                                     }
                                     $("#depsel").append(StrTr);
                                 }
@@ -774,12 +773,12 @@ $array = json_decode($json, true);
                                 $("#hptsel2").append(StrTr);
                             }
                             getSection();
-                        }else if ((temp["form"] == 'getSection')) {
-                              $("#depsel").empty();
-                                for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
-                                    var StrTr = "<option value = '" + temp[i]['DepCode'] + "'> " + temp[i]['DepName'] + " </option>";
-                                    $("#depsel").append(StrTr);
-                                }
+                        } else if ((temp["form"] == 'getSection')) {
+                            $("#depsel").empty();
+                            for (var i = 0; i < (Object.keys(temp).length - 2); i++) {
+                                var StrTr = "<option value = '" + temp[i]['DepCode'] + "'> " + temp[i]['DepName'] + " </option>";
+                                $("#depsel").append(StrTr);
+                            }
                         }
                     } else if (temp['status'] == "failed") {
                         switch (temp['msg']) {
@@ -841,18 +840,18 @@ $array = json_decode($json, true);
                             confirmButtonText: 'Ok'
                         });
                         $("#TableItem tbody").empty();
-                    }else{
-                      swal({
-                          title: '',
-                          text: temp['msg'],
-                          type: 'warning',
-                          showCancelButton: false,
-                          confirmButtonColor: '#3085d6',
-                          cancelButtonColor: '#d33',
-                          showConfirmButton: false,
-                          timer: 5000,
-                          confirmButtonText: 'Ok'
-                      });
+                    } else {
+                        swal({
+                            title: '',
+                            text: temp['msg'],
+                            type: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            showConfirmButton: false,
+                            timer: 5000,
+                            confirmButtonText: 'Ok'
+                        });
                     }
                 },
                 failure: function(result) {
@@ -879,63 +878,78 @@ $array = json_decode($json, true);
         }
     </script>
     <style media="screen">
-        body{
-		   font-family: 'THSarabunNew';
-		   font-size:22px;
-		}
-    input,select{
-      font-size:24px!important;
-    }
-    th,td{
-      font-size:24px!important;
-    }
-    .table > thead > tr >th {
-      background: #4f88e3!important;
-    }
+        body {
+            font-family: 'THSarabunNew';
+            font-size: 22px;
+        }
 
-    table tr th,
-    table tr td {
-      border-right: 0px solid #bbb;
-      border-bottom: 0px solid #bbb;
-      padding: 5px;
-    }
-    table tr th:first-child,
-    table tr td:first-child {
-      border-left: 0px solid #bbb;
-    }
-    table tr th {
-      background: #eee;
-      border-top: 0px solid #bbb;
-      text-align: left;
-    }
+        input,
+        select {
+            font-size: 24px !important;
+        }
 
-    /* top-left border-radius */
-    table tr:first-child th:first-child {
-      border-top-left-radius: 6px;
-    }
+        th,
+        td {
+            font-size: 24px !important;
+        }
 
-    /* top-right border-radius */
-    table tr:first-child th:last-child {
-      border-top-right-radius: 6px;
-    }
+        .table>thead>tr>th {
+            background: #4f88e3 !important;
+        }
 
-    /* bottom-left border-radius */
-    table tr:last-child td:first-child {
-      border-bottom-left-radius: 6px;
-    }
+        table tr th,
+        table tr td {
+            border-right: 0px solid #bbb;
+            border-bottom: 0px solid #bbb;
+            padding: 5px;
+        }
 
-    /* bottom-right border-radius */
-    table tr:last-child td:last-child {
-      border-bottom-right-radius: 6px;
-    }
-    button{
-      font-size: 24px!important;
-    }
-      a.nav-link{
-        width:auto!important;
-      }
-      .datepicker{z-index:9999 !important}
-      .hidden{visibility: hidden;}
+        table tr th:first-child,
+        table tr td:first-child {
+            border-left: 0px solid #bbb;
+        }
+
+        table tr th {
+            background: #eee;
+            border-top: 0px solid #bbb;
+            text-align: left;
+        }
+
+        /* top-left border-radius */
+        table tr:first-child th:first-child {
+            border-top-left-radius: 6px;
+        }
+
+        /* top-right border-radius */
+        table tr:first-child th:last-child {
+            border-top-right-radius: 6px;
+        }
+
+        /* bottom-left border-radius */
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 6px;
+        }
+
+        /* bottom-right border-radius */
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 6px;
+        }
+
+        button {
+            font-size: 24px !important;
+        }
+
+        a.nav-link {
+            width: auto !important;
+        }
+
+        .datepicker {
+            z-index: 9999 !important
+        }
+
+        .hidden {
+            visibility: hidden;
+        }
     </style>
 </head>
 
