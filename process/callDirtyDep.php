@@ -197,7 +197,7 @@ function showDocument($conn)
   $whereDate= "";
 
   if($PmID == 1  || $PmID == 5 || $PmID == 6 || $PmID == 2){
-    $whereDep = "";
+    $whereDep = "AND call_dirty.IsStatus = 2 ";
   }else{
     $whereDep = "AND call_dirty.DepCode = '$DepCode' AND department.DepCode = '$DepCode' ";
   }

@@ -215,7 +215,7 @@ $array2 = json_decode($json2, TRUE);
                       <th nowrap>
                         <center><?php echo $array['parsc'][$language]; ?></center>
                       </th>
-                      <th nowrap> <center>Shelfcount</center></th>
+                      <th nowrap> <center>issue</center></th>
                     </tr>
                   </thead>
                   <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:200px;"></tbody>
@@ -596,7 +596,7 @@ $array2 = json_decode($json2, TRUE);
               value.TotalQty = "";
             }
             var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
-            var inputissu = "<input type='text' autocomplete='off' disabled style='font-size:22px;' placeholder='0' value='" + value.CcQty + "' class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
+            var inputissu = "<input type='text' autocomplete='off' disabled style='font-size:22px;' placeholder='0' value='" + value.TotalQty + "' class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
             var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
             StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
               "<td  >" + (key + 1) + "</td>" +

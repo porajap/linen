@@ -141,7 +141,7 @@ $array2 = json_decode($json2, TRUE);
                 <button class="btn" id="btn_save" disabled="true" onclick="saveDocument();">
                   <i class="fas fa-save"></i>
                   <div>
-                    <?php echo $array['save'][$language]; ?>
+                    <?php echo $array['closeChat'][$language]; ?>
                   </div>
 
                 </button>
@@ -149,7 +149,7 @@ $array2 = json_decode($json2, TRUE);
             </div>
           </div>
 
-          <div class="" id="hover_cancel">
+          <!-- <div class="" id="hover_cancel">
             <div class="d-flex justify-content-center " style="margin-right: 6rem!important;">
               <div class="circle5 d-flex justify-content-center ">
                 <button class="btn" id="btn_cancel" disabled="true" onclick="cancelDocment()">
@@ -161,7 +161,7 @@ $array2 = json_decode($json2, TRUE);
               </div>
             </div>
 
-          </div>
+          </div> -->
 
         </div>
 

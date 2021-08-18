@@ -8,6 +8,8 @@ if (!empty($_POST['FUNC_NAME'])) {
     ShowDoc_Menu($conn);
   } else if ($_POST['FUNC_NAME'] == 'ShowDocDetail_Menu') {
     ShowDocDetail_Menu($conn);
+  } else if ($_POST['FUNC_NAME'] == 'updateWeightAndPrice') {
+    updateWeightAndPrice($conn);
   }
 }
 
@@ -102,6 +104,23 @@ function ShowDocDetail_Menu($conn)
     $return[] = $Result;
   }
   echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function updateWeightAndPrice($conn)
+{
+  $queryUpdate = $_POST['queryUpdate'];
+  $Sql = $queryUpdate;
+
+  if (mysqli_multi_query($conn, $Sql)) {
+
+    echo "1";
+  }
+
+
+
+  exit();
   mysqli_close($conn);
   die;
 }

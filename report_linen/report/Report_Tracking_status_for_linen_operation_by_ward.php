@@ -197,14 +197,14 @@ class PDF extends FPDF
             $sc2 = substr($inner_array[$field[3]], 0, 5);
           }
           $pdf->SetFont('THSarabun', '', 12);
-          list($hoursSS, $minSS, $secordSS) = explode(":",  $sc1);
-          list($hoursSF, $minSF, $secordSF) = explode(":",  $sc2);
+          // list($hoursSS, $minSS, $secordSS) = explode(":",  $sc1);
+          list($hoursSF, $minSF, $secordSF) = explode(":", $inner_array[$field[4]]);
           list($hoursPS, $minPS, $secordPS) = explode(":", $inner_array[$field[5]]);
           list($hoursPF, $minPF, $secordPF) = explode(":", $inner_array[$field[6]]);
           list($hoursDS, $minDS, $secordDS) = explode(":", $inner_array[$field[8]]);
           list($hoursDF, $minDF, $secordDF) = explode(":", $inner_array[$field[9]]);
-          $h1 = $hoursSS - $hoursSF;
-          $m1 = $minSS - $minSF;
+          // $h1 = $hoursSS - $hoursSF;
+          // $m1 = $minSS - $minSF;
           if ($inner_array[$field[1]] == 'Extra') {
             $h2 = $hoursPS - $hoursPF;
             $m2 = $minPS - $minPF;
@@ -267,25 +267,35 @@ class PDF extends FPDF
             $pack1 = substr($inner_array[$field[5]], 0, 5);
             $pack2 = substr($inner_array[$field[6]], 0, 5);
             $total2 = $h2 . ":" . $m2;
+            $pack1 = $inner_array[$field[5]];
+            $pack2 = $inner_array[$field[6]];
+            $total2 = $inner_array[$field[7]];
+            $totalpk = $inner_array[$field[7]];
           } else {
             $pack1 = '-';
             $pack2 = '-';
             $total2 = '-';
+            $totalpk = '00:00:00';
           }
-          $pdf->SetFont('THSarabun', '', 14);
+
+
+
+          $totalTime  =  sum_the_time($inner_array[$field[4]],$totalpk,$inner_array[$field[10]]);  // this will give you a result: 19:12:25          ;
+
+          $pdf->SetFont('THSarabun', '', 12);
           $this->Cell($w[0], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[0]]), 1, 0, 'C');
           $this->Cell($w[7], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[13]]), 1, 0, 'C');
           $this->Cell($w[1], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[1]]), 1, 0, 'C');
-          $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", $sc1), 1, 0, 'C');
-          $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", $sc2), 1, 0, 'C');
-          $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $total1), 1, 0, 'C');
+          $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", $inner_array[$field[2]]), 1, 0, 'C');
+          $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", $inner_array[$field[3]]), 1, 0, 'C');
+          $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $inner_array[$field[4]]), 1, 0, 'C');
           $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", $pack1), 1, 0, 'C');
           $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", $pack2), 1, 0, 'C');
           $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $total2), 1, 0, 'C');
-          $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[8]], 0, 5)), 1, 0, 'C');
-          $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", substr($inner_array[$field[9]], 0, 5)), 1, 0, 'C');
-          $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $total3), 1, 0, 'C');
-          $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", number_format($totalhour) . $hour_show . " " . $totalmin .  $min_show), 1, 0, 'C');
+          $this->Cell($w[2] / 3, 10, iconv("UTF-8", "TIS-620", $inner_array[$field[8]]), 1, 0, 'C');
+          $this->Cell($w[3] / 3, 10, iconv("UTF-8", "TIS-620", $inner_array[$field[9]]), 1, 0, 'C');
+          $this->Cell($w[4] / 3, 10, iconv("UTF-8", "TIS-620", $inner_array[$field[10]]), 1, 0, 'C');
+          $this->Cell($w[5], 10, iconv("UTF-8", "TIS-620", $totalTime), 1, 0, 'C');
           $this->Cell($w[6], 10, iconv("UTF-8", "TIS-620", $inner_array[$field[12]]), 1, 1,   'C');
           $y += 10;
         }
@@ -392,9 +402,9 @@ $query = "SELECT
   COALESCE(TIME(shelfcount.PkStartTime),'-') AS PkStartTime ,
   COALESCE(TIME(shelfcount.DvStartTime),'-') AS DvStartTime ,
   COALESCE(TIME(shelfcount.DvEndTime),'-') AS DvEndTime ,
-  TIMEDIFF(shelfcount.ScStartTime,shelfcount.ScEndTime)AS SC ,
-  TIMEDIFF(shelfcount.PkStartTime,shelfcount.PkEndTime)AS PK ,
-  TIMEDIFF(shelfcount.DvStartTime,shelfcount.DvEndTime)AS DV,
+  TIMEDIFF(shelfcount.ScEndTime,shelfcount.ScStartTime)AS SC ,
+  TIMEDIFF(shelfcount.PkEndTime,shelfcount.PkStartTime)AS PK ,
+  TIMEDIFF(shelfcount.DvEndTime,shelfcount.DvStartTime)AS DV,
   CONCAT($Perfix,' ' , $Name,' ' ,$LName)  as USER,
   sc_time_2.TimeName ,
   shelfcount.DocDate
@@ -424,6 +434,22 @@ $pdf->setTable($pdf, $header, $result, $width, $numfield, $field);
 // }
 // }
 // Footer Table
-
+function sum_the_time($time1,$time2,$time3)
+{
+  $times = array($time1,$time2,$time3);
+  $seconds = 0;
+  foreach ($times as $time) {
+    list($hour, $minute, $second) = explode(':', $time);
+    $seconds += $hour * 3600;
+    $seconds += $minute * 60;
+    $seconds += $second;
+  }
+  $hours = floor($seconds / 3600);
+  $seconds -= $hours * 3600;
+  $minutes  = floor($seconds / 60);
+  $seconds -= $minutes * 60;
+  // return "{$hours}:{$minutes}:{$seconds}";
+  return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds); // Thanks to Patrick
+}
 $ddate = date('d_m_Y');
 $pdf->Output('I', 'Report_Tracking_status_for_linen_operation_by_ward_' . $ddate . '.pdf');

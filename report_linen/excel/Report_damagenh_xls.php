@@ -317,8 +317,9 @@ $query = "  SELECT
               LEFT JOIN item ON damagenh_detail.ItemCode = item.ItemCode
               $where
               AND damagenh.isStatus <> 9 AND damagenh.isStatus <> 0
-              GROUP BY damagenh_detail.ItemCode
-            ";
+              AND damagenh.DocNo LIKE '%$HptCode%'
+              GROUP BY damagenh_detail.ItemCode  ";
+
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   $ItemName[] =  $Result["ItemName"];

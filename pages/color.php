@@ -60,7 +60,9 @@ $array2 = json_decode($json2, TRUE);
               <div class="row">
                 <div class="col-md-8 off-set-10">
                   <div class="row" style="margin-left:5px;">
-                    <select class="form-control col-md-4 " id="select_color_master" style="font-size:22px;" onchange="showDataColor();">
+                    <select class="form-control col-md-4 " id="select_color_master" style="font-size:22px;" onchange="checkColorMaster('top');">
+                    </select>
+                    <select class="form-control col-md-4 ml-3" id="select_supplierTop" style="font-size:22px;" onchange="changeSupplier('top')">
                     </select>
                   </div>
                 </div>
@@ -71,11 +73,13 @@ $array2 = json_decode($json2, TRUE);
                   <table class="table table-fixed table-condensed table-striped mt-3" id="table_color" width="100%" cellspacing="0" role="grid">
                     <thead id="theadsum" style="font-size:24px;">
                       <tr role="row" id='tr_1'>
-                        <th style="width:8%"><br></th>
-                        <th style="width:20%"><?php echo $array['no'][$language]; ?></th>
-                        <th style="width:22%"><?php echo $array['color-group'][$language]; ?></th>
+                        <th style="width:5%"><br></th>
+                        <th style="width:10%"><?php echo $array['no'][$language]; ?></th>
+                        <th style="width:5%"><?php echo $array['color-group'][$language]; ?></th>
                         <th style="width:20%;text-align: center;"><?php echo $array['color-color'][$language]; ?></th>
-                        <th style="width:30%"><?php echo $array['color-colorcode'][$language]; ?></th>
+                        <th style="width:20%"><?php echo $array['color-colorcode'][$language]; ?></th>
+                        <th style="width:20%"><?php echo $array['supplier-company'][$language]; ?></th>
+                        <th style="width:20%"><?php echo $array['remask'][$language]; ?></th>
                       </tr>
                     </thead>
                     <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:300px;">
@@ -146,7 +150,7 @@ $array2 = json_decode($json2, TRUE);
                 <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-2 col-form-label "><?php echo $array['color-group'][$language]; ?></label>
-                    <select class="form-control col-md-7 " id="select_color_master2" style="font-size:22px;" onchange="chk_color_master();">
+                    <select class="form-control col-md-7 " id="select_color_master2" style="font-size:22px;" onchange="checkColorMaster();">
                     </select>
                   </div>
                 </div>
@@ -156,6 +160,22 @@ $array2 = json_decode($json2, TRUE);
                     <input class='form-control mt-2 ' id="color-picker" style="font-size:22px;" />
                     <input class='form-control mt-2 ' id="text_id_color_detail" style="font-size:22px;" hidden />
                     <label id="alert_txtColor" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col-md-6">
+                  <div class='form-group row'>
+                    <label class="col-sm-2 col-form-label "><?php echo $array['supplier-company'][$language]; ?></label>
+                    <select class="form-control col-md-7 " id="select_supplier" style="font-size:22px;" onchange="changeSupplier()">
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class='form-group row'>
+                    <label class="col-sm-2 col-form-label "><?php echo $array['remask'][$language]; ?></label>
+                    <input type="text" class="form-control col-md-7 " id="input_remark" style="font-size:22px;" autocomplete="off">
                   </div>
                 </div>
               </div>
@@ -187,6 +207,7 @@ $array2 = json_decode($json2, TRUE);
       get_color_master();
       setTimeout(() => {
         showDataColor();
+        getSupplier();
       }, 200);
 
 
@@ -210,9 +231,73 @@ $array2 = json_decode($json2, TRUE);
       parent.afk();
     });
 
-    function chk_color() {   
+    function checkColorMaster(text){
+      
+      var select_color_masterTop = $("#select_color_master").val();
+      var select_color_master = $("#select_color_master2").val();
+
+      if (text == 'top') {
+        $("#select_color_master2").val(select_color_masterTop);
+        showDataColor();
+
+        setTimeout(() => {
+          chk_color_master();
+        }, 300);
+      } else {
+        $("#select_color_master").val(select_color_master);
+        showDataColor();
+
+        setTimeout(() => {
+          chk_color_master();
+        }, 300);
+      }
+    }
+
+    function changeSupplier(text) {
+      var supplierTop = $("#select_supplierTop").val();
+      var supplier = $("#select_supplier").val();
+
+      if (text == 'top') {
+        $("#select_supplier").val(supplierTop);
+        showDataColor();
+      } else {
+        $("#select_supplierTop").val(supplier);
+        showDataColor();
+      }
+    }
+
+    function getSupplier() {
+
+      var lang = '<?php echo $language; ?>';
+      var PmID = '<?php echo $PmID; ?>';
+
+      $.ajax({
+        url: "../process/color.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'getSupplier',
+          'lang': lang,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          var option = `<option value="0" selected><?php echo $array['supplier-selectcompany'][$language]; ?></option>`;
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              option += `<option value="${value.id}">${value.name_supplier}</option>`;
+            });
+          } else {
+            option = `<option value="0">Data not found</option>`;
+          }
+
+          $("#select_supplierTop").html(option);
+          $("#select_supplier").html(option);
+        }
+      });
+    }
+
+    function chk_color() {
       var color_code = $("#color-picker").val();
- 
+
       $.ajax({
         url: "../process/color.php",
         type: 'POST',
@@ -225,9 +310,9 @@ $array2 = json_decode($json2, TRUE);
           var ObjData = JSON.parse(result);
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(key, value) {
-              if(value.num==0){
+              if (value.num == 0) {
                 save_add_color();
-              }else{
+              } else {
                 swal({
                   title: '',
                   text: '<?php echo $array['editfailcolor'][$language]; ?>',
@@ -241,12 +326,16 @@ $array2 = json_decode($json2, TRUE);
           }
         }
       });
- 
+
     }
+
+
 
     function save_add_color() {
       var color_master = $("#select_color_master2").val();
       var color_code = $("#color-picker").val();
+      var select_supplier = $("#select_supplier").val();
+      var input_remark = $("#input_remark").val();
 
 
 
@@ -254,6 +343,34 @@ $array2 = json_decode($json2, TRUE);
         swal({
           title: '',
           text: 'กรุณาเลือกกลุ่มสี',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // $("#color-picker").addClass("border-danger");
+        //   $("#alert_txtColor").show();
+        return;
+      }
+
+      if (input_remark == "") {
+        swal({
+          title: '',
+          text: 'กรุณากรอกหมายเหตุ',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // $("#color-picker").addClass("border-danger");
+        //   $("#alert_txtColor").show();
+        return;
+      }
+
+      if (select_supplier == "0") {
+        swal({
+          title: '',
+          text: 'กรุณาเลือกบริษัท',
           type: 'warning',
           showCancelButton: false,
           showConfirmButton: false,
@@ -272,11 +389,15 @@ $array2 = json_decode($json2, TRUE);
         data: {
           'FUNC_NAME': 'save_add_color',
           'color_master': color_master,
-          'color_code': color_code
+          'color_code': color_code,
+          'select_supplier': select_supplier,
+          'input_remark': input_remark
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
           $("#select_color_master2").val("0");
+          $('#select_supplier').val(0);
+          $('#input_remark').val("");
           $("#color-picker").spectrum({
             color: "transparent"
           });
@@ -310,6 +431,8 @@ $array2 = json_decode($json2, TRUE);
       var color_master = $("#select_color_master2").val();
       var color_code = $("#color-picker").val();
       var text_id_color_detail = $('#text_id_color_detail').val();
+      var select_supplier = $("#select_supplier").val();
+      var input_remark = $("#input_remark").val();
 
       if (color_master == "0") {
         swal({
@@ -324,7 +447,19 @@ $array2 = json_decode($json2, TRUE);
         return;
       }
 
-
+      if (select_supplier == "0") {
+        swal({
+          title: '',
+          text: 'กรุณาเลือกบริษัท',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // $("#color-picker").addClass("border-danger");
+        //   $("#alert_txtColor").show();
+        return;
+      }
 
       $.ajax({
         url: "../process/color.php",
@@ -333,11 +468,15 @@ $array2 = json_decode($json2, TRUE);
           'FUNC_NAME': 'save_edit_color',
           'color_master': color_master,
           'color_code': color_code,
-          'text_id_color_detail': text_id_color_detail
+          'text_id_color_detail': text_id_color_detail,
+          'select_supplier': select_supplier,
+          'input_remark': input_remark
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
           $("#select_color_master2").val("0");
+          $('#select_supplier').val(0);
+          $('#input_remark').val("");
           $("#color-picker").spectrum({
             color: "transparent"
           });
@@ -376,12 +515,15 @@ $array2 = json_decode($json2, TRUE);
       $('#bCancel').attr('disabled', true);
       $('#cancelIcon').addClass('opacity');
       $('#text_id_color_detail').val("");
+      $('#select_supplier').val(0);
+      $('#input_remark').val("");
       $('#div_bt_edit').hide();
       $('#div_bt_add').show();
     }
 
     function showDataColor() {
       var color_master = $("#select_color_master").val();
+      var select_supplier = $("#select_supplierTop").val();
 
       $.ajax({
         url: "../process/color.php",
@@ -389,7 +531,7 @@ $array2 = json_decode($json2, TRUE);
         data: {
           'FUNC_NAME': 'showDataColor',
           'color_master': color_master,
-
+          'select_supplier': select_supplier,
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
@@ -399,20 +541,22 @@ $array2 = json_decode($json2, TRUE);
 
               var chkDoc = "<label class='radio' style='margin-top:7px'><input type='radio' class='classSupplier' name='idSupplier' id='idcolor_detail_" + key + "' value='" + value.ID + "' onclick='getDetail_color(\"" + value.ID + "\");' ><span class='checkmark'></span></label>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
-                "<td style='width:8%'>" + chkDoc + "</td>" +
-                "<td style='width:20%'>" + (key + 1) + "</td>" +
-                "<td style='width:22%'>" + value.color_master_name + "</td>" +
+                "<td style='width:5%'>" + chkDoc + "</td>" +
+                "<td style='width:10%'>" + (key + 1) + "</td>" +
+                "<td style='width:5%'>" + value.color_master_name + "</td>" +
                 "<td style='width:20%;'><center><div style='width:50%;background-color:" + value.color_code_detail + ";padding:20px;margin:0px;'> </div></center></td>" +
-                "<td style='width:30%'> " + value.color_code_detail + " </td>" +
+                "<td style='width:20%'> " + value.color_code_detail + " </td>" +
+                "<td style='width:20%'> " + value.name_Th + " </td>" +
+                "<td style='width:20%'> " + value.remark + " </td>" +
                 "</tr>";
             });
           }
           $('#table_color tbody').html(StrTR);
 
-          $("#select_color_master2").val("0");
-          $("#color-picker").spectrum({
-            color: "transparent"
-          });
+          // $("#select_color_master2").val("0");
+          // $("#color-picker").spectrum({
+          //   color: "transparent"
+          // });
           $('#bCancel').attr('disabled', true);
           $('#text_id_color_detail').val("");
           $('#cancelIcon').addClass('opacity');
@@ -609,7 +753,8 @@ $array2 = json_decode($json2, TRUE);
             $.each(ObjData, function(key, value) {
               $('#select_color_master2').val(value.ID_color_master);
               $('#text_id_color_detail').val(value.ID);
-
+              $('#select_supplier').val(value.codeSupplier);
+              $('#input_remark').val(value.remark);
               $("#color-picker").spectrum({
                 color: value.color_code_detail,
                 palette: [

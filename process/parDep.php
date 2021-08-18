@@ -323,7 +323,9 @@ function showDocument($conn)
   }else if($status == 3){
     $whereStatus = "AND request_par.isStatus = 9";
   }
-
+  if($PmID == 1 ||  $PmID == 2 || $PmID == 3 || $PmID == 5 || $PmID == 6 || $PmID == 7) {
+    $whereStatus = "AND (  request_par.isStatus = 2  OR request_par.isStatus = 3 )";
+  }
   if($PmID == 1 ||  $PmID == 2 || $PmID == 3 || $PmID == 5 || $PmID == 6 || $PmID == 7) {
     $whereDep= "";
   }else{

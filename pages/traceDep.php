@@ -445,6 +445,8 @@ $array2 = json_decode($json2, TRUE);
                 $("#p_completed").text("");
                 $("#p_delivery").text("");
                 $("#p_cancel").text(value.Modify_Date);
+              }else{
+                $("#txtDocNo").text(DocNo);
               }
 
 

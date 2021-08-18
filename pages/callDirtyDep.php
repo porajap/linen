@@ -75,9 +75,9 @@ $array2 = json_decode($json2, TRUE);
               <div class="col-md-12">
                 <div class='form-group row'>
                   <label class="col-sm-4 col-form-label">
-                    <?php echo $array['Recallstain'][$language]; ?>
+                    <?php echo $array['signdep'][$language]; ?>
                   </label>
-                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7  " id="txtName" placeholder="<?php echo $array['Recallstain'][$language]; ?>">
+                  <input type="text" autocomplete="off" style="font-size:22px;" class="form-control col-sm-7  " id="txtName" placeholder="<?php echo $array['signdep'][$language]; ?>">
                   <label id="alert_txtName" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                 </div>
               </div>

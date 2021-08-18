@@ -20,6 +20,10 @@ if (!empty($_POST['FUNC_NAME'])) {
     show_colorDetail($conn);
   }else  if ($_POST['FUNC_NAME'] == 'show_supplierDetail') {
     show_supplierDetail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_FacbricDetail') {
+    show_FacbricDetail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'show_Thread_countDetail') {
+    show_Thread_countDetail($conn);
   }else  if ($_POST['FUNC_NAME'] == 'show_siteDetail') {
     show_siteDetail($conn);
   } else  if ($_POST['FUNC_NAME'] == 'openMasterColor') {
@@ -107,6 +111,7 @@ function showSize($conn)
 function showData($conn)
 {
   $input_typeline = $_POST["input_typeline"];
+  $selectMainCategoryTop = $_POST["selectMainCategoryTop"];
   $txtSearch = $_POST["txtSearch"];
 
   $lang = $_SESSION['lang'];
@@ -121,7 +126,11 @@ function showData($conn)
   }else{
     $where="itemcatalog.typeLinen = '$input_typeline' AND";
   }
-
+  if ($selectMainCategoryTop == '') {
+    $wheremaincategory = "";
+  } else {
+    $wheremaincategory = "AND itemcatalog.mainCategory = '$selectMainCategoryTop' ";
+  }
   $Sql = "SELECT
             itemcatalog.id, 
             itemcatalog.itemCategoryName, 
@@ -135,7 +144,7 @@ function showData($conn)
               itemcatalog.typeLinen = typelinen.id
           WHERE
           $where
-             itemcatalog.itemCategoryName LIKE '%$txtSearch%' AND itemcatalog.IsStatus = 0
+             itemcatalog.itemCategoryName LIKE '%$txtSearch%' AND itemcatalog.IsStatus = 0 $wheremaincategory
          
           ";
   $count_i=0;
@@ -373,6 +382,63 @@ function show_colorDetail($conn)
   die;
 }
 
+function show_FacbricDetail($conn){
+  $id = $_POST["id"];
+  $lang = $_SESSION['lang'];
+  $num_lang = $_POST['num_lang'];
+
+  if($num_lang == 0){
+    $name = "fabric.name_Fabric AS name";
+  }else{
+    $name = "fabric.name_Fabric  AS name";
+  }
+
+    $Sql = "SELECT
+              multifabric.codeFabric,
+              $name 
+            FROM
+            multifabric
+              INNER JOIN fabric ON multifabric.codeFabric = fabric.id
+              WHERE multifabric.itemCategoryId='$id'
+            ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+function show_Thread_countDetail($conn){
+  $id = $_POST["id"];
+  $lang = $_SESSION['lang'];
+  $num_lang = $_POST['num_lang'];
+
+  if($num_lang == 0){
+    $name = "thread_count.name_Thread AS name";
+  }else{
+    $name = "thread_count.name_Thread  AS name";
+  }
+
+    $Sql = "SELECT
+              multithread_count.codeThread_count,
+              $name 
+            FROM
+            multithread_count
+              INNER JOIN thread_count ON multithread_count.codeThread_count = thread_count.id
+              WHERE multithread_count.itemCategoryId='$id'  ";
+
+    $meQuery = mysqli_query($conn, $Sql);
+    while ($Result = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $Result;
+    }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
 
 function show_supplierDetail($conn){
 
@@ -1221,7 +1287,7 @@ function show_htp($conn){
                     GROUP BY store_location.HptCode
                   ";
   $meQuery_htpstore = mysqli_query($conn, $Sql_htpstore);
-  $HptCode="";
+  $HptCode="''";
   while ($Result_htpstore = mysqli_fetch_assoc($meQuery_htpstore)) {
     
     if($count==0){
@@ -1239,9 +1305,7 @@ function show_htp($conn){
                 $name
               FROM
                 site
-              WHERE site.HptCode NOT IN ($HptCode)
-            ";
-
+              WHERE site.HptCode NOT IN ($HptCode) ";
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {
     $return[] = $Result;

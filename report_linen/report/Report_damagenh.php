@@ -19,6 +19,7 @@ $betweendate2 = $data[5];
 $format = $data[6];
 $DepCode = $data[7];
 $chk = $data[8];
+$yearchk = $data[9];
 $year = $data['year'];
 $where = '';
 $language = $_SESSION['lang'];
@@ -73,7 +74,7 @@ if ($chk == 'one') {
       $day2 . " " . $datetime->getmonthFromnum($mouth2) . " " .  $year2;
   }
 } elseif ($chk == 'month') {
-  $where =   "WHERE month (damagenh.Docdate) = " . $date1;
+  $where =   "WHERE month (damagenh.Docdate) = " . $date1 . " AND YEAR(damagenh.Docdate)=" . $yearchk;
   $where_new = "WHERE month (newlinentable.Docdate) = " . $date1;
   $datetime = new DatetimeTH();
   if ($language == 'th') {
@@ -207,16 +208,15 @@ damagenh_detail.Detail
 FROM
 damagenh_detail
 INNER JOIN damagenh ON damagenh.DocNo = damagenh_detail.DocNo
-INNER JOIN department ON damagenh.DepCode = department.DepCode
 INNER JOIN item ON item.ItemCode = damagenh_detail.ItemCode
-INNER JOIN site ON site.HptCode = department.HptCode
 INNER JOIN item_unit ON damagenh_detail.UnitCode = item_unit.UnitCode
 $where
-AND department.HptCode = '$HptCode'
+AND damagenh.DocNo LIKE '%$HptCode%'
 AND damagenh.IsStatus <> 9 AND damagenh.isStatus <> 0
 GROUP BY
 damagenh_detail.ItemCode 
 ORDER BY  damagenh_detail.ItemCode ASC ";
+
 $meQuery = mysqli_query($conn, $query);
 while ($Result = mysqli_fetch_assoc($meQuery)) {
   if ($count > 20) {

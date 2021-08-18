@@ -115,7 +115,7 @@ function checkTypelinen($conn)
   FROM
     typelinen 
   WHERE
-    (name_Th = '$txtNameTh' OR name_En = '$txtNameEn') ";
+    (name_Th = '$txtNameTh' OR name_En = '$txtNameEn') AND NOT typelinen.id = '$txtNumber' ";
 
     $meQuery = mysqli_query($conn, $Sql);
     while ($Result = mysqli_fetch_assoc($meQuery)) {

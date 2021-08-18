@@ -137,10 +137,17 @@ $array2 = json_decode($json2, TRUE);
               </ul>
 
               <div class="row mt-4">
-                <div class="col-md-6">
+                <div class="col-md-6" hidden>
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label "><?php echo $array['no'][$language]; ?></label>
                     <input id="txtNumber" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['supplier-companyen'][$language]; ?></label>
+                    <input id="txtNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
+                    <label id="alert_txtNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -160,11 +167,18 @@ $array2 = json_decode($json2, TRUE);
               </div>
 
               <div class="row ">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label "><?php echo $array['supplier-companyen'][$language]; ?></label>
                     <input id="txtNameEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
                     <label id="alert_txtNameEn" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
+                  </div>
+                </div> -->
+                <div class="col-md-6">
+                  <div class='form-group row'>
+                    <label class="col-sm-3 col-form-label "><?php echo $array['supplier-companyth'][$language]; ?></label>
+                    <input id="txtNameTh" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
+                    <label id="alert_txtNameTh" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -176,16 +190,10 @@ $array2 = json_decode($json2, TRUE);
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class='form-group row'>
-                    <label class="col-sm-3 col-form-label "><?php echo $array['supplier-companyth'][$language]; ?></label>
-                    <input id="txtNameTh" type="text" autocomplete="off" class="form-control col-sm-7 thonly" style="font-size:22px;">
-                    <label id="alert_txtNameTh" class="col-sm-1 " style="font-size: 40%;margin-top: 1%;"> <i class="fas fa-asterisk text-danger"></i> </label>
-                  </div>
-                </div>
+              <!-- <div class="row">
 
-              </div>
+
+              </div> -->
 
 
 

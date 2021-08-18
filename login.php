@@ -436,7 +436,7 @@ $language = $_SESSION['lang'];
                             });
                             setTimeout(function() {
                                 if(temp["pm"] == 9){
-                                    window.location.href = 'http://119.59.116.26:8181/linen-catalog/index.php';
+                                    window.location.href = 'https://nlinen40.nhealth-asia.com/linen-catalog/index.php';
                                 }else{
                                     window.location.href = 'main.php';
                                 }
@@ -455,7 +455,7 @@ $language = $_SESSION['lang'];
                             });
                             setTimeout(function() {
                                 if(temp["pm"] == 9){
-                                    window.location.href = 'http://119.59.116.26:8181/linen-catalog/index.php';
+                                    window.location.href = 'https://nlinen40.nhealth-asia.com/linen-catalog/index.php';
                                 }else{
                                     window.location.href = 'main.php';
                                 }

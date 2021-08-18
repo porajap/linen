@@ -179,11 +179,11 @@ $array2 = json_decode($json2, TRUE);
               </div>
 
               <div class="row mt-1">
-              <div class="col-md-4">
+                <div class="col-md-4">
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label "><?php echo $array['bind-category'][$language]; ?></label>
                     <select id="selectmaincategory" class="form-control col-sm-7" style="font-size:22px;" onchange="changeMainCategory()">
-                    <option value="">กรุณาเลือกหมวดหมู่หลัก</option>
+                      <option value="">กรุณาเลือกหมวดหมู่หลัก</option>
                       <option value="ALL">ALL Category</option>
                       <option value="DIS">DisPose</option>
                     </select>
@@ -199,6 +199,7 @@ $array2 = json_decode($json2, TRUE);
                 </div>
 
                 <div class="col-md-4">
+
                   <div class='form-group row'>
                     <label class="col-sm-3 col-form-label "><?php echo $array['bind-englishdetail'][$language]; ?></label>
                     <input id="txtDiscriptionEn" type="text" autocomplete="off" class="form-control col-sm-7 enonly" style="font-size:22px;">
@@ -222,6 +223,7 @@ $array2 = json_decode($json2, TRUE);
               </div>
 
               <div class="row mt-3" id="row_DropDown">
+
                 <div class="col-4">
                   <div class="form-group">
                     <label for="exampleInputEmail1"><?php echo $array['bind-size_Color'][$language]; ?></label>
@@ -242,6 +244,18 @@ $array2 = json_decode($json2, TRUE);
                     <button style="background: none;border: none;" onclick="openModalSite();"><i class="fas fa-plus-square text-info"></i></button>
                   </div>
                 </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1"><?php echo $array['fabric'][$language]; ?></label>
+                    <button style="background: none;border: none;" onclick="openModalFabric();"><i class="fas fa-plus-square text-info"></i></button>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1"><?php echo $array['thread_count'][$language]; ?></label>
+                    <button style="background: none;border: none;" onclick="openModalThread_count();"><i class="fas fa-plus-square text-info"></i></button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -251,35 +265,110 @@ $array2 = json_decode($json2, TRUE);
     </div>
   </div> <!-- tag column 2 -->
 
-  <div class="modal fade" id="modal_color" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modal_fabric" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="row px-3" id="modalColor_Header">
-          </div>
+          <h5 class="modal-title" id="exampleModalLabel">Fabric</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-6">
-              <select id="modalSelect_colorMaster" disabled class="form-control" style="font-size: 22px;" onchange="switchMasterColor()"></select>
-              <input disabled class='form-control mt-2 ' id="modaltxt_colorDetail" class="form-control mt-3" style="font-size:22px;" />
-              <div class="row px-3 mt-3">
-                <button class="btn btn-success" style="width: 15%;border-radius: 50%;" onclick="saveColor()"><i class="fas fa-check mt-2"></i></button>
-                <button class="btn btn-danger ml-2" id="modalColor_btnDelete" disabled onclick="deleteColor()" style="width: 15%;border-radius: 50%;"><i class="fas fa-times mt-2"></i></button>
-              </div>
-            </div>
-            <div class="col-6" id="row_colorDetail">
-              <input hidden id="txtColorId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
-              <div id="row_color" style="display: -webkit-box;">
-                <!-- <div class="px-3 ml-1" style="background-color:blueviolet;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:red;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:green;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:pink;border-radius: 70%;cursor: pointer;"><br></div>
-                <div class="px-3 ml-1" style="background-color:yellow;border-radius: 70%;cursor: pointer;"><br></div> -->
+          <input type='checkbox' style="top:-4px;" id="checkallFabric" onclick='checkallFabric()'><span style="font-size:30px; " class="ml-4 "><?php echo $array['selectall'][$language]; ?></span>
+          <div id='row_fabric' class='row'></div>
+        </div>
+        <div class="modal-footer">
+          <input type="text" id="countbtnFabric" value="0" hidden>
+          <button type="button" style="width:12%;" onclick="checkFabric()" id="btn_SaveFabric" class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
+          <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="modal fade" id="modal_thread_count" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">thread count</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type='checkbox' style="top:-4px;" id="checkallThread_count" onclick='checkallThread_count()'><span style="font-size:30px; " class="ml-4 "><?php echo $array['selectall'][$language]; ?></span>
+          <div id='row_thread_count' class='row'></div>
+        </div>
+        <div class="modal-footer">
+          <input type="text" id="countbtnThread_count" value="0" hidden>
+          <button type="button" style="width:12%;" onclick="checkThread_count()" id="btn_SaveThread_count" class="btn btn-success px-2"><?php echo $array['confirm'][$language]; ?></button>
+          <button type="button" style="width:10%;" class="btn btn-danger px-2" data-dismiss="modal"><?php echo $array['close'][$language]; ?></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal_color" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>color</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="overflow-y: auto;max-height: 335px;">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">ADD</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="detail-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="false">DELETE</a>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <div class="row px-3" id="modalColor_Header">
+              </div>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <select id="modalSelect_colorMaster" disabled class="form-control" style="font-size: 22px;" onchange="switchMasterColor()"></select>
+                  <select id="modalSelect_supplier" disabled class="form-control mt-2" style="font-size: 22px;" onchange="switchMasterColor()"></select>
+                  <input disabled class='form-control mt-2 ' id="modaltxt_colorDetail" class="form-control mt-3" style="font-size:22px;" onchange="switchColorShowRemark()"/>
+                  <input disabled class='form-control mt-2 ' id="modaltxt_remarkDetail" class="form-control mt-3" style="font-size:22px;" />
+                  <div class="row px-3 mt-3">
+                    <button class="btn btn-success" id="modalColor_btnSave" style="width: 20%;" onclick="saveColor()">บันทึก</button>
+                    <button class="btn btn-danger ml-2" id="modalColor_btnDelete" disabled onclick="deleteColor()" style="width: 20%;">ลบ</button>
+                    <button class="btn btn-warning ml-2" id="modalColor_btnResume" disabled onclick="resumeColor()" style="width: 20%;color:white;">ทำใหม่</button>
+                  </div>
+                </div>
+                <div class="col-6" id="row_colorDetail">
+                  <input hidden id="txtColorId" type="text" autocomplete="off" class="form-control col-sm-7 " disabled style="font-size:22px;">
+
+                  <div id="row_color" style="display: -webkit-box;" class="row">
+                    <!-- <div class="px-3 ml-1" style="background-color:blueviolet;border-radius: 70%;cursor: pointer;"><br></div>
+                    <div class="px-3 ml-1" style="background-color:red;border-radius: 70%;cursor: pointer;"><br></div>
+                    <div class="px-3 ml-1" style="background-color:green;border-radius: 70%;cursor: pointer;"><br></div>
+                    <div class="px-3 ml-1" style="background-color:pink;border-radius: 70%;cursor: pointer;"><br></div>
+                    <div class="px-3 ml-1" style="background-color:yellow;border-radius: 70%;cursor: pointer;"><br></div> -->
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="tab-pane fade" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+              <div class="row mt-3 px-3">
+                <div id="row_size" style="display: contents;">
+                  <!-- <div style="border: 1px solid;width: 50px;text-align: center;border-radius: 25px;cursor: pointer;" class="ml-2">S</div>
+                  <div style="border: 1px solid;width: 50px;text-align: center;border-radius: 25px;cursor: pointer;" class="ml-2">L</div> -->
+                </div>
+              </div>
+              <div class="row mt-3 px-3">
+                <button class="btn btn-danger ml-2" id="modalSize_btnDelete" disabled onclick="deleteSize()" style="width: 20%;">ลบ</button>
+                <button class="btn btn-warning ml-2" id="modalSize_btnResume" disabled onclick="resumeSize()" style="width: 20%;color:white;">ทำใหม่</button>
               </div>
             </div>
           </div>
@@ -331,6 +420,8 @@ $array2 = json_decode($json2, TRUE);
       </div>
     </div>
   </div>
+
+
 
 
   <?php include_once('../assets/import/js.php'); ?>
@@ -386,7 +477,10 @@ $array2 = json_decode($json2, TRUE);
         showSupplier();
         showSite();
         showSize();
+        showFacbric();
+        showThread_count();
         getTypeLinen();
+        getSupplier();
       }, 200);
 
       setTimeout(() => {
@@ -449,18 +543,47 @@ $array2 = json_decode($json2, TRUE);
       }
     }
 
-    function changeMainCategory(text){
+    function changeMainCategory(text) {
       var categoryMainTop = $("#selectMainCategoryTop").val();
       var categoryMainLow = $("#selectmaincategory").val();
 
       if (text == 'top') {
         $("#selectmaincategory").val(categoryMainTop);
         showData();
+        // clearSwitchCategory();
       } else {
         $("#selectMainCategoryTop").val(categoryMainLow);
         showData();
+        // clearSwitchCategory();
       }
     }
+
+
+    // function clearSwitchCategory(){
+
+    //   $("#txtItemName").val("");
+    //   $("#txtItemName").removeClass("border-danger");
+    //   $("#alert_txtItemName").hide();
+
+    //   $("#txtItemNameEn").val("");
+    //   $("#txtItemNameEn").removeClass("border-danger");
+    //   $("#alert_txtItemNameEn").hide();
+
+    //   $("#txtDiscription").val("");
+    //   $("#txtDiscription").removeClass("border-danger");
+    //   $("#alert_txtDiscription").hide();
+
+    //   $("#txtDiscriptionEn").val("");
+    //   $("#txtDiscriptionEn").removeClass("border-danger");
+    //   $("#alert_txtDiscriptionEn").hide();
+
+    //   $("#txtItemId").val("");
+    //   $(".dropify-clear").click();
+    //   $("#row_DropDown").hide(300);
+    //   $("#selectcategory").val("0");
+    //   $("#selectCategoryTop").val("0");
+
+    // }
 
     function cleartxt() {
       $("#txtItemName").val("");
@@ -518,7 +641,37 @@ $array2 = json_decode($json2, TRUE);
       });
     }
 
+    function getSupplier() {
+
+      var lang = '<?php echo $language; ?>';
+      var PmID = '<?php echo $PmID; ?>';
+
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'getSupplier',
+          'lang': lang,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          var option = `<option value="0" selected><?php echo $array['supplier-selectcompany'][$language]; ?></option>`;
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              option += `<option value="${value.id}">${value.name_supplier}</option>`;
+            });
+          } else {
+            option = `<option value="0">Data not found</option>`;
+          }
+
+          $("#modalSelect_supplier").html(option);
+        }
+      });
+    }
+
     function showSize() {
+      var txtItemId = $("#txtItemId").val();
+      // alert(txtItemId);
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
@@ -528,12 +681,15 @@ $array2 = json_decode($json2, TRUE);
         success: function(result) {
           var ObjData = JSON.parse(result);
           var data = "";
+          var data_size = "";
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(kay, value) {
               data += `<div class="form-check form-check-inline mt-3" style="align-items: end;">` +
                 `<input type='checkbox' name='radio_size' id="size_${value.SizeName}" value="${value.SizeName}" class="form-check-input loopsize" onclick="openMasterColor('${value.SizeName}');">` +
                 `<label class="form-check-label ml-2" for="size_${value.SizeName}">${value.SizeName}</label>` +
                 `</div>`;
+
+
             });
           }
 
@@ -678,7 +834,7 @@ $array2 = json_decode($json2, TRUE);
           success: function(result) {
             var ObjData = JSON.parse(result);
             if (!$.isEmptyObject(ObjData)) {
-              $.each(ObjData, function(key, value) {
+              $.each(ObjData.data, function(key, value) {
                 if (value.discription == null) {
                   value.discription = "";
                 }
@@ -749,6 +905,12 @@ $array2 = json_decode($json2, TRUE);
 
 
               });
+
+              showSizeDetail();
+              // $.each(ObjData.size, function(key_size, value_size) {
+              //   data_size += `<div  onclick="checkSizeDetail('${value_size.itemsize}')"  id="sizeDetail_` + value_size.itemsize + `" style="border: 1px solid;width: 70px;text-align: center;border-radius: 25px;cursor: pointer;" class="ml-2 mt-2 classSizeDetail">${value_size.itemsize}</div>`;
+              // });
+              // $("#row_size").html(data_size);
             }
           }
         });
@@ -778,7 +940,7 @@ $array2 = json_decode($json2, TRUE);
       var txtItemId = $("#txtItemId").val();
       var txtItemNameEn = $("#txtItemNameEn").val();
       var txtDiscriptionEn = $("#txtDiscriptionEn").val();
-      
+
 
 
 
@@ -965,16 +1127,23 @@ $array2 = json_decode($json2, TRUE);
     }
 
     function openModalColor() {
-      $('input[name="radio_size"]').prop('checked', false);
-      $("#row_color").empty();
+      // $('input[name="radio_size"]').prop('checked', false);
+      // $("#row_color").empty();
       $("#modalSelect_colorMaster").val("0");
+      $("#modalSelect_supplier").val("0");
       $('#modaltxt_colorDetail').val("");
+      $('#modaltxt_remarkDetail').val("");
       $("#modaltxt_colorDetail").attr("disabled", true);
       $("#modaltxt_colorDetail").spectrum({
         type: "component"
       });
-      $("#modalSelect_colorMaster").attr("disabled", true);
+      // $("#modalSelect_colorMaster").attr("disabled", true);
+      // $("#modalSelect_supplier").attr("disabled", true);
+
+      $("#modalSelect_colorMaster").attr("disabled", false);
+      $("#modalSelect_supplier").attr("disabled", false);
       $("#modal_color").modal('show');
+      openMasterColor();
     }
 
     function openMasterColor(size) {
@@ -985,15 +1154,19 @@ $array2 = json_decode($json2, TRUE);
       });
 
       var txtItemId = $("#txtItemId").val();
+      var modalSelect_colorMaster = $("#modalSelect_colorMaster").val();
+      var supplier = $("#modalSelect_supplier").val();
       $('#modalColor_btnDelete').attr('disabled', true);
       $("#modalSelect_colorMaster").attr("disabled", false);
-      $("#modalSelect_colorMaster").val("0");
-      $('#modaltxt_colorDetail').val("");
+      $("#modalSelect_supplier").attr("disabled", false);
       $('#txtColorId').val("");
-      $("#modaltxt_colorDetail").attr("disabled", true);
-      $("#modaltxt_colorDetail").spectrum({
-        type: "component"
-      });
+      // $("#modalSelect_colorMaster").val("0");
+      // $("#modalSelect_supplier").val("0");
+      // $('#modaltxt_colorDetail').val("");
+      // $("#modaltxt_colorDetail").attr("disabled", true);
+      // $("#modaltxt_colorDetail").spectrum({
+      //   type: "component"
+      // });
 
       $("#row_color").empty();
       $.ajax({
@@ -1003,6 +1176,8 @@ $array2 = json_decode($json2, TRUE);
           'FUNC_NAME': 'openMasterColor',
           'size': size,
           'txtItemId': txtItemId,
+          'modalSelect_colorMaster': modalSelect_colorMaster,
+          'supplier': supplier,
           'sizeArray': sizeArray,
         },
         success: function(result) {
@@ -1011,37 +1186,50 @@ $array2 = json_decode($json2, TRUE);
             var option = ``;
             $.each(ObjData, function(kay, value) {
 
-              option += `<div class="px-3 ml-1 classColorDetail" id="colorDetail_` + value.id + `"  onclick="showColorDetail('${value.color_detail}','${value.color_master}','${value.id}')" style="background-color:${value.color_detail};border-radius: 70%;cursor: pointer;height: 35px;    border: 2px solid gray;"><br></div>`;
+              option += `<div class="row col-12 mt-1"><div class="classColorDetail col-md-2" id="colorDetail_` + value.id + `"  onclick="showColorDetail('${value.color_detail}','${value.color_master}','${value.id}')" style="background-color:${value.color_detail};border-radius: 70%;cursor: pointer;height: 35px;    border: 2px solid gray;"><br></div>` +
+                `<div class="col-md-10" style="cursor: pointer;height: 35px;">${value.remark}</div></div>`;
 
             });
           }
-          $("#row_color").append(option);
+          $("#row_color").html(option);
         }
       });
     }
 
     function switchMasterColor() {
       var colorMaster = $("#modalSelect_colorMaster").val();
+      var supplier = $("#modalSelect_supplier").val();
+      openMasterColor();
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
         data: {
           'FUNC_NAME': 'switchMasterColor',
           'colorMaster': colorMaster,
+          'supplier': supplier,
         },
         success: function(result) {
           var ObjData = JSON.parse(result);
           var masterColor = "";
           var detailColor = [];
+          $('#modaltxt_colorDetail').val("");
+          $('#modaltxt_remarkDetail').val("");
+          $("#modaltxt_colorDetail").attr("disabled", true);
+          $("#modaltxt_colorDetail").spectrum({
+            type: "component"
+          });
           if (!$.isEmptyObject(ObjData)) {
             $.each(ObjData, function(kay, value) {
 
-              $('#modaltxt_colorDetail').val(value.color_master_code);
-              masterColor = value.color_master_code;
+              $('#modaltxt_colorDetail').val(value.color_code_detail);
+              $('#modaltxt_remarkDetail').val(value.remark);
+              
+              masterColor = value.color_code_detail;
               detailColor.push(value.color_code_detail);
             });
 
             setTimeout(() => {
+              $("#modaltxt_colorDetail").attr("disabled", false);
               $("#modaltxt_colorDetail").spectrum({
                 color: masterColor,
                 type: "component",
@@ -1053,22 +1241,51 @@ $array2 = json_decode($json2, TRUE);
               });
             }, 300);
 
-
             $("#modaltxt_colorDetail").attr('disabled', false);
+          }
+        }
+      });
+    }
+
+    function switchColorShowRemark(){
+      var colorMaster = $("#modalSelect_colorMaster").val();
+      var modaltxt_colorDetail = $("#modaltxt_colorDetail").val();
+      var supplier = $("#modalSelect_supplier").val();
+
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'switchColorShowRemark',
+          'colorMaster': colorMaster,
+          'supplier': supplier,
+          'modaltxt_colorDetail': modaltxt_colorDetail,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+
+              $('#modaltxt_remarkDetail').val(value.remark);
+              
+            });
           }
 
 
 
         }
       });
+      
     }
-
+    
     function showColorDetail(color_detail, color_master, id) {
-      $('#modalSelect_colorMaster').val(color_master);
+      // $('#modalSelect_colorMaster').val(color_master);
       $(".classColorDetail").css('border', '2px solid gray');
       $("#colorDetail_" + id).css('border', '2px solid');
       $('#txtColorId').val(color_detail);
       $('#modalColor_btnDelete').attr('disabled', false);
+      $('#modalColor_btnResume').attr('disabled', false);
+      $('#modalColor_btnSave').attr('disabled', true);
 
       setTimeout(() => {
         $.ajax({
@@ -1113,6 +1330,118 @@ $array2 = json_decode($json2, TRUE);
       }, 300);
 
     }
+    function showSizeDetail() {
+
+      var txtItemId = $("#txtItemId").val();
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'showSizeDetail',
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          var data_size = "";
+          $('input[name="radio_size"]').prop('checked', false);
+          var ObjData = JSON.parse(result);
+          var masterColor = "";
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData.size, function(key_size, value_size) {
+              data_size += `<div data-value='${value_size.itemsize}' onclick="checkSizeDetail('${value_size.itemsize}')"  id="sizeDetail_` + value_size.itemsize + `" style="border: 1px solid;width: 70px;text-align: center;border-radius: 25px;cursor: pointer;" class="ml-2 mt-2 classSizeDetail">${value_size.itemsize}</div>`;
+              $(`#size_` + `${value_size.itemsize}`).prop("checked", true);
+
+            });
+          }
+          $("#row_color").empty();
+          $("#row_size").html(data_size);
+          openMasterColor();
+        }
+      });
+    }
+
+    function checkSizeDetail(size) {
+
+      $(".classSizeDetail").css('border', '2px solid gray');
+      $("#sizeDetail_" + size).css('border', '2px solid');
+      $(".classSizeDetail").removeClass('checkSize');
+      $("#sizeDetail_" + size).addClass('checkSize');
+
+      $('#modalSize_btnDelete').attr('disabled', false);
+      $('#modalSize_btnResume').attr('disabled', false);
+    }
+
+    function resumeSize() {
+      $('#modalSize_btnDelete').attr('disabled', true);
+      $('#modalSize_btnResume').attr('disabled', true);
+      $(".classSizeDetail").css('border', '2px solid gray');
+      $(".classSizeDetail").removeClass('checkSize');
+      $("#txtSizeId").val("");
+
+    }
+
+    function deleteSize() {
+      var txtSizeId = $("div").find(".checkSize").data('value');
+      var txtItemId = $("#txtItemId").val();
+
+      swal({
+        title: "<?php echo $array['canceldata'][$language]; ?>",
+        text: "<?php echo $array['canceldata1'][$language]; ?>",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "<?php echo $array['yes'][$language]; ?>",
+        cancelButtonText: "<?php echo $array['isno'][$language]; ?>",
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        closeOnConfirm: false,
+        closeOnCancel: false,
+        showCancelButton: true
+      }).then(result => {
+        if (result.value) {
+
+          $.ajax({
+            url: "../process/bindcatalog.php",
+            type: 'POST',
+            data: {
+              'FUNC_NAME': 'deleteSize',
+              'txtItemId': txtItemId,
+              'txtSizeId': txtSizeId,
+            },
+            success: function(result) {
+              var ObjData = JSON.parse(result);
+              if (!$.isEmptyObject(ObjData)) {
+                swal({
+                  title: '',
+                  text: '<?php echo $array['cancelsuccessmsg'][$language]; ?>',
+                  type: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  showConfirmButton: false,
+                  timer: 2000,
+                  confirmButtonText: 'Ok'
+                })
+                setTimeout(() => {
+                  showSizeDetail();
+                  $('#modalSize_btnDelete').attr('disabled', true);
+                  $('#modalSize_btnResume').attr('disabled', true);
+                }, 2000);
+              }
+            }
+          });
+
+
+
+        } else if (result.dismiss === 'cancel') {
+          swal.close();
+        }
+      })
+
+
+
+
+
+    }
 
     function saveColor() {
       var sizeArray = [];
@@ -1124,6 +1453,34 @@ $array2 = json_decode($json2, TRUE);
       var txtItemId = $("#txtItemId").val();
       var radioSize = $('input[name="radio_size"]:checked').val();
       var txtColorId = $('#txtColorId').val();
+
+      if (sizeArray == "") {
+        swal({
+          title: '',
+          text: 'กรุณาระบุ size',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        return;
+      }
+
+      if (colorDetail == "") {
+        swal({
+          title: '',
+          text: 'กรุณาระบุสี',
+          type: 'warning',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        return;
+      }
+
+
       $.ajax({
         url: "../process/bindcatalog.php",
         type: 'POST',
@@ -1150,6 +1507,7 @@ $array2 = json_decode($json2, TRUE);
             // $("#modal_color").modal('hide');
             $('#txtColorId').val("");
             openMasterColor(radioSize);
+            showSizeDetail();
           }, 1700);
 
 
@@ -1189,6 +1547,9 @@ $array2 = json_decode($json2, TRUE);
           })
 
           setTimeout(() => {
+            $('#modalColor_btnDelete').attr('disabled', true);
+            $('#modalColor_btnResume').attr('disabled', true);
+            $('#modalColor_btnSave').attr('disabled', false);
             $('#txtColorId').val("");
             openMasterColor(radioSize);
           }, 1700);
@@ -1196,6 +1557,16 @@ $array2 = json_decode($json2, TRUE);
 
         }
       });
+    }
+
+    function resumeColor() {
+      setTimeout(() => {
+        $('#modalColor_btnDelete').attr('disabled', true);
+        $('#modalColor_btnResume').attr('disabled', true);
+        $('#modalColor_btnSave').attr('disabled', false);
+        $('#txtColorId').val("");
+        openMasterColor();
+      }, 300);
     }
     // 
 
@@ -1348,6 +1719,311 @@ $array2 = json_decode($json2, TRUE);
       }
     }
     //
+
+
+
+    function openModalFabric() {
+      var txtItemName = $("txtItemName").val();
+      $("#modal_fabric").modal('show');
+      var txtItemId = $("#txtItemId").val();
+
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'openModalFabric',
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          $(".myFabric").prop('checked', false);
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              $("#checkFabric_" + value.codeFabric).prop('checked', true);
+            });
+          }
+          var count = 0;
+          $(".myFabric:checked").each(function() {
+            count++;
+          });
+
+          if (count == $('.myFabric').length) {
+            $("#checkallFabric").prop('checked', true);
+          } else {
+            $("#checkallFabric").prop('checked', false);
+          }
+        }
+      });
+    }
+
+    function showFacbric() {
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'showFacbric',
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          if (!$.isEmptyObject(ObjData)) {
+            var myDATA = "";
+            $.each(ObjData, function(kay, value) {
+              var name_Fabric = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name_Fabric}</span>`;
+              var chkfabric = `<input type='checkbox' onclick='switchFabric()' id='checkFabric_${value.id}' value='${value.id}' class='myFabric' style='top:-10%;' data-id='${value.id}' >`;
+              myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;'  nowrap>" + chkfabric + name_Fabric + "</div>";
+            });
+          }
+
+          $("#row_fabric").html(myDATA);
+
+
+        }
+      });
+    }
+
+    function switchFabric() {
+      var select_all = document.getElementById('checkallFabric'); //select all checkbox
+      var checkboxes = document.getElementsByClassName("myFabric"); //checkbox items
+
+      //select all checkboxes
+      select_all.addEventListener("change", function(e) {
+        for (i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = select_all.checked;
+        }
+      });
+
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function(e) {
+          if (this.checked == false) {
+            select_all.checked = false;
+          }
+          if (document.querySelectorAll('.myFabric:checked').length == checkboxes.length) {
+            select_all.checked = true;
+          }
+        });
+      }
+      // var count = 0;
+      // $(".mySupplier:checked").each(function() {
+      //   count++;
+      // });
+      // if (count == 0) {
+      //   $('#btn_SaveSupplier').attr('disabled', true);
+      // } else {
+      //   $('#btn_SaveSupplier').attr('disabled', false);
+      // }
+    }
+
+    function checkFabric() {
+      var FabricArray = [];
+      var txtItemId = $("#txtItemId").val();
+      $(".myFabric:checked").each(function() {
+        FabricArray.push($(this).val());
+      });
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'checkFabric',
+          'FabricArray': FabricArray,
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            $("#modal_fabric").modal('hide');
+          }, 1500);
+        }
+      });
+
+    }
+
+    function checkallFabric() {
+      var select_all = document.getElementById('checkallFabric'); //select all checkbox
+      var checkboxes = document.getElementsByClassName("myFabric"); //checkbox items
+
+      //select all checkboxes
+      select_all.addEventListener("change", function(e) {
+        for (i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = select_all.checked;
+        }
+      });
+
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function(e) {
+          if (this.checked == false) {
+            select_all.checked = false;
+          }
+          if (document.querySelectorAll('.myFabric:checked').length == checkboxes.length) {
+            select_all.checked = true;
+          }
+        });
+      }
+    }
+    //
+
+
+
+    function openModalThread_count() {
+      var txtItemName = $("txtItemName").val();
+      $("#modal_thread_count").modal('show');
+      var txtItemId = $("#txtItemId").val();
+
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'openModalThread_count',
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          $(".myThread_count").prop('checked', false);
+          if (!$.isEmptyObject(ObjData)) {
+            $.each(ObjData, function(kay, value) {
+              $("#checkThread_count_" + value.codeThread_count).prop('checked', true);
+            });
+          }
+          var count = 0;
+          $(".myThread_count:checked").each(function() {
+            count++;
+          });
+
+          if (count == $('.myThread_count').length) {
+            $("#checkallThread_count").prop('checked', true);
+          } else {
+            $("#checkallThread_count").prop('checked', false);
+          }
+        }
+      });
+    }
+
+    function showThread_count() {
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'showThread_count',
+        },
+        success: function(result) {
+          var ObjData = JSON.parse(result);
+          if (!$.isEmptyObject(ObjData)) {
+            var myDATA = "";
+            $.each(ObjData, function(kay, value) {
+              var name_Thread_count = `<span class='ml-4' style= 'text-overflow: ellipsis;overflow: hidden;' nowrap>${value.name_Thread}</span>`;
+              var chkThread_count = `<input type='checkbox' onclick='switchThread_count()' id='checkThread_count_${value.id}' value='${value.id}' class='myThread_count' style='top:-10%;' data-id='${value.id}' >`;
+              myDATA += "<div class='col-12'style= 'text-overflow: ellipsis;overflow: hidden;'  nowrap>" + chkThread_count + name_Thread_count + "</div>";
+            });
+          }
+
+          $("#row_thread_count").html(myDATA);
+
+
+        }
+      });
+    }
+
+    function switchThread_count() {
+      var select_all = document.getElementById('checkallThread_count'); //select all checkbox
+      var checkboxes = document.getElementsByClassName("myThread_count"); //checkbox items
+
+      //select all checkboxes
+      select_all.addEventListener("change", function(e) {
+        for (i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = select_all.checked;
+        }
+      });
+
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function(e) {
+          if (this.checked == false) {
+            select_all.checked = false;
+          }
+          if (document.querySelectorAll('.myThread_count:checked').length == checkboxes.length) {
+            select_all.checked = true;
+          }
+        });
+      }
+      // var count = 0;
+      // $(".mySupplier:checked").each(function() {
+      //   count++;
+      // });
+      // if (count == 0) {
+      //   $('#btn_SaveSupplier').attr('disabled', true);
+      // } else {
+      //   $('#btn_SaveSupplier').attr('disabled', false);
+      // }
+    }
+
+    function checkThread_count() {
+      var Thread_countArray = [];
+      var txtItemId = $("#txtItemId").val();
+      $(".myThread_count:checked").each(function() {
+        Thread_countArray.push($(this).val());
+      });
+      $.ajax({
+        url: "../process/bindcatalog.php",
+        type: 'POST',
+        data: {
+          'FUNC_NAME': 'checkThread_count',
+          'Thread_countArray': Thread_countArray,
+          'txtItemId': txtItemId,
+        },
+        success: function(result) {
+          swal({
+            title: '',
+            text: '<?php echo $array['savesuccess'][$language]; ?>',
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            $("#modal_thread_count").modal('hide');
+          }, 1500);
+        }
+      });
+
+    }
+
+    function checkallThread_count() {
+      var select_all = document.getElementById('checkallThread_count'); //select all checkbox
+      var checkboxes = document.getElementsByClassName("myThread_count"); //checkbox items
+
+      //select all checkboxes
+      select_all.addEventListener("change", function(e) {
+        for (i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = select_all.checked;
+        }
+      });
+
+
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function(e) {
+          if (this.checked == false) {
+            select_all.checked = false;
+          }
+          if (document.querySelectorAll('.myThread_count:checked').length == checkboxes.length) {
+            select_all.checked = true;
+          }
+        });
+      }
+    }
+    //
+
+
+
 
     function openModalSite() {
       var txtItemName = $("txtItemName").val();

@@ -40,7 +40,55 @@ if (!empty($_POST['FUNC_NAME'])) {
     showSize($conn);
   } else  if ($_POST['FUNC_NAME'] == 'checkName') {
     checkName($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'getSupplier') {
+    getSupplier($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'openModalFabric') {
+    openModalFabric($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showFacbric') {
+    showFacbric($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'checkFabric') {
+    checkFabric($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'openModalThread_count') {
+    openModalThread_count($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showThread_count') {
+    showThread_count($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'checkThread_count') {
+    checkThread_count($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'showSizeDetail') {
+    showSizeDetail($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'deleteSize') {
+    deleteSize($conn);
+  }else  if ($_POST['FUNC_NAME'] == 'switchColorShowRemark') {
+    switchColorShowRemark($conn);
   }
+}
+
+function getSupplier($conn)
+{
+  $PmID = $_SESSION['PmID'];
+  $lang = $_POST["lang"];
+  $count = 0;
+  if ($lang == 'en') {
+    $Sql = "SELECT
+              supplier.name_En as name_supplier,
+              supplier.id 
+            FROM
+              supplier";
+  } else {
+    $Sql = "SELECT
+              supplier.name_Th as name_supplier,
+              supplier.id 
+            FROM
+              supplier";
+  }
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
 }
 
 function checkName($conn)
@@ -204,6 +252,50 @@ function openModalSupplier($conn)
   die;
 }
 
+function openModalFabric($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+
+  $count = 0;
+  $Sql = "SELECT
+            multifabric.id, 
+            multifabric.codeFabric
+          FROM
+          multifabric
+          WHERE multifabric.itemCategoryId = '$txtItemId' ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function openModalThread_count($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+
+  $count = 0;
+  $Sql = "SELECT
+            multithread_count.id, 
+            multithread_count.codeThread_count
+          FROM
+          multithread_count
+          WHERE multithread_count.itemCategoryId = '$txtItemId' ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
 function checkSupplier($conn)
 {
   $txtItemId = $_POST["txtItemId"];
@@ -214,6 +306,39 @@ function checkSupplier($conn)
 
   foreach ($SupplierArray as $key => $value) {
     $Sql = "INSERT INTO multisupplier SET itemCategoryId = '$txtItemId' ,  codeSupplier = '$value' ";
+    mysqli_query($conn, $Sql);
+  }
+  echo "1";
+  mysqli_close($conn);
+  die;
+}
+function checkFabric($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+  $FabricArray = $_POST["FabricArray"];
+
+  $Sql = "DELETE FROM multifabric WHERE itemCategoryId = '$txtItemId' ";
+  mysqli_query($conn, $Sql);
+
+  foreach ($FabricArray as $key => $value) {
+    $Sql = "INSERT INTO multifabric SET itemCategoryId = '$txtItemId' ,  codeFabric = '$value' ";
+    mysqli_query($conn, $Sql);
+  }
+  echo "1";
+  mysqli_close($conn);
+  die;
+}
+
+function checkThread_count($conn)
+{
+  $txtItemId = $_POST["txtItemId"];
+  $Thread_countArray = $_POST["Thread_countArray"];
+
+  $Sql = "DELETE FROM multithread_count WHERE itemCategoryId = '$txtItemId' ";
+  mysqli_query($conn, $Sql);
+
+  foreach ($Thread_countArray as $key => $value) {
+    $Sql = "INSERT INTO multithread_count SET itemCategoryId = '$txtItemId' ,  codeThread_count = '$value' ";
     mysqli_query($conn, $Sql);
   }
   echo "1";
@@ -259,8 +384,7 @@ function saveColor($conn)
             WHERE
               multicolor.itemsize = '$value'
             AND multicolor.itemCategoryId = '$txtItemId' 
-            AND multicolor.color_detail  = '$txtColorId' ";
-
+            AND multicolor.color_detail  = '$colorDetail' ";
     $meQuery = mysqli_query($conn, $Sql);
     while ($row = mysqli_fetch_assoc($meQuery)) {
       $count_id = $row['count_id'];
@@ -312,6 +436,10 @@ function openMasterColor($conn)
   $size     = $_POST["size"];
   $txtItemId = $_POST["txtItemId"];
   $sizeArray = $_POST["sizeArray"];
+  $modalSelect_colorMaster = $_POST["modalSelect_colorMaster"];
+  $supplier = $_POST["supplier"];
+
+  
   $wheresize = "";
   foreach ($sizeArray as $key => $value) {
     $wheresize .= "'" . $value . "',";
@@ -319,16 +447,29 @@ function openMasterColor($conn)
   $wheresize = rtrim($wheresize, ',');
 
 
+  if($modalSelect_colorMaster != 0){
+    $whereColor = "AND multicolor.color_master = '$modalSelect_colorMaster' ";
+  }else{
+    $whereColor = "";
+  }
+
+  if($supplier != 0){
+    $whereSupplier = "AND color_detail.codeSupplier = '$supplier' ";
+  }else{
+    $whereSupplier = "";
+  }
+
   $Sql = "SELECT
             multicolor.itemCategoryId,
             multicolor.itemsize,
             multicolor.color_master,
             multicolor.color_detail,
+            color_detail.remark,
             multicolor.id 
           FROM
             multicolor
-          WHERE multicolor.itemCategoryId = '$txtItemId' AND  multicolor.itemsize IN( $wheresize ) GROUP BY multicolor.color_detail";
-  // echo $Sql;
+          INNER JOIN color_detail ON multicolor.color_detail = color_detail.color_code_detail
+          WHERE multicolor.itemCategoryId = '$txtItemId' AND  multicolor.itemsize IN( $wheresize )  $whereColor $whereSupplier GROUP BY multicolor.color_detail";
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
     $return[] = $row;
@@ -378,23 +519,92 @@ function showSupplier($conn)
   die;
 }
 
-function switchMasterColor($conn)
+function showFacbric($conn)
 {
-
-  $colorMaster = $_POST["colorMaster"];
+  $count = 0;
   $Sql = "SELECT
-          color_master.color_master_code,
-        color_detail.color_code_detail	
-        FROM
-          color_master
-          LEFT JOIN color_detail ON color_master.ID = color_detail.ID_color_master
-        WHERE color_master.ID = $colorMaster ";
+            fabric.name_Fabric, 
+            fabric.id
+          FROM
+            fabric ";
 
   $meQuery = mysqli_query($conn, $Sql);
   while ($row = mysqli_fetch_assoc($meQuery)) {
     $return[] = $row;
   }
 
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function showThread_count($conn)
+{
+  $count = 0;
+  $Sql = "SELECT
+            thread_count.name_Thread, 
+            thread_count.id
+          FROM
+          thread_count ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function switchMasterColor($conn)
+{
+
+  $colorMaster = $_POST["colorMaster"];
+  $supplier = $_POST["supplier"];
+
+  $Sql = "SELECT
+          color_master.color_master_code,
+          color_detail.color_code_detail,
+          color_detail.remark	
+        FROM
+          color_master
+          LEFT JOIN color_detail ON color_master.ID = color_detail.ID_color_master
+        WHERE color_master.ID = $colorMaster AND color_detail.codeSupplier = '$supplier'  ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  // echo $Sql;
+  echo json_encode($return);
+  mysqli_close($conn);
+  die;
+}
+
+function switchColorShowRemark($conn)
+{
+
+  $colorMaster = $_POST["colorMaster"];
+  $supplier = $_POST["supplier"];
+  $modaltxt_colorDetail = $_POST["modaltxt_colorDetail"];
+
+  $Sql = "SELECT
+          color_master.color_master_code,
+          color_detail.color_code_detail,
+          color_detail.remark	
+        FROM
+          color_master
+          LEFT JOIN color_detail ON color_master.ID = color_detail.ID_color_master
+        WHERE color_master.ID = $colorMaster AND color_detail.codeSupplier = '$supplier' AND color_detail.color_code_detail = '$modaltxt_colorDetail'   ";
+
+  $meQuery = mysqli_query($conn, $Sql);
+  while ($row = mysqli_fetch_assoc($meQuery)) {
+    $return[] = $row;
+  }
+
+  // echo $Sql;
   echo json_encode($return);
   mysqli_close($conn);
   die;
@@ -603,8 +813,38 @@ function showDetail($conn)
           WHERE itemcatalog.id = '$id' ";
   $meQuery = mysqli_query($conn, $Sql);
   while ($Result = mysqli_fetch_assoc($meQuery)) {
-    $return[] = $Result;
+    $return['data'][] = $Result;
   }
+
+
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+}
+
+function showSizeDetail($conn){
+  $id = $_POST["txtItemId"];
+  $Sql_size = "SELECT
+                multicolor.itemsize
+               FROM
+                multicolor
+               WHERE multicolor.itemCategoryId = '$id' GROUP BY multicolor.itemsize";
+  $meQuery_size = mysqli_query($conn, $Sql_size);
+  while ($Result_size = mysqli_fetch_assoc($meQuery_size)) {
+  $return['size'][] = $Result_size;
+  }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die;
+}
+
+function deleteSize($conn){
+  $txtItemId = $_POST["txtItemId"];
+  $txtSizeId = $_POST["txtSizeId"];
+
+  $Sql = "DELETE FROM multicolor WHERE multicolor.itemCategoryId = '$txtItemId' AND  multicolor.itemsize = '$txtSizeId' ";
+  mysqli_query($conn, $Sql);
+  $return = "success";
   echo json_encode($return);
   mysqli_close($conn);
   die;

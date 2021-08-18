@@ -11,6 +11,9 @@
 <bind-englishdetail><en>English detail</en><th>รายละเอียดอังกฤษ</th></bind-englishdetail>
 <bind-size_Color><en>size/color</en><th>ขนาด/สี</th></bind-size_Color>
 
+
+<supplier-selectcompany><en>choose Company</en><th>กรุณาเลือกบริษัท</th></supplier-selectcompany>
+<supplier-company><en>Company Name</en><th>ชื่อบริษัท</th></supplier-company>
 <supplier-companyth><en>Company Name(TH)</en><th>ชื่อบริษัทไทย</th></supplier-companyth>
 <supplier-companyen><en>Company Name(EN)</en><th>ชื่อบริษัทอังกฤษ</th></supplier-companyen>
 
@@ -18,6 +21,11 @@
 <color-color><en>colors</en><th>สี</th></color-color>
 <color-colorcode><en>colors code</en><th>รหัสสี</th></color-colorcode>
 <color-selectcolor><en>choose colors group</en><th>กรุณาเลือกกลุ่มสี</th></color-selectcolor>
+
+<fabric><en>Fabric</en><th>ผ้า</th></fabric>
+<thread_count><en>thread_count</en><th>เส้นด้าย</th></thread_count>
+<fabric-name><en>Fabric Name</en><th>ชื่อผ้า</th></fabric-name>
+<thread_count-name><en>thread_count Name</en><th>ชื่อเส้นด้าย</th></thread_count-name>
 
 <linen-type_en><en>Category Name(EN)</en><th>ชื่อประเภทอังกฤษ</th></linen-type_en>
 <linen-type_th><en>Category Name(TH)</en><th>ชื่อประเภทไทย</th></linen-type_th>
@@ -40,6 +48,8 @@
 <creation><en>Document creation date</en><th>วันที่สร้างเอกสาร</th></creation>
 
 
+
+<closeChat><en>Close topic of chat</en><th>ปิดหัวข้อการแชท</th></closeChat>
 
 
 <partotal><en>Par totals</en><th>ดูยอด Par</th></partotal>

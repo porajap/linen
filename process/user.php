@@ -409,7 +409,7 @@ function getDepartment2($conn, $DATA)
     $whereDep = "AND department.IsDefault = 1";
   } else {
     $Hotp = $DATA["Hotp"];
-    if ($Permission == 8) {
+    if ($Permission == 8 ) {
       $whereDep = "";
     } else {
       $whereDep = "AND department.IsDefault = 1";

@@ -1304,31 +1304,6 @@ $array2 = json_decode($json2, TRUE);
           }, 500);
           //}
         }
-        // }else{
-        //   $("#bImport2").removeClass('opacity');
-        //   $("#bSave2").removeClass('opacity');
-        //   $("#bImport").prop('disabled', false);
-        //   $("#bSave").prop('disabled', false);
-        //   var word = '<?php echo $array['save'][$language]; ?>';
-        //     var changeBtn = "<i class='fa fa-save'></i>";
-        //     changeBtn += "<div>"+word+"</div>";
-        //     $('#icon_edit').html(changeBtn);          
-        //     $("#IsStatus").val("0");
-        //     $("#docno").prop('disabled', false);
-        //     $("#docdate").prop('disabled', false);
-        //     $("#recorder").prop('disabled', false);
-        //     $("#timerec").prop('disabled', false);
-        //     $("#total").prop('disabled', false);
-        //     var rowCount = $('#TableItemDetail >tbody >tr').length;
-        //     for (var i = 0; i < rowCount; i++) {
-
-        //         $('#qty1_'+i).prop('disabled', false);
-        //         $('#weight_'+i).prop('disabled', false);
-        //         $('#price_'+i).prop('disabled', false);
-
-        //         $('#unit'+i).prop('disabled', false);
-        //     }
-        // }
       }
     }
 
@@ -1680,21 +1655,21 @@ $array2 = json_decode($json2, TRUE);
       if (NewQty <= 0) {
         var Qty = 1;
       } else if (NewQty > Max) {
-        // if(ScTime == "0"){
-        //   var Qty = NewQty;
-        // }else{
+        if(ScTime == "0"){
+          var Qty = NewQty;
+        }else{
           var Qty = Max;
-        // }
+        }
       } else {
         var Qty = NewQty;
       }
       $('#qty1_' + i).val(Qty);
 
-      // if(ScTime == "0"){
-      //   var Max = Number($('#qty1_' + i).val());
-      // }else{
+      if(ScTime == "0"){
+        var Max = Number($('#qty1_' + i).val());
+      }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      // }
+      }
       $('#Max_' + i).val(Max);
 
       if (Issue != 0) {
@@ -1703,14 +1678,38 @@ $array2 = json_decode($json2, TRUE);
           if(Result == "0"){
             $('#Short_' + i).val("");
           }else{
-            $('#Short_' + i).val(Result.toFixed(2));
+
+
+            if(ScTime == "0"){
+              $('#Short_' + i).val("");
+            }else{
+              $('#Short_' + i).val(Result.toFixed(2));
+            }
+
+
+
+
+
+
+
           }
           // $('#Short_' + i).val(Result);
           $('#Over_' + i).val("");
           var chk = "Short";
         } else if (Issue > Max) {
+
+
+
           Result = Issue - Max;
-          $('#Over_' + i).val(Result);
+
+          if(ScTime == "0"){
+              $('#Over_' + i).val("");
+            }else{
+              $('#Over_' + i).val(Result.toFixed(2));
+            }
+
+
+
           $('#Short_' + i).val("");
           var chk = "Over";
         }
@@ -1762,20 +1761,20 @@ $array2 = json_decode($json2, TRUE);
       if (NewQty <= 0) {
         var Qty = 0;
       } else if (NewQty > Max) {
-        // if(ScTime == "0"){
-        //   var Qty = NewQty;
-        // }else{
+        if(ScTime == "0"){
+          var Qty = NewQty;
+        }else{
           var Qty = Max;
-        // }
+        }
       } else {
         var Qty = NewQty;
       }
       $('#qty1_' + i).val(Qty);
-      // if(ScTime == "0"){
-      //   var Max = Number($('#qty1_' + i).val());
-      // }else{
+      if(ScTime == "0"){
+        var Max = Number($('#qty1_' + i).val());
+      }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      // }
+      }
       $('#Max_' + i).val(Max);
 
       if (Issue != 0) {
@@ -1784,14 +1783,36 @@ $array2 = json_decode($json2, TRUE);
           if(Result == "0"){
             $('#Short_' + i).val("");
           }else{
-            $('#Short_' + i).val(Result.toFixed(2));
+
+
+            if(ScTime == "0"){
+              $('#Short_' + i).val("");
+            }else{
+              $('#Short_' + i).val(Result.toFixed(2));
+            }
+
+
+
+
+
           }
           // $('#Short_' + i).val(Result);
           $('#Over_' + i).val("");
           var chk = "Short";
         } else if (Issue > Max) {
           Result = Issue - Max;
-          $('#Over_' + i).val(Result);
+
+
+          if(ScTime == "0"){
+              $('#Over_' + i).val("");
+            }else{
+              $('#Over_' + i).val(Result.toFixed(2));
+            }
+
+
+
+
+
           $('#Short_' + i).val("");
           var chk = "Over";
         }
@@ -1850,11 +1871,11 @@ $array2 = json_decode($json2, TRUE);
         var Qty = NewQty;
         $('#qty1_' + i).val(Qty);
       }
-      // if(ScTime == "0"){
-      //   var Max = Number($('#qty1_' + i).val());
-      // }else{
+      if(ScTime == "0"){
+        var Max = Number($('#qty1_' + i).val());
+      }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      // }
+      }
       $('#Max_' + i).val(Max);
 
       if (Issue != 0) {
@@ -1903,18 +1924,17 @@ $array2 = json_decode($json2, TRUE);
       var NewQty = Number($('#qty1_' + i).val());
       var Max = Number($('#Max_' + i).val());
       var Issue = Number($('#Issue_' + i).val());
-      // if(ScTime == "0"){
-      //   var Max = Number($('#qty1_' + i).val());
-      // }else{
+      if(ScTime == "0"){
+        var Max = Number($('#qty1_' + i).val());
+      }else{
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
-      // }
+      }
       var Result = 0;
       var Weightitem = 0;
       var Weight2 = Number($('#Weight2_' + i).val());
 
       // ================================================
       Weightitem = parseFloat(Weight2 * Issue).toFixed(5);
-
       var weight_test = Weightitem.toString();
 
       var ex = weight_test.split('.');
@@ -1935,13 +1955,36 @@ $array2 = json_decode($json2, TRUE);
           if(Result == "0"){
             $('#Short_' + i).val("");
           }else{
-            $('#Short_' + i).val(Result.toFixed(2));
+
+
+            if(ScTime == "0"){
+              $('#Short_' + i).val("");
+            }else{
+              $('#Short_' + i).val(Result.toFixed(2));
+            }
+
+
+
+
           }
           $('#Over_' + i).val("");
           var chk = "Short";
         } else if (Issue > Max) {
           Result = Issue - Max;
-          $('#Over_' + i).val(Result.toFixed(2));
+
+
+
+            if(ScTime == "0"){
+              $('#Over_' + i).val("");
+            }else{
+              $('#Over_' + i).val(Result.toFixed(2));
+            }
+
+
+
+
+
+
           $('#Short_' + i).val("");
           var chk = "Over";
         } else if (Issue == 0 || Issue == null || Issue == "") {
@@ -1969,6 +2012,7 @@ $array2 = json_decode($json2, TRUE);
         'hotpCode': hotpCode,
         'dept': dept,
         'itemcode': itemcode,
+        'ScTime': ScTime,
         'i': i
       };
       senddata(JSON.stringify(data));
@@ -1979,14 +2023,54 @@ $array2 = json_decode($json2, TRUE);
         var Max = Number($('#Par_' + i).val()) - Number($('#qty1_' + i).val());
         var sc = Number($('#qty1_' + i).val());
         
-        // if(ScTime == "0"){
-        //   $('#Max_' + i).val(sc);
-        // }else{
+        if(ScTime == "0"){
+          $('#Max_' + i).val(sc);
+        }else{
           $('#Max_' + i).val(Max);
-        // }
+        }
       }
     }
 
+    function CalculateWeightAndPrice(loop,ScTime) {
+
+      var queryUpdate = "";
+      for (var i = 0; i < loop; i++) {
+        var issue = Number($('#Issue_' + i).val());
+        var weight = Number($('#Weight2_' + i).val());
+        var rowID = $('#Weight2_' + i).data('value');
+        var priceNow = Number($('#Price2_' + i).val());
+
+        var Weightitem = parseFloat(weight * issue).toFixed(2);
+        var Priceitem = parseFloat(priceNow * Weightitem).toFixed(2);
+
+        if(ScTime == "0"){
+          $('#Weight_' + i).val(Weightitem);
+
+          queryUpdate += "UPDATE shelfcount_detail SET Weight = '" + Weightitem + "' , Price = '" + Priceitem + "'  WHERE Id = '" + rowID + "' ; ";
+
+        }
+
+      }
+      if(ScTime == "0"){
+        $.ajax({
+            url: "../process/shelfcountMenu.php",
+            type: 'POST',
+            dataType: 'JSON',
+            cache: false,
+            data: {
+              'FUNC_NAME': 'updateWeightAndPrice',
+              'queryUpdate': queryUpdate,
+            },
+            success: function(result) {
+  
+
+            }
+          });
+
+      }
+
+    }
+    
     function ChkItemInDep() {
       var DepCode = $('#department option:selected').val();
       var HptCode = $('#hotpital option:selected').val();
@@ -2906,7 +2990,7 @@ $array2 = json_decode($json2, TRUE);
 
                 var Weight = "<input name='Weight_save' autocomplete='off' class='form-control WeightItem'  id='Weight_" + i + "' type='text' style='text-align:center;font-size: 24px!important'  disabled value='" + temp[i]['Weight'] + "'>";
 
-                var Weight2 = "<input  autocomplete='off' class='form-control WeightItem'  id='Weight2_" + i + "' type='text' style='text-align:center;font-size: 24px!important'  disabled value='" + temp[i]['Weightitem'] + "'>";
+                var Weight2 = "<input data-value='" + temp[i]['RowID'] + "' autocomplete='off' class='form-control WeightItem'  id='Weight2_" + i + "' type='text' style='text-align:center;font-size: 24px!important'  disabled value='" + temp[i]['Weightitem'] + "'>";
 
                 var Price = "<input hidden name='Price_save'  autocomplete='off' class='form-control PriceItem'  id='Price2_" + i + "' type='text' style='text-align:center;font-size: 24px!important'  disabled value='" + temp[i]['Price'] + "'>";
 
@@ -2950,6 +3034,9 @@ $array2 = json_decode($json2, TRUE);
                 return pointIndex >= 0 && pointIndex < value.length - x;
               }
               Calculate(temp['Row'],temp['ScTime']);
+
+              CalculateWeightAndPrice(temp['Row'],temp['ScTime']);
+
               $('.numonly').on('input', function() {
                 this.value = this.value.replace(/[^0-9.]/g, '');
               });

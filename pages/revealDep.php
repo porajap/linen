@@ -227,8 +227,8 @@ $array2 = json_decode($json2, TRUE);
                   <th nowrap style="width:10%"><?php echo $array['sn'][$language]; ?></th>
                   <th nowrap style="width:30%"><?php echo $array['item'][$language]; ?></th>
                   <th nowrap style="width:20%"> <center><?php echo $array['parsc'][$language]; ?></center> </th>
-                  <th nowrap style="width:20%"><center>Shelfcount</center> </th>
-                  <th nowrap style="width:20%"><center>Issue</center> </th>
+                  <!-- <th nowrap style="width:20%"><center>Shelfcount</center> </th> -->
+                  <th nowrap style="width:40%"><center>Issue</center> </th>
                 </tr>
               </thead>
               <tbody id="tbody" class="nicescrolled" style="font-size:23px;height:630px;"></tbody>
@@ -650,15 +650,15 @@ $array2 = json_decode($json2, TRUE);
 
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
               var inputShelfcount = "<input type='text' autocomplete='off' style='font-size:22px;' placeholder='0' class='numonly form-control text-right w-50' id='CcQty_" + key + "'>";
-              var inputissu = "<input type='text' disabled autocomplete='off' style='font-size:22px;' placeholder='0' class='numonly form-control text-right w-50' id='TotalQty_" + key + "'>";
+              var inputissu = "<input type='text'  autocomplete='off' style='font-size:22px;width:25%;' placeholder='0' class='numonly form-control text-right w-50' id='TotalQty_" + key + "'>";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td  style='width:10%;'>" + (key + 1) + "</td>" +
                 "<td  style='width:30%;'>" + value.ItemName + "</td>" +
                 "<td  hidden>" + inputitemCode + "</td>" +
                 "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputPar + "</td>" +
-                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputShelfcount + "</td>" +
-                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputissu + "</td>" +
+                // "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputShelfcount + "</td>" +
+                "<td  style='width:40%;' class='d-flex justify-content-center'>" + inputissu + "</td>" +
                 "</tr>";
 
 
@@ -789,15 +789,15 @@ $array2 = json_decode($json2, TRUE);
 
 
             itemcode = ($('#ItemCode_' + i).val());
-            itemQty = ($('#CcQty_' + i).val());
-
+            itemQty = ($('#TotalQty_' + i).val());
+            
             i++;
 
             if(itemQty == ""){
               itemQty = 0;
             }
             
-            queryUpdate += "UPDATE shelfcount_detail SET CcQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
+            queryUpdate += "UPDATE shelfcount_detail SET TotalQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
           });
           queryUpdate += "UPDATE shelfcount SET isStatus = '2' , alertTime = NOW() WHERE  DocNo = '" + DocNo + "'; ";
           queryUpdate += "UPDATE shelfcount SET alertTime = DATE_ADD( shelfcount.alertTime, INTERVAL "+alertTime+" MINUTE ) WHERE  DocNo = '" + DocNo + "'; ";
@@ -942,15 +942,15 @@ $array2 = json_decode($json2, TRUE);
               }
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
               var inputShelfcount = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.CcQty + "' placeholder='0' class='numonly form-control text-right w-50' id='CcQty_" + key + "'>";
-              var inputissu = "<input type='text' disabled autocomplete='off' style='font-size:22px;' value='" + value.TotalQty + "' placeholder='0'  class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
+              var inputissu = "<input type='text'  autocomplete='off' style='font-size:22px;width:25%;' value='" + value.TotalQty + "' placeholder='0'  class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td  style='width:10%;'>" + (key + 1) + "</td>" +
                 "<td  style='width:30%;'>" + value.ItemName + "</td>" +
                 "<td  hidden>" + inputitemCode + "</td>" +
                 "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputPar + "</td>" +
-                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputShelfcount + "</td>" +
-                "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputissu + "</td>" +
+                // "<td  style='width:20%;' class='d-flex justify-content-center'>" + inputShelfcount + "</td>" +
+                "<td  style='width:40%;' class='d-flex justify-content-center'>" + inputissu + "</td>" +
                 "</tr>";
             });
             $('#tableItem tbody').html(StrTR);

@@ -649,7 +649,7 @@ $array2 = json_decode($json2, TRUE);
             $.each(ObjData, function(key, value) {
 
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
-              var inputissu = "<input type='text' autocomplete='off' style='font-size:22px;'  placeholder='0' class='numonly form-control text-right w-50' id='TotalQty_" + key + "'>";
+              var inputissu = "<input type='text' autocomplete='off' style='font-size:22px;'   class='numonly form-control text-right w-50' id='TotalQty_" + key + "'>";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
               StrTR += "<tr style='border-radius: 15px 15px 15px 15px;margin-top: 6px;margin-bottom: 6px;'>" +
                 "<td  >" + (key + 1) + "</td>" +
@@ -905,8 +905,10 @@ $array2 = json_decode($json2, TRUE);
           var ObjData = JSON.parse(result);
           var StrTR = "";
           if (!$.isEmptyObject(ObjData)) {
-            $.each(ObjData, function(key, value) {
-
+            $.each(ObjData, function(key, value) {  
+              if(value.Qty == null){
+                value.Qty = '';
+              }
               var inputPar = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.ParQty + "' disabled  class='form-control text-right w-50' id='txtSearch'>";
               var inputissu = "<input type='text' autocomplete='off' style='font-size:22px;' value='" + value.Qty + "' class='numonly form-control text-right w-50'  id='TotalQty_" + key + "' >";
               var inputitemCode = "<input type='text' hidden autocomplete='off' style='font-size:22px;' value='" + value.ItemCode + "'  class='form-control text-right w-50 loopitemcode' id='ItemCode_" + key + "'>";
@@ -983,7 +985,7 @@ $array2 = json_decode($json2, TRUE);
             if (Docnomenu != "")
             {
               queryUpdate += "UPDATE request_par SET isStatus = '3' , approveDate = NOW() , approveName = '" + txtNamePass + "'  WHERE  DocNo = '" + DocNo + "'; ";
-              if(itemQty != 0 && itemQty != ""){
+              if(itemQty != ""){
                 console.log(itemQty);
                 queryUpdate += "UPDATE par_item_stock SET ParQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DepCode = '" + DepCode + "' AND HptCode= '" + Site + "' ; ";
                 queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
@@ -994,14 +996,14 @@ $array2 = json_decode($json2, TRUE);
               if(PmID == 2 || PmID == 1 || PmID == 6)
               {
                 queryUpdate += "UPDATE request_par SET isStatus = '3' , approveDate = NOW() , approveName = '" + txtNamePass + "'  WHERE  DocNo = '" + DocNo + "'; ";
-                if(itemQty != 0 && itemQty != ""){
+                if(itemQty != ""){
                   queryUpdate += "UPDATE par_item_stock SET ParQty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DepCode = '" + DepCode + "' AND HptCode= '" + Site + "' ; ";
                   queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
                 }
               }
               else
               {
-                if(itemQty != 0 && itemQty != ""){
+                if(itemQty != ""){
                   queryUpdate += "UPDATE request_par_detail SET Qty = '" + itemQty + "' WHERE ItemCode = '" + itemcode + "' AND DocNo = '" + DocNo + "'; ";
                 }
                 queryUpdate += "UPDATE request_par SET isStatus = '1' WHERE  DocNo = '" + DocNo + "'; ";

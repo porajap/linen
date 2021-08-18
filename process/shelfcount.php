@@ -2461,6 +2461,7 @@ function UpdateNewQty($conn, $DATA)
   $hotpCode     =  $DATA["hotpCode"];
   $itemcode     =  $DATA["itemcode"];
   $DocNo        =  $DATA["DocNo"];
+  $ScTime       =  $DATA["ScTime"];
   $i        =  $DATA["i"];
   // if ($Issue != "" || $Issue != 0) {
   //   if ($chk == "Over") {
@@ -2481,6 +2482,10 @@ function UpdateNewQty($conn, $DATA)
   $ex = explode('.',$Weightitem);
   $s = substr($ex[1],0,2);
   $Weightitemx =  $ex[0].".".$s;
+
+    if($ScTime == 0){
+      $Result = 0;
+    }
 
   if ($Issue != "" || $Issue != 0) {
     if ($chk == "Over")
